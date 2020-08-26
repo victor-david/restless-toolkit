@@ -1,0 +1,6 @@
+.vs/
+*.suo
+.doc/
+obj/
+bin/
+help/
