@@ -1,0 +1,42 @@
+﻿<con:AppWindow 
+    x:Class="Restless.App.Toolkit.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls;assembly=Restless.Toolkit"
+    mc:Ignorable="d"
+    Title="{Binding DisplayName}" 
+    PathIcon="{StaticResource PathAppIcon}"
+    Height="760" Width="1180">
+
+    <con:AppWindow.Menu>
+        <Menu>
+            <MenuItem Header="Tabs">
+                <MenuItem Header="Welcome" Command="{Binding Commands[DisplayWelcome]}"/>
+                <MenuItem Header="Mvvm" Command="{Binding Commands[DisplayMvvm]}"/>
+                <MenuItem Header="Controls" Command="{Binding Commands[DisplayControls]}"/>
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Geneva" InputGestureText="F5"/>
+                <MenuItem Header="London" InputGestureText="F6"/>
+                <MenuItem Header="New York"/>
+                <Separator/>
+                <MenuItem Header="Application settings"/>
+            </MenuItem>
+        </Menu>
+    </con:AppWindow.Menu>
+
+    <Grid>
+        
+        <con:TabControl 
+            Margin="10"
+            TabHeight="40"
+            MinTabWidth="100"
+            AllowTabReorder="True"
+            ItemsSource="{Binding Pages}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemTemplate="{StaticResource TabItemTemplate}"/>
+    </Grid>
+
+</con:AppWindow>

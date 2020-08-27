@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
+    <UseWpf>true</UseWpf>
+    <OutputType>Library</OutputType>
+    <PackageId>Restless.Toolkit</PackageId>
+    <AssemblyName>Restless.Toolkit</AssemblyName>
+    <RootNamespace>Restless.Toolkit</RootNamespace>
+    <Description>Provides mvm base and various custom controls.</Description>
+    <PackageProjectUrl>https://github.com/victor-david/restless-toolkit</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/victor-david/restless-toolkit</RepositoryUrl>
+    <Authors>Restless Animal Development</Authors>
+    <Company>Restless Animal Development</Company>
+    <Version>2.5.1</Version>
+    <Product>Restless Toolkit</Product>
+    <Title>Restless.Toolkit</Title>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <Copyright>Copyright © 2020</Copyright>
+    <PackageTags>wpf controls wpf-controls mvvm</PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
+  </PropertyGroup>
+
+</Project>

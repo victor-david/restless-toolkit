@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Authors>Restless Animal Development</Authors>
+    <Company>Restless Animal Development</Company>
+    <Product>Restless.Toolkit.App</Product>
+    <Description>Sample app to demonstrate various controls of Restless Toolkit</Description>
+    <Version>1.0.0</Version>
+    <PackageId>Restless.App.Toolkit</PackageId>
+    <RootNamespace>Restless.App.Toolkit</RootNamespace>
+    <AssemblyName>Restless.App.Toolkit</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Restless.Toolkit\Restless.Toolkit.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/AppWindow.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/TabControl.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+</ResourceDictionary>
