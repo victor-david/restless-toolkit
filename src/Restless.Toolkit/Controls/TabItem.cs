@@ -11,6 +11,7 @@ namespace Restless.Toolkit.Controls
     {
         #region Private
         private double tabHeightIncrease;
+        private ContentPresenter contentPresenter;
         #endregion
 
         /************************************************************************/
@@ -27,7 +28,6 @@ namespace Restless.Toolkit.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TabItem), new FrameworkPropertyMetadata(typeof(TabItem)));
         }
         #endregion
-
 
         /************************************************************************/
 
@@ -79,6 +79,25 @@ namespace Restless.Toolkit.Controls
             base.OnUnselected(e);
             Margin = new Thickness(0, tabHeightIncrease, 0, 0);
             Panel.SetZIndex(this, 1);
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region Internal methods
+        internal ContentPresenter GetContentPresenter()
+        {
+            if (contentPresenter == null)
+            {
+                contentPresenter = new ContentPresenter
+                {
+                    Content = Content,
+                    ContentTemplate = ContentTemplate,
+                    ContentTemplateSelector = ContentTemplateSelector,
+                    ContentStringFormat = ContentStringFormat,
+                };
+            }
+            return contentPresenter;
         }
         #endregion
 

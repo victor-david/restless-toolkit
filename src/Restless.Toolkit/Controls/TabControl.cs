@@ -38,8 +38,6 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public TabControl() : base()
         {
-            // This is necessary so that we get the initial databound selected item
-            ItemContainerGenerator.StatusChanged += ItemContainerGeneratorStatusChanged;
             IsSynchronizedWithCurrentItem = true;
             Loaded += TabControlLoaded;
         }
@@ -285,6 +283,25 @@ namespace Restless.Toolkit.Controls
             (
                 nameof(KeepContentOnTabSwitch), typeof(bool), typeof(TabControl), new PropertyMetadata(false)
             );
+
+        /// <summary>
+        /// Gets the selected tab content
+        /// </summary>
+        public object SelectedTabContent
+        {
+            get => GetValue(SelectedTabContentProperty);
+            private set => SetValue(SelectedTabContentPropertyKey, value);
+        }
+
+        private static readonly DependencyPropertyKey SelectedTabContentPropertyKey = DependencyProperty.RegisterReadOnly
+            (
+                nameof(SelectedTabContent), typeof(object), typeof(TabControl), new PropertyMetadata(null)
+            );
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedTabContent"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedTabContentProperty = SelectedTabContentPropertyKey.DependencyProperty;
         #endregion
 
         /************************************************************************/
@@ -304,33 +321,6 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Protected methods
-        /// <summary>
-        /// When the items change we remove any generated panel children and add any new ones as necessary
-        /// </summary>
-        /// <param name="e">The event arguments.</param>
-        protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
-        {
-            base.OnItemsChanged(e);
-            if (itemsHolderPanel == null) return;
-
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Reset:
-                    itemsHolderPanel.Children.Clear();
-                    break;
-
-                case NotifyCollectionChangedAction.Add:
-                case NotifyCollectionChangedAction.Remove:
-                    RemoveItems(e.OldItems);
-                    // Don't do anything with new items because we don't want to
-                    // create visuals that aren't being shown
-                    UpdateSelectedItem();
-                    break;
-
-                case NotifyCollectionChangedAction.Replace:
-                    throw new NotImplementedException("Replace not implemented yet");
-            }
-        }
 
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
@@ -494,94 +484,19 @@ namespace Restless.Toolkit.Controls
             UpdateSelectedItem();
         }
 
-
-        /// <summary>
-        /// If containers are done, generate the selected item
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ItemContainerGeneratorStatusChanged(object sender, EventArgs e)
-        {
-            if (ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
-            {
-                ItemContainerGenerator.StatusChanged -= ItemContainerGeneratorStatusChanged;
-                UpdateSelectedItem();
-            }
-        }
-
         private void UpdateSelectedItem()
         {
-            //Debug.WriteLine("UpdateSelectedItem");
-            //if (itemsHolderPanel == null) return;
-
-            //foreach (TabItem item in tabPanel.Children)
-            //{
-            //    Debug.WriteLine(item.IsSelected);
-            //    item.Height = item.IsSelected ? 60 : 58;
-            //}
-            //if (GetSelectedTabItem() is TabItem item)
-            //{
-            //    Debug.WriteLine(item);
-            //    //CreateChildContentPresenter(item);
-            //}
-
-            //// show the right child
-            //foreach (var child in itemsHolderPanel.Children.OfType<ContentPresenter>())
-            //{
-            //    if (child.Tag is TabItem childItem)
-            //    {
-            //        child.Visibility = childItem.IsSelected ? Visibility.Visible : Visibility.Collapsed;
-            //        ActualTabHeight = childItem.IsSelected ? TabHeight + TabHeightDifference : TabHeight;
-            //    }
-            //}
-        }
-
-        private ContentPresenter CreateChildContentPresenter(TabItem item)
-        {
-            if (item == null) throw new ArgumentNullException(nameof(item));
-
-            if (FindChildContentPresenter(item) is ContentPresenter existingPresenter) return existingPresenter;
-
-            // the actual child to be added.  presenter.Tag is a reference to the TabItem
-            ContentPresenter presenter = new ContentPresenter
+            if (KeepContentOnTabSwitch)
             {
-                Content = item.Content,
-                ContentTemplate = SelectedContentTemplate,
-                ContentTemplateSelector = SelectedContentTemplateSelector,
-                ContentStringFormat = SelectedContentStringFormat,
-                Visibility = Visibility.Collapsed,
-                Tag = item
-            };
-            itemsHolderPanel.Children.Add(presenter);
-            return presenter;
-        }
-
-        private ContentPresenter FindChildContentPresenter(TabItem item)
-        {
-            if (item == null || itemsHolderPanel == null)  return null;
-
-            foreach (var presenter in itemsHolderPanel.Children.OfType<ContentPresenter>())
-            {
-                if (presenter.Tag == item) return presenter;
-            }
-
-            return null;
-        }
-
-        private void RemoveItems(IList items)
-        {
-            if (items != null)
-            {
-                foreach (var item in items.OfType<TabItem>())
+                if (GetSelectedTabItem() is TabItem item)
                 {
-
-                    if (FindChildContentPresenter(item) is ContentPresenter presenter)
-                    {
-                        itemsHolderPanel.Children.Remove(presenter);
-                    }
+                    SelectedTabContent = item.GetContentPresenter();
                 }
             }
-
+            else
+            {
+                SelectedTabContent = SelectedContent;
+            }
         }
 
         private TabItem GetSelectedTabItem()
@@ -593,17 +508,13 @@ namespace Restless.Toolkit.Controls
 
         private TabItem GetTabItem(object item)
         {
-            if (!(item is TabItem tabItem))
-            {
-                tabItem = ItemContainerGenerator.ContainerFromItem(item) as TabItem;
-            }
-
-            return tabItem;
+            if (item is TabItem) return item as TabItem;
+            return ItemContainerGenerator.ContainerFromItem(item) as TabItem;
         }
 
         private void MoveByItemsSource(TabItem source, TabItem target)
         {
-            var sourceType = ItemsSource.GetType();
+            Type sourceType = ItemsSource.GetType();
 
             if (!sourceType.IsGenericType)
             {

@@ -19,7 +19,6 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <!-- Height="{TemplateBinding ActualTabPanelHeight}" -->
             <TabPanel
                 Background="#000000FF"
                 Height="{TemplateBinding TabHeight}"
@@ -39,9 +38,7 @@
                 KeyboardNavigation.TabIndex="2"
                 KeyboardNavigation.TabNavigation="Local">
 
-                <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent"/>
-
-                <!--<Grid x:Name="PART_ItemsHolder"/>-->
+                <ContentPresenter Content="{TemplateBinding SelectedTabContent}"/>
 
             </Border>
         </Grid>
