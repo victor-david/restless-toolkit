@@ -24,10 +24,16 @@
 
         <StackPanel Grid.Column="2" Grid.Row="1" Margin="10">
             <TextBlock Style="{StaticResource TextBlockExplain}">
-                This demonstrates how the tab control unloads content when you switch the tab.
+                This demonstrates how the tab control can unload or keep content when you switch tabs.
             </TextBlock>
+            
             <TextBlock Style="{StaticResource TextBlockExplain}">
-                Select a name in the list, switch tabs, and then return to this tab. The name is no longer selected.
+                If <Bold>KeepContentOnTabSwitch</Bold> is false, you can select a name in the list, and switch tabs;
+                when you return to this tab, the name is no longer selected.
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource TextBlockExplain}">
+                To toggle <Bold>KeepContentOnTabSwitch</Bold>, use menu <Bold>Tabs / Keep content on tab switch</Bold>.
             </TextBlock>
         </StackPanel>
 

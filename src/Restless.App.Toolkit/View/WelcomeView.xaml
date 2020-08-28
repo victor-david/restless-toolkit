@@ -10,5 +10,9 @@
         <TextBlock Style="{StaticResource TextBlockExplain}">
             <Bold>Welcome</Bold> to <Run Style="{StaticResource RunHigh}">Restless Toolkit</Run>.
         </TextBlock>
+        <TextBlock Style="{StaticResource TextBlockExplain}">
+            This control is a <Run Style="{StaticResource RunHigh}">Restless.Toolkit.TabControl</Run>. It's using a bound
+            collection of view models for its ItemSource. You can rearrange the tabs using drag and drop.
+        </TextBlock>
     </StackPanel>
 </UserControl>

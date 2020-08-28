@@ -44,7 +44,7 @@ namespace Restless.Toolkit.Controls
             // This is necessary so that we get the initial databound selected item
             ItemContainerGenerator.StatusChanged += ItemContainerGeneratorStatusChanged;
             IsSynchronizedWithCurrentItem = true;
-            Loaded += RestlessTabControlLoaded;
+            Loaded += TabControlLoaded;
         }
 
         static TabControl()
@@ -156,7 +156,6 @@ namespace Restless.Toolkit.Controls
             return Math.Max(Math.Min(92.0, value), 16.0);
         }
 
-
         /// <summary>
         /// Gets or sets the minimum tab width.
         /// This property is clamped between 16.0 and 128.0.
@@ -238,7 +237,6 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty TabBorderThicknessProperty = TabBorderThicknessPropertyKey.DependencyProperty;
 
-
         /// <summary>
         /// Gets or sets the amount that a tab increases in height when it is selected.
         /// The value of this property is clamped between 2.0 - 8.0, inclusive.
@@ -272,6 +270,24 @@ namespace Restless.Toolkit.Controls
         {
             // TODO
         }
+
+        /// <summary>
+        /// Gets or sets a boolean value that determines if tab content is unloaded or maintained when the tab becomes inactive.
+        /// The default value is false. Set to true to prevent inactive tab content from being unloaded.
+        /// </summary>
+        public bool KeepContentOnTabSwitch
+        {
+            get => (bool)GetValue(KeepContentOnTabSwitchProperty);
+            set => SetValue(KeepContentOnTabSwitchProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="KeepContentOnTabSwitch"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty KeepContentOnTabSwitchProperty = DependencyProperty.Register
+            (
+                nameof(KeepContentOnTabSwitch), typeof(bool), typeof(TabControl), new PropertyMetadata(false)
+            );
         #endregion
 
         /************************************************************************/
@@ -476,9 +492,9 @@ namespace Restless.Toolkit.Controls
 
         #region Private methods
 
-        private void RestlessTabControlLoaded(object sender, RoutedEventArgs e)
+        private void TabControlLoaded(object sender, RoutedEventArgs e)
         {
-            Loaded -= RestlessTabControlLoaded;
+            Loaded -= TabControlLoaded;
             UpdateSelectedItem();
         }
 

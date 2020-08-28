@@ -8,6 +8,7 @@ namespace Restless.App.Toolkit
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private bool keepContentOnTabSwitch;
 
         public MainWindowViewModel()
         {
@@ -17,7 +18,14 @@ namespace Restless.App.Toolkit
             Commands.Add("DisplayMvvm", RelayCommand.Create((p) => Create<MvvmViewModel>()));
             Commands.Add("DisplayControls", RelayCommand.Create((p) => Create<ControlsViewModel>()));
             Commands.Add("DisplayDemo", RelayCommand.Create((p) => Create<DemoViewModel>()));
+            Commands.Add("ToggleKeepContentOnTabSwitch", RelayCommand.Create((p) => KeepContentOnTabSwitch = !KeepContentOnTabSwitch));
             InitializePages();
+        }
+
+        public bool KeepContentOnTabSwitch
+        {
+            get => keepContentOnTabSwitch;
+            set => SetProperty(ref keepContentOnTabSwitch, value);
         }
 
         public ObservableCollection<ViewModelBase> Pages

@@ -10,7 +10,7 @@ namespace Restless.App.Toolkit
         private string selectedName;
         public DemoViewModel()
         {
-            DisplayName = "Demo";
+            DisplayName = "Unload / Keep";
             Names = new List<string>()
             { 
                 "Jason","Betty","Sesmame",

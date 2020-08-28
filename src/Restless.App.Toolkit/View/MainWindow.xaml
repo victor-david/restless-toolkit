@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:core="clr-namespace:Restless.Toolkit.Core;assembly=Restless.Toolkit"
     xmlns:con="clr-namespace:Restless.Toolkit.Controls;assembly=Restless.Toolkit"
+    
     mc:Ignorable="d"
     Title="{Binding DisplayName}" 
     PathIcon="{StaticResource PathAppIcon}"
@@ -16,6 +18,9 @@
                 <MenuItem Header="Welcome" Command="{Binding Commands[DisplayWelcome]}"/>
                 <MenuItem Header="Mvvm" Command="{Binding Commands[DisplayMvvm]}"/>
                 <MenuItem Header="Controls" Command="{Binding Commands[DisplayControls]}"/>
+                <MenuItem Header="Demo" Command="{Binding Commands[DisplayDemo]}"/>
+                <Separator/>
+                <MenuItem Header="Keep content on tab switch" IsChecked="{Binding KeepContentOnTabSwitch}" Command="{Binding Commands[ToggleKeepContentOnTabSwitch]}"/>
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Geneva" InputGestureText="F5"/>
@@ -26,17 +31,16 @@
             </MenuItem>
         </Menu>
     </con:AppWindow.Menu>
+      
+    <con:TabControl 
+        Margin="10"
+        TabHeight="40"
+        MinTabWidth="100"
+        AllowTabReorder="True"
+        KeepContentOnTabSwitch="{Binding KeepContentOnTabSwitch}"
+        ItemsSource="{Binding Pages}"
+        IsSynchronizedWithCurrentItem="True"
+        ItemTemplate="{StaticResource TabItemTemplate}"/>
 
-    <Grid>
-        
-        <con:TabControl 
-            Margin="10"
-            TabHeight="40"
-            MinTabWidth="100"
-            AllowTabReorder="True"
-            ItemsSource="{Binding Pages}"
-            IsSynchronizedWithCurrentItem="True"
-            ItemTemplate="{StaticResource TabItemTemplate}"/>
-    </Grid>
 
 </con:AppWindow>
