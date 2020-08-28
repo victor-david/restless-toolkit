@@ -8,9 +8,19 @@ namespace Restless.App.Toolkit
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        #region Private
         private bool keepContentOnTabSwitch;
+        #endregion
 
-        public MainWindowViewModel()
+        /************************************************************************/
+
+        #region Constructors
+        /// <summary>
+        /// Gets the singleton instance of this class.
+        /// </summary>
+        public static MainWindowViewModel Instance { get; } = new MainWindowViewModel();
+
+        private MainWindowViewModel()
         {
             DisplayName = "Restless Toolkit Demo";
             Pages = new ObservableCollection<ViewModelBase>();
@@ -21,7 +31,11 @@ namespace Restless.App.Toolkit
             Commands.Add("ToggleKeepContentOnTabSwitch", RelayCommand.Create((p) => KeepContentOnTabSwitch = !KeepContentOnTabSwitch));
             InitializePages();
         }
+        #endregion
 
+        /************************************************************************/
+
+        #region Properties
         public bool KeepContentOnTabSwitch
         {
             get => keepContentOnTabSwitch;
@@ -32,7 +46,11 @@ namespace Restless.App.Toolkit
         {
             get;
         }
+        #endregion
 
+        /************************************************************************/
+
+        #region Private methods
         private void InitializePages()
         {
             Create<WelcomeViewModel>();
@@ -41,7 +59,6 @@ namespace Restless.App.Toolkit
             Create<DemoViewModel>();
             SetActivePage(Pages[0]);
         }
-
 
         private void Create<T>() where T : ViewModelBase, new()
         {
@@ -73,5 +90,6 @@ namespace Restless.App.Toolkit
                 collectionView.MoveCurrentTo(page);
             }
         }
+        #endregion
     }
 }

@@ -16,7 +16,7 @@ namespace Restless.App.Toolkit
                 Height = 760,
                 Width = 1180,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                DataContext = new MainWindowViewModel()
+                DataContext = MainWindowViewModel.Instance,
             };
             main.Show();
         }
