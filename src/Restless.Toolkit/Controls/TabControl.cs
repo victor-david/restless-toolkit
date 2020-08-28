@@ -16,16 +16,13 @@ using System.Windows.Shapes;
 namespace Restless.Toolkit.Controls
 {
     /// <summary>
-    /// Extends TabControl to prevent content unloading during tab switch and to provide tab reordering via drag and drop.
+    /// Represents a TabControl with extended capabilities.
     /// </summary>
-    [TemplatePart(Name = PartTabPanel, Type = typeof(Panel))]
     [TemplatePart(Name = PartItemsHolder, Type = typeof(Panel))]
     public class TabControl : System.Windows.Controls.TabControl
     {
         #region Private
-        private Panel tabPanel;
         private Panel itemsHolderPanel;
-        private const string PartTabPanel = "PART_TabPanel";
         private const string PartItemsHolder = "PART_ItemsHolder";
         private Window dragCursor;
         private Point startPoint;
@@ -299,7 +296,6 @@ namespace Restless.Toolkit.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            tabPanel = GetTemplateChild(PartTabPanel) as Panel;
             itemsHolderPanel = GetTemplateChild(PartItemsHolder) as Panel;
             //UpdateSelectedItem();
         }

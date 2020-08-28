@@ -21,7 +21,6 @@
 
             <!-- Height="{TemplateBinding ActualTabPanelHeight}" -->
             <TabPanel
-                x:Name="PART_TabPanel"
                 Background="#000000FF"
                 Height="{TemplateBinding TabHeight}"
                 Margin="0"
