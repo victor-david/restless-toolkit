@@ -20,7 +20,7 @@
             </Grid.RowDefinitions>
 
             <TabPanel
-                Background="#000000FF"
+                Background="Transparent"
                 Height="{TemplateBinding TabHeight}"
                 Margin="0"
                 Panel.ZIndex="1"
