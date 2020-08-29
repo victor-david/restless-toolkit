@@ -324,7 +324,6 @@ namespace Restless.Toolkit.Controls
         {
             base.OnApplyTemplate();
             itemsHolderPanel = GetTemplateChild(PartItemsHolder) as Panel;
-            //UpdateSelectedItem();
         }
         #endregion
 
@@ -334,22 +333,34 @@ namespace Restless.Toolkit.Controls
 
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
-            if (item is TabItem tabItem)
-            {
-                tabItem.MinWidth = MinTabWidth;
-                tabItem.TabHeightIncrease = TabHeightIncrease;
-            }
             return item is TabItem;
         }
 
         protected override DependencyObject GetContainerForItemOverride()
         {
-            return new TabItem()
+            return new TabItem();
+        }
+
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            base.PrepareContainerForItemOverride(element, item);
+            if (element is TabItem tabItem)
             {
-                Height = TabHeight,
-                MinWidth = MinTabWidth,
-                TabHeightIncrease = TabHeightIncrease,
-            };
+                tabItem.Height = TabHeight;
+                tabItem.MinWidth = MinTabWidth;
+                tabItem.TabHeightIncrease = TabHeightIncrease;
+                if (!tabItem.HasHeader)
+                {
+                    if (item is HeaderedContentControl head)
+                    {
+                        tabItem.Header = head.Header;
+                    }
+                    else
+                    {
+                        tabItem.Header = item.GetType().Name;
+                    }
+                }
+            }
         }
 
         /// <summary>
