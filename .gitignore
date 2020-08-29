@@ -4,3 +4,4 @@
 obj/
 bin/
 help/
+*.csproj.user
