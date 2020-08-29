@@ -1,14 +1,9 @@
 ﻿using Restless.Toolkit.Core;
 using System;
-using System.Collections;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -76,7 +71,7 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty AllowTabReorderProperty = DependencyProperty.Register
             (
-                nameof(AllowTabReorder), typeof(bool), typeof(TabControl), new UIPropertyMetadata(false)
+                nameof(AllowTabReorder), typeof(bool), typeof(TabControl), new FrameworkPropertyMetadata(false)
             );
 
         /// <summary>
@@ -95,7 +90,7 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty ReorderTabsCommandProperty = DependencyProperty.Register
             (
-                nameof(ReorderTabsCommand), typeof(ICommand), typeof(TabControl), new UIPropertyMetadata(null)
+                nameof(ReorderTabsCommand), typeof(ICommand), typeof(TabControl), new FrameworkPropertyMetadata(null)
             );
 
         /// <summary>
@@ -112,7 +107,10 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty DragCursorBrushProperty = DependencyProperty.Register
             (
-                nameof(DragCursorBrush), typeof(Brush), typeof(TabControl), new PropertyMetadata(new SolidColorBrush(Colors.DarkRed))
+                nameof(DragCursorBrush), typeof(Brush), typeof(TabControl), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = Brushes.DarkBlue,
+                }
             );
 
         /// <summary>
@@ -193,7 +191,10 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty InactiveTabBackgroundProperty = DependencyProperty.Register
             (
-                nameof(InactiveTabBackground), typeof(Brush), typeof(TabControl), new FrameworkPropertyMetadata(Brushes.LightGray)
+                nameof(InactiveTabBackground), typeof(Brush), typeof(TabControl), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = Brushes.LightGray,
+                }
             );
 
         /// <summary>
@@ -210,7 +211,10 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty InactiveTabOpacityProperty = DependencyProperty.Register
             (
-                nameof(InactiveTabOpacity), typeof(double), typeof(TabControl), new PropertyMetadata(0.25)
+                nameof(InactiveTabOpacity), typeof(double), typeof(TabControl), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = 0.25,
+                }
             );
 
         /// <summary>
@@ -224,7 +228,10 @@ namespace Restless.Toolkit.Controls
 
         private static readonly DependencyPropertyKey TabBorderThicknessPropertyKey = DependencyProperty.RegisterReadOnly
             (
-                nameof(TabBorderThickness), typeof(Thickness), typeof(TabControl), new PropertyMetadata(new Thickness(1, 1, 1, 0))
+                nameof(TabBorderThickness), typeof(Thickness), typeof(TabControl), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = new Thickness(1, 1, 1, 0),
+                }
             );
 
         /// <summary>
@@ -281,7 +288,10 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty KeepContentOnTabSwitchProperty = DependencyProperty.Register
             (
-                nameof(KeepContentOnTabSwitch), typeof(bool), typeof(TabControl), new PropertyMetadata(false)
+                nameof(KeepContentOnTabSwitch), typeof(bool), typeof(TabControl), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = false,
+                }
             );
 
         /// <summary>
@@ -295,7 +305,7 @@ namespace Restless.Toolkit.Controls
 
         private static readonly DependencyPropertyKey SelectedTabContentPropertyKey = DependencyProperty.RegisterReadOnly
             (
-                nameof(SelectedTabContent), typeof(object), typeof(TabControl), new PropertyMetadata(null)
+                nameof(SelectedTabContent), typeof(object), typeof(TabControl), new FrameworkPropertyMetadata(null)
             );
 
         /// <summary>
@@ -355,7 +365,7 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
-        #region Drag /drop
+        #region Drag / drop
         /// <summary>
         /// Called when the preview mouse left button down event is raised.
         /// </summary>
@@ -364,10 +374,9 @@ namespace Restless.Toolkit.Controls
         {
             base.OnPreviewMouseLeftButtonDown(e);
 
-            if (IsReorderAvailable && GetRoutedEventTabItem(e) is TabItem tab)
+            if (IsReorderAvailable)
             {
                 startPoint = e.GetPosition(null);
-                SetAllowDrop(excludedTab: tab);
             }
         }
 
@@ -386,29 +395,15 @@ namespace Restless.Toolkit.Controls
                 if (Math.Abs(pos.X - startPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
                     Math.Abs(pos.Y - startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
-                    tabSource.AllowDrop = false;
+                    SetAllowDrop(excludedTab: tabSource);
                     dragCursor = CreateDragCursor(tabSource);
                     dragCursor.Show();
                     dragging = true;
                     DragDrop.DoDragDrop(tabSource, tabSource, DragDropEffects.Move);
-                    tabSource.AllowDrop = true;
                     dragging = false;
                     dragCursor.Close();
                     dragCursor = null;
                 }
-            }
-        }
-
-        /// <summary>
-        /// Called when the DragEnter event is raised.
-        /// </summary>
-        /// <param name="e">The event arguments.</param>
-        protected override void OnDragEnter(DragEventArgs e)
-        {
-            base.OnDragEnter(e);
-            if (IsReorderAvailable && GetRoutedEventTabItem(e) is TabItem tab)
-            {
-                tab.Opacity = 0.475;
             }
         }
 
@@ -426,19 +421,6 @@ namespace Restless.Toolkit.Controls
             dragCursor.Top = w32Mouse.Y - (dragCursor.ActualHeight / 2);
             dragCursor.Opacity = (e.Effects == DragDropEffects.Move) ? 1.0 : 0.35;
             e.Handled = true;
-        }
-
-        /// <summary>
-        /// Called when the DragLeave event is raised.
-        /// </summary>
-        /// <param name="e">The event arguments.</param>
-        protected override void OnDragLeave(DragEventArgs e)
-        {
-            base.OnDragLeave(e);
-            if (IsReorderAvailable && GetRoutedEventTabItem(e) is TabItem tab)
-            {
-                tab.Opacity = 1.0;
-            }
         }
 
         /// <summary>
@@ -466,88 +448,34 @@ namespace Restless.Toolkit.Controls
                     {
                         MoveByItems(tabSource, tabTarget);
                     }
-                    tabSource.Opacity = 1.0;
-                    tabTarget.Opacity = 1.0;
+                    /* Source is already selected, but we must call this method in case 
+                     * tab was dropped in position zero, which receives special treatment.
+                     */
+                    tabSource.SetSelected();
                     e.Handled = true;
                 }
             }
         }
-        #endregion
 
-        /************************************************************************/
-
-        #region Private methods
-
-        private void TabControlLoaded(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Sets all tabs to allow drop except for the excluded one, the one being dragged.
+        /// </summary>
+        /// <param name="excludedTab">The tab to exclude. This is the tab that's being dragged.</param>
+        private void SetAllowDrop(TabItem excludedTab)
         {
-            Loaded -= TabControlLoaded;
-            UpdateSelectedItem();
-        }
-
-        private void UpdateSelectedItem()
-        {
-            if (KeepContentOnTabSwitch)
+            foreach (var item in Items)
             {
-                if (GetSelectedTabItem() is TabItem item)
+                if (GetTabItem(item) is TabItem tabItem)
                 {
-                    SelectedTabContent = item.GetContentPresenter();
+                    tabItem.AllowDrop = tabItem != excludedTab;
                 }
             }
-            else
-            {
-                SelectedTabContent = SelectedContent;
-            }
-        }
-
-        private TabItem GetSelectedTabItem()
-        {
-            if (SelectedItem == null) return null;
-            if (SelectedItem is TabItem item) return item;
-            return ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
         }
 
         private TabItem GetTabItem(object item)
         {
             if (item is TabItem) return item as TabItem;
             return ItemContainerGenerator.ContainerFromItem(item) as TabItem;
-        }
-
-        private void MoveByItemsSource(TabItem source, TabItem target)
-        {
-            Type sourceType = ItemsSource.GetType();
-
-            if (!sourceType.IsGenericType)
-            {
-                sourceType = sourceType.BaseType;
-            }
-
-            // sourceType being null is highly unlikely
-            if (sourceType != null && sourceType.IsGenericType)
-            {
-                var sourceDef = sourceType.GetGenericTypeDefinition();
-
-                if (sourceDef == typeof(ObservableCollection<>))
-                {
-                    int sourceIdx = ItemContainerGenerator.IndexFromContainer(source);
-                    int targetIdx = ItemContainerGenerator.IndexFromContainer(target);
-                    if (sourceIdx >= 0 && targetIdx >= 0)
-                    {
-                        var method = sourceType.GetMethod("Move");
-                        method.Invoke(ItemsSource, new object[] { sourceIdx, targetIdx });
-                    }
-                }
-            }
-        }
-
-        private void MoveByItems(TabItem source, TabItem target)
-        {
-            int sourceIdx = Items.IndexOf(source);
-            int targetIdx = Items.IndexOf(target);
-            if (sourceIdx >=0 && targetIdx >= 0)
-            {
-                Items.Remove(source);
-                Items.Insert(targetIdx, source);
-            }
         }
 
         /// <summary>
@@ -591,24 +519,42 @@ namespace Restless.Toolkit.Controls
             }
             return null;
         }
-        #endregion
 
-        /************************************************************************/
-
-        #region Private methods (drag and drop support)
-        /// <summary>
-        /// Sets all tabs to allow drop except for the excluded one, the one being dragged.
-        /// </summary>
-        /// <param name="excludedTab">The tab to exclude. This is the tab that's being dragged.</param>
-        private void SetAllowDrop(TabItem excludedTab)
+        private void MoveByItemsSource(TabItem source, TabItem target)
         {
-            foreach (var item in Items)
+            Type sourceType = ItemsSource.GetType();
+
+            if (!sourceType.IsGenericType)
             {
-                TabItem tab = GetTabItem(item);
-                if (tab != null && tab != excludedTab)
+                sourceType = sourceType.BaseType;
+            }
+
+            // sourceType being null is highly unlikely
+            if (sourceType != null && sourceType.IsGenericType)
+            {
+                var sourceDef = sourceType.GetGenericTypeDefinition();
+
+                if (sourceDef == typeof(ObservableCollection<>))
                 {
-                    tab.AllowDrop = true;
+                    int sourceIdx = ItemContainerGenerator.IndexFromContainer(source);
+                    int targetIdx = ItemContainerGenerator.IndexFromContainer(target);
+                    if (sourceIdx >= 0 && targetIdx >= 0)
+                    {
+                        var method = sourceType.GetMethod("Move");
+                        method.Invoke(ItemsSource, new object[] { sourceIdx, targetIdx });
+                    }
                 }
+            }
+        }
+
+        private void MoveByItems(TabItem source, TabItem target)
+        {
+            int sourceIdx = Items.IndexOf(source);
+            int targetIdx = Items.IndexOf(target);
+            if (sourceIdx >= 0 && targetIdx >= 0)
+            {
+                Items.Remove(source);
+                Items.Insert(targetIdx, source);
             }
         }
 
@@ -644,6 +590,39 @@ namespace Restless.Toolkit.Controls
             public int X;
             public int Y;
         };
+        #endregion
+
+        /************************************************************************/
+
+        #region Private methods
+
+        private void TabControlLoaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= TabControlLoaded;
+            UpdateSelectedItem();
+        }
+
+        private void UpdateSelectedItem()
+        {
+            if (KeepContentOnTabSwitch)
+            {
+                if (GetSelectedTabItem() is TabItem item)
+                {
+                    SelectedTabContent = item.GetContentPresenter();
+                }
+            }
+            else
+            {
+                SelectedTabContent = SelectedContent;
+            }
+        }
+
+        private TabItem GetSelectedTabItem()
+        {
+            if (SelectedItem == null) return null;
+            if (SelectedItem is TabItem item) return item;
+            return ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
+        }
         #endregion
 
         /************************************************************************/

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Restless.Toolkit.Controls
@@ -56,18 +55,7 @@ namespace Restless.Toolkit.Controls
         protected override void OnSelected(RoutedEventArgs e)
         {
             base.OnSelected(e);
-            if (GetParent() is TabControl parent)
-            {
-                double parentVal = -parent.BorderThickness.Left;
-                double left = parentVal;
-                if (parent.ItemContainerGenerator.ContainerFromIndex(0) == this)
-                {
-                    left = 0;
-                }
-
-                Margin = new Thickness(left, 0, parentVal, parentVal - 1);
-                Panel.SetZIndex(this, 2);
-            }
+            SetSelected();
         }
 
         /// <summary>
@@ -98,6 +86,22 @@ namespace Restless.Toolkit.Controls
                 };
             }
             return contentPresenter;
+        }
+
+        internal void SetSelected()
+        {
+            if (GetParent() is TabControl parent)
+            {
+                double parentVal = -parent.BorderThickness.Left;
+                double left = parentVal;
+                if (parent.ItemContainerGenerator.ContainerFromIndex(0) == this)
+                {
+                    left = 0;
+                }
+
+                Margin = new Thickness(left, 0, parentVal, parentVal - 1);
+                Panel.SetZIndex(this, 2);
+            }
         }
         #endregion
 
