@@ -15,6 +15,7 @@
             Margin="10,4"
             Background="LightYellow"
             BorderBrush="Tomato"
+            BorderThickness="{Binding TabBorderThickness}"
             AllowTabReorder="True"
             TabHeight="24"
             MinTabWidth="48">
@@ -62,8 +63,16 @@
                                     flows into the selected tab.
                                 </Paragraph>
                             </ListItem>
-
-
+                            <ListItem>
+                                <Paragraph>
+                                    You can set the border thickness of the
+                                    <Bold>TabControl</Bold>
+                                    and it automatically affects the thickness of the border around the tabs.
+                                    Border thickness is constrained, however, and can only be set to one or two,
+                                    and is always uniform.
+                                    <Hyperlink Command="{Binding ToggleBorderThicknessCommand}">Click here to change thickness</Hyperlink>.
+                                </Paragraph>
+                            </ListItem>
                         </List>
                     </FlowDocument>
                 </FlowDocumentScrollViewer>
@@ -99,14 +108,46 @@
             Grid.Column="1" Grid.Row="1"
             Margin="10,4"
             Background="LightYellow"
+            BorderThickness="1"
             BorderBrush="Tomato">
             
             <TabItem Header="Tab 1">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource TextBlockExplain}">
-                        This is a <Bold>System.Windows.Controls.TabControl</Bold>.
-                    </TextBlock>
-                </StackPanel>
+                <FlowDocumentScrollViewer>
+                    <FlowDocument>
+                        <Paragraph>
+                            This is a
+                            <Bold>System.Windows.Controls.TabControl</Bold> .
+                        </Paragraph>
+                        <List>
+                            <ListItem>
+                                <Paragraph>
+                                    Drag and drop is not supported.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    Content is unloaded when a tab becomes inactive. The state of controls
+                                    within the tab (such as the selected item in a list box) is lost, unless
+                                    explicity saved via binding or some other mechanism.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    You can set the height of each tab item (either individually or by using a style resource),
+                                    but it adversely affects the rendering.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    By default, tabs have their own border size and brush. You can change the brush via styling,
+                                    but the border size is not affected. If you set the top border thickness of the 
+                                    <Bold>TabControl</Bold> itself to a value other than one, it adversely affects the rendering.
+                                </Paragraph>
+                            </ListItem>
+                        </List>
+                        
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
             </TabItem>
             
             <TabItem Header="Tab 2">
