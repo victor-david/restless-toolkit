@@ -36,7 +36,7 @@ namespace Restless.App.Toolkit
         {
             if (TabBorderThickness.Left == 1.0)
             {
-                TabBorderThickness = new Thickness(3.0);
+                TabBorderThickness = new Thickness(2.0);
             }
             else
             {
