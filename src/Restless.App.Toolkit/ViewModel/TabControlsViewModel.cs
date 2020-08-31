@@ -3,14 +3,14 @@ using System.Windows.Input;
 
 namespace Restless.App.Toolkit
 {
-    public class ControlsViewModel : ViewModelBase
+    public class TabControlsViewModel : ViewModelBase
     {
         public ICommand DisplayUnloadTabCommand
         {
             get;
         }
 
-        public ControlsViewModel()
+        public TabControlsViewModel()
         {
             DisplayName = "Tab Control";
             DisplayUnloadTabCommand = RelayCommand.Create((p) => MainWindowViewModel.Instance.DisplayUnloadTabCommand.Execute(null));

@@ -3,11 +3,11 @@
 namespace Restless.App.Toolkit
 {
     /// <summary>
-    /// Interaction logic for ControlsView.xaml
+    /// Interaction logic for TabControlsView.xaml
     /// </summary>
-    public partial class ControlsView : UserControl
+    public partial class TabControlsView : UserControl
     {
-        public ControlsView()
+        public TabControlsView()
         {
             InitializeComponent();
         }

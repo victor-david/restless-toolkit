@@ -48,8 +48,8 @@
             <l:MvvmView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type l:ControlsViewModel}">
-            <l:ControlsView />
+        <DataTemplate DataType="{x:Type l:TabControlsViewModel}">
+            <l:TabControlsView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type l:DemoViewModel}">

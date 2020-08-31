@@ -27,7 +27,7 @@ namespace Restless.App.Toolkit
             Pages = new ObservableCollection<ViewModelBase>();
             Commands.Add("DisplayWelcome", RelayCommand.Create((p) => Create<WelcomeViewModel>()));
             Commands.Add("DisplayMvvm", RelayCommand.Create((p) => Create<MvvmViewModel>()));
-            Commands.Add("DisplayTabControls", RelayCommand.Create((p) => Create<ControlsViewModel>()));
+            Commands.Add("DisplayTabControls", RelayCommand.Create((p) => Create<TabControlsViewModel>()));
             Commands.Add("ToggleKeepContentOnTabSwitch", RelayCommand.Create((p) => KeepContentOnTabSwitch = !KeepContentOnTabSwitch));
             DisplayUnloadTabCommand = RelayCommand.Create((p) => Create<DemoViewModel>());
             InitializePages();
@@ -61,7 +61,7 @@ namespace Restless.App.Toolkit
         {
             Create<WelcomeViewModel>();
             Create<MvvmViewModel>();
-            Create<ControlsViewModel>();
+            Create<TabControlsViewModel>();
             Create<DemoViewModel>();
             SetActivePage(Pages[0]);
         }
