@@ -90,16 +90,22 @@ namespace Restless.Toolkit.Controls
             return contentPresenter;
         }
 
-        internal void SyncTabItemToParentControl(TabControl parent)
+        internal void SyncToParent(TabControl parent)
         {
             this.parent = parent ?? throw new ArgumentNullException(nameof(parent));
-            double value = parent.BorderThickness.Left;
-            BorderThickness = new Thickness(value, value, value, 0);
-            BorderBrush = parent.BorderBrush;
+            SyncToParentBorder(parent);
+
             Height = parent.TabHeight;
             MinWidth = parent.MinTabWidth;
             Background = parent.InactiveTabBackground;
             Opacity = parent.InactiveTabOpacity;
+        }
+
+        internal void SyncToParentBorder(TabControl parent)
+        {
+            double value = parent.BorderThickness.Left;
+            BorderThickness = new Thickness(value, value, value, 0);
+            BorderBrush = parent.BorderBrush;
         }
         #endregion
 

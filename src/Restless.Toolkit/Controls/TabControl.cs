@@ -1,6 +1,7 @@
 ﻿using Restless.Toolkit.Core;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,12 +14,13 @@ namespace Restless.Toolkit.Controls
     /// <summary>
     /// Represents a TabControl with extended capabilities.
     /// </summary>
-    [TemplatePart(Name = PartItemsHolder, Type = typeof(Panel))]
+    [TemplatePart(Name = PartTabPanel, Type = typeof(TabPanel))]
     public class TabControl : System.Windows.Controls.TabControl
     {
         #region Private
-        private Panel itemsHolderPanel;
-        private const string PartItemsHolder = "PART_ItemsHolder";
+        private const string PartTabPanel = "PART_TabPanel";
+        private TabPanel tabPanel;
+
         private Window dragCursor;
         private Point startPoint;
         private bool dragging = false;
@@ -297,12 +299,13 @@ namespace Restless.Toolkit.Controls
 
         #region Public methods
         /// <summary>
-        /// Get the ItemsHolder and generate any children
+        /// Called when the template is applied to get the tab panel.
         /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            itemsHolderPanel = GetTemplateChild(PartItemsHolder) as Panel;
+            tabPanel = GetTemplateChild(PartTabPanel) as TabPanel;
+            if (tabPanel == null) throw new ArgumentException(nameof(tabPanel));
         }
         #endregion
 
@@ -325,9 +328,7 @@ namespace Restless.Toolkit.Controls
             base.PrepareContainerForItemOverride(element, item);
             if (element is TabItem tabItem)
             {
-                tabItem.SyncTabItemToParentControl(this);
-                //tabItem.Height = tabItem.StandardHeight = TabHeight;
-                //tabItem.MinWidth = MinTabWidth;
+                tabItem.SyncToParent(this);
 
                 if (!tabItem.HasHeader)
                 {
@@ -610,6 +611,15 @@ namespace Restless.Toolkit.Controls
             if (SelectedItem is TabItem item) return item;
             return ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
         }
+
+        private void ActivateBorderChange()
+        {
+            foreach (var item in tabPanel.Children.OfType<TabItem>())
+            {
+                item.SyncToParentBorder(this);
+            }
+            tabPanel.InvalidateMeasure();
+        }
         #endregion
 
         /************************************************************************/
@@ -627,11 +637,7 @@ namespace Restless.Toolkit.Controls
 
         private static void OnBorderThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            //if (d is TabControl control)
-            //{
-            //    double value = control.BorderThickness.Left;
-            //    control.TabBorderThickness = new Thickness(value, value, value, 0.0);
-            //}
+            (d as TabControl)?.ActivateBorderChange();
         }
         #endregion
     }

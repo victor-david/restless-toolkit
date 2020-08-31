@@ -20,6 +20,7 @@
             </Grid.RowDefinitions>
 
             <con:TabPanel
+                x:Name="PART_TabPanel"
                 Background="Transparent"
                 Margin="0"
                 Panel.ZIndex="1"
