@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Restless.Toolkit.Controls
@@ -9,7 +11,9 @@ namespace Restless.Toolkit.Controls
     public class TabItem : System.Windows.Controls.TabItem
     {
         #region Private
-        private double tabHeightIncrease;
+        private TabControl parent;
+        //private double standardHeight;
+        //private double tabHeightIncrease;
         private ContentPresenter contentPresenter;
         #endregion
 
@@ -19,7 +23,11 @@ namespace Restless.Toolkit.Controls
         public TabItem()
         {
             Panel.SetZIndex(this, 1);
-            TabHeightIncrease = TabControl.DefaultTabHeightIncrease;
+            VerticalAlignment = VerticalAlignment.Bottom;
+
+            Debug.WriteLine(this.FontFamily);
+            Debug.WriteLine(this.FontSize);
+
         }
 
         static TabItem()
@@ -31,18 +39,7 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Properties
-        /// <summary>
-        /// Gets the amount to increase the height of the tab when it is selected.
-        /// </summary>
-        public double TabHeightIncrease 
-        {
-            get => tabHeightIncrease; 
-            internal set
-            {
-                tabHeightIncrease = value;
-                Margin = new Thickness(0, tabHeightIncrease, 0, 0);
-            }
-        }
+        internal bool IsLeftmost { get;  set; }
         #endregion
 
         /************************************************************************/
@@ -55,7 +52,10 @@ namespace Restless.Toolkit.Controls
         protected override void OnSelected(RoutedEventArgs e)
         {
             base.OnSelected(e);
-            SetSelected();
+            Height = parent.TabHeight + parent.TabHeightIncrease + BorderThickness.Top;
+            Background = parent.Background;
+            Opacity = 1.0;
+            Panel.SetZIndex(this, 2);
         }
 
         /// <summary>
@@ -65,7 +65,9 @@ namespace Restless.Toolkit.Controls
         protected override void OnUnselected(RoutedEventArgs e)
         {
             base.OnUnselected(e);
-            Margin = new Thickness(0, tabHeightIncrease, 0, 0);
+            Height = parent.TabHeight;
+            Background = parent.InactiveTabBackground;
+            Opacity = parent.InactiveTabOpacity;
             Panel.SetZIndex(this, 1);
         }
         #endregion
@@ -88,30 +90,22 @@ namespace Restless.Toolkit.Controls
             return contentPresenter;
         }
 
-        internal void SetSelected()
+        internal void SyncTabItemToParentControl(TabControl parent)
         {
-            if (GetParent() is TabControl parent)
-            {
-                double parentVal = -parent.BorderThickness.Left;
-                double left = parentVal;
-                if (parent.ItemContainerGenerator.ContainerFromIndex(0) == this)
-                {
-                    left = 0;
-                }
-
-                Margin = new Thickness(left, 0, parentVal, parentVal - 1);
-                Panel.SetZIndex(this, 2);
-            }
+            this.parent = parent ?? throw new ArgumentNullException(nameof(parent));
+            double value = parent.BorderThickness.Left;
+            BorderThickness = new Thickness(value, value, value, 0);
+            BorderBrush = parent.BorderBrush;
+            Height = parent.TabHeight;
+            MinWidth = parent.MinTabWidth;
+            Background = parent.InactiveTabBackground;
+            Opacity = parent.InactiveTabOpacity;
         }
         #endregion
 
         /************************************************************************/
 
         #region Private methods
-        private TabControl GetParent()
-        {
-            return ItemsControl.ItemsControlFromItemContainer(this) as TabControl;
-        }
         #endregion
     }
 }

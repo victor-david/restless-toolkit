@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Restless.App.Toolkit
 {
@@ -26,9 +27,9 @@ namespace Restless.App.Toolkit
             Pages = new ObservableCollection<ViewModelBase>();
             Commands.Add("DisplayWelcome", RelayCommand.Create((p) => Create<WelcomeViewModel>()));
             Commands.Add("DisplayMvvm", RelayCommand.Create((p) => Create<MvvmViewModel>()));
-            Commands.Add("DisplayControls", RelayCommand.Create((p) => Create<ControlsViewModel>()));
-            Commands.Add("DisplayDemo", RelayCommand.Create((p) => Create<DemoViewModel>()));
+            Commands.Add("DisplayTabControls", RelayCommand.Create((p) => Create<ControlsViewModel>()));
             Commands.Add("ToggleKeepContentOnTabSwitch", RelayCommand.Create((p) => KeepContentOnTabSwitch = !KeepContentOnTabSwitch));
+            DisplayUnloadTabCommand = RelayCommand.Create((p) => Create<DemoViewModel>());
             InitializePages();
         }
         #endregion
@@ -43,6 +44,11 @@ namespace Restless.App.Toolkit
         }
 
         public ObservableCollection<ViewModelBase> Pages
+        {
+            get;
+        }
+
+        public ICommand DisplayUnloadTabCommand
         {
             get;
         }

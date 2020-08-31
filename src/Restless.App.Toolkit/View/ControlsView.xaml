@@ -9,55 +9,88 @@
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800">
     
-    <Grid core:Property.ColumnWidths="*,*" core:Property.RowHeights="Auto,*">
-        <StackPanel Grid.ColumnSpan="2">
-            <TextBlock Style="{StaticResource TextBlockExplain}">
-            Namespace  <Bold>Restless.Toolkit.Controls</Bold> contains custom controls such as 
-            <Run Style="{StaticResource RunHigh}">Restless.Toolkit.Controls.AppWindow</Run> (used for this demo window), and
-            <Run Style="{StaticResource RunHigh}">Restless.Toolkit.Controls.TabControl</Run>.
-            </TextBlock>
-        </StackPanel>
+    <Grid core:Property.ColumnWidths="*,*">
         
         <con:TabControl
-            Grid.Row="1"
             Margin="10,4"
-            BorderBrush="Blue"
+            Background="LightYellow"
+            BorderBrush="Tomato"
             AllowTabReorder="True"
+            TabHeight="24"
             MinTabWidth="48">
             <con:TabItem Header="Tab 1">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource TextBlockExplain}">
-                        This is a <Run Style="{StaticResource RunHigh}">Restless.Toolkit.Controls.TabControl</Run> .
-                    </TextBlock>
-                </StackPanel>
+                <FlowDocumentScrollViewer>
+                    <FlowDocument>
+                        <Paragraph>
+                            This is a
+                            <Bold>Restless.Toolkit.Controls.TabControl</Bold>.
+                            There are several differences between this control and the Wpf TabControl.
+                        </Paragraph>
+                        <List>
+                            <ListItem>
+                                <Paragraph>
+                                    You can use drag and drop to reorder the tabs.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    You can choose whether or not tab content is unloaded when a tab becomes inactive.
+                                    The default is that content is unloaded, but you can set the
+                                    <Bold>KeepContentOnTabSwitch</Bold> 
+                                    property to prevent this. See the
+                                    <Hyperlink Command="{Binding DisplayUnloadTabCommand}">Unload / keep tab</Hyperlink>
+                                    for more information.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    You can specify the tab height and minimum tab width by setting these values on the
+                                    <Bold>TabControl</Bold>.
+                                    This is most useful when the tabs aren't defined in XAML, but are instead bound to a collection.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    You can set how much a selected tab rises above the rest.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    The border brush that you set for the 
+                                    <Bold>TabControl</Bold>
+                                    also affects the tabs. The background that you set for the TabControl
+                                    flows into the selected tab.
+                                </Paragraph>
+                            </ListItem>
+
+
+                        </List>
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
             </con:TabItem>
             
             <con:TabItem Header="Tab 2">
-                <TextBlock
-                    Style="{StaticResource TextBlockExplain}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="Empty"/>                
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 2 Empty"/>
             </con:TabItem>
 
             <con:TabItem Header="Tab 3">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>                
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 3 Empty"/>                
             </con:TabItem>
 
             <con:TabItem Header="Tab 4">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 4 Empty"/>
             </con:TabItem>
 
             <con:TabItem Header="Tab 5">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 5 Empty"/>
             </con:TabItem>
 
             <con:TabItem Header="Tab 6">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 6 Empty"/>
             </con:TabItem>
 
             <con:TabItem Header="Tab 7">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 7 Empty"/>
             </con:TabItem>
 
         </con:TabControl>
@@ -65,38 +98,39 @@
         <TabControl
             Grid.Column="1" Grid.Row="1"
             Margin="10,4"
-            BorderBrush="Blue">
+            Background="LightYellow"
+            BorderBrush="Tomato">
             
             <TabItem Header="Tab 1">
                 <StackPanel>
                     <TextBlock Style="{StaticResource TextBlockExplain}">
-                        This is a <Run Style="{StaticResource RunHigh}">System.Windows.Controls.TabControl</Run>.
+                        This is a <Bold>System.Windows.Controls.TabControl</Bold>.
                     </TextBlock>
                 </StackPanel>
             </TabItem>
             
             <TabItem Header="Tab 2">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 2 Empty"/>
             </TabItem>
-            
+
             <TabItem Header="Tab 3">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 3 Empty"/>
             </TabItem>
 
             <TabItem Header="Tab 4">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 4 Empty"/>
             </TabItem>
 
             <TabItem Header="Tab 5">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 5 Empty"/>
             </TabItem>
             
             <TabItem Header="Tab 6">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 6 Empty"/>
             </TabItem>
             
             <TabItem Header="Tab 7">
-                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Empty"/>
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 7 Empty"/>
             </TabItem>
         </TabControl>
     </Grid>

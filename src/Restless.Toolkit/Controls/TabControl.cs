@@ -22,7 +22,6 @@ namespace Restless.Toolkit.Controls
         private Window dragCursor;
         private Point startPoint;
         private bool dragging = false;
-        private const double DefaultTabHeight = 40.0;
         #endregion
 
         /************************************************************************/
@@ -52,10 +51,12 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Public properties
+        public const double DefaultTabHeight = 32.0;
+
         /// <summary>
         /// Gets the default value for <see cref="TabHeightIncrease"/>.
         /// </summary>
-        public const double DefaultTabHeightIncrease = 5.0;
+        public const double DefaultTabHeightIncrease = 4.0;
 
         /// <summary>
         /// Gets or sets a value that indicates if the tabs of this control can be reordered using drag and drop.
@@ -213,35 +214,13 @@ namespace Restless.Toolkit.Controls
             (
                 nameof(InactiveTabOpacity), typeof(double), typeof(TabControl), new FrameworkPropertyMetadata()
                 {
-                    DefaultValue = 0.25,
+                    DefaultValue = 0.475,
                 }
             );
-
-        /// <summary>
-        /// Gets the tab border thickness
-        /// </summary>
-        public Thickness TabBorderThickness
-        {
-            get => (Thickness)GetValue(TabBorderThicknessProperty);
-            private set => SetValue(TabBorderThicknessPropertyKey, value);
-        }
-
-        private static readonly DependencyPropertyKey TabBorderThicknessPropertyKey = DependencyProperty.RegisterReadOnly
-            (
-                nameof(TabBorderThickness), typeof(Thickness), typeof(TabControl), new FrameworkPropertyMetadata()
-                {
-                    DefaultValue = new Thickness(1, 1, 1, 0),
-                }
-            );
-
-        /// <summary>
-        /// Identifies the <see cref="TabBorderThickness"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty TabBorderThicknessProperty = TabBorderThicknessPropertyKey.DependencyProperty;
 
         /// <summary>
         /// Gets or sets the amount that a tab increases in height when it is selected.
-        /// The value of this property is clamped between 2.0 - 8.0, inclusive.
+        /// The value of this property is clamped between 0.0 - 8.0, inclusive.
         /// </summary>
         public double TabHeightIncrease
         {
@@ -265,7 +244,7 @@ namespace Restless.Toolkit.Controls
         private static object OnCoerceTabHeightIncrease(DependencyObject d, object baseValue)
         {
             double value = (double)baseValue;
-            return Math.Max(Math.Min(value, 8.0), 2.0);
+            return Math.Max(Math.Min(value, 8.0), 0.0);
         }
 
         private static void OnTabHeightIncreaseChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -346,9 +325,10 @@ namespace Restless.Toolkit.Controls
             base.PrepareContainerForItemOverride(element, item);
             if (element is TabItem tabItem)
             {
-                tabItem.Height = TabHeight;
-                tabItem.MinWidth = MinTabWidth;
-                tabItem.TabHeightIncrease = TabHeightIncrease;
+                tabItem.SyncTabItemToParentControl(this);
+                //tabItem.Height = tabItem.StandardHeight = TabHeight;
+                //tabItem.MinWidth = MinTabWidth;
+
                 if (!tabItem.HasHeader)
                 {
                     if (item is HeaderedContentControl head)
@@ -459,10 +439,6 @@ namespace Restless.Toolkit.Controls
                     {
                         MoveByItems(tabSource, tabTarget);
                     }
-                    /* Source is already selected, but we must call this method in case 
-                     * tab was dropped in position zero, which receives special treatment.
-                     */
-                    tabSource.SetSelected();
                     e.Handled = true;
                 }
             }
@@ -651,11 +627,11 @@ namespace Restless.Toolkit.Controls
 
         private static void OnBorderThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is TabControl control)
-            {
-                double value = control.BorderThickness.Left;
-                control.TabBorderThickness = new Thickness(value, value, value, 0.0);
-            }
+            //if (d is TabControl control)
+            //{
+            //    double value = control.BorderThickness.Left;
+            //    control.TabBorderThickness = new Thickness(value, value, value, 0.0);
+            //}
         }
         #endregion
     }
