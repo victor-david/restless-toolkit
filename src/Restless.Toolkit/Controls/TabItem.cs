@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,8 +11,6 @@ namespace Restless.Toolkit.Controls
     {
         #region Private
         private TabControl parent;
-        //private double standardHeight;
-        //private double tabHeightIncrease;
         private ContentPresenter contentPresenter;
         #endregion
 
@@ -24,10 +21,6 @@ namespace Restless.Toolkit.Controls
         {
             Panel.SetZIndex(this, 1);
             VerticalAlignment = VerticalAlignment.Bottom;
-
-            Debug.WriteLine(this.FontFamily);
-            Debug.WriteLine(this.FontSize);
-
         }
 
         static TabItem()
@@ -107,11 +100,6 @@ namespace Restless.Toolkit.Controls
             BorderThickness = new Thickness(value, value, value, 0);
             BorderBrush = parent.BorderBrush;
         }
-        #endregion
-
-        /************************************************************************/
-
-        #region Private methods
         #endregion
     }
 }
