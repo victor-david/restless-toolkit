@@ -1,10 +1,12 @@
 ﻿using Restless.Toolkit.Core;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -15,11 +17,18 @@ namespace Restless.Toolkit.Controls
     /// Represents a TabControl with extended capabilities.
     /// </summary>
     [TemplatePart(Name = PartTabPanel, Type = typeof(TabPanel))]
+    [TemplatePart(Name = PartButtonTabList, Type = typeof(Button))]
+    [TemplatePart(Name = PartTabList, Type = typeof(Popup))]
     public class TabControl : System.Windows.Controls.TabControl
     {
         #region Private
         private const string PartTabPanel = "PART_TabPanel";
+        private const string PartButtonTabList = "PART_ButtonTabList";
+        private const string PartTabList = "PART_TabList";
+
         private TabPanel tabPanel;
+        private Button buttonTabList;
+        private Popup tabList;
 
         private Window dragCursor;
         private Point startPoint;
@@ -293,6 +302,26 @@ namespace Restless.Toolkit.Controls
         /// Identifies the <see cref="SelectedTabContent"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SelectedTabContentProperty = SelectedTabContentPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets a boolean value that determines if the tab list is available.
+        /// </summary>
+        public bool IsTabListAvailable
+        {
+            get => (bool)GetValue(IsTabListAvailableProperty);
+            private set => SetValue(IsTabListAvailablePropertyKey, value);
+        }
+
+        private static readonly DependencyPropertyKey IsTabListAvailablePropertyKey = DependencyProperty.RegisterReadOnly
+            (
+                nameof(IsTabListAvailable), typeof(bool), typeof(TabControl), new PropertyMetadata(false)
+            );
+
+        /// <summary>
+        /// Identifies the <see cref="IsTabListAvailable"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsTabListAvailableProperty = IsTabListAvailablePropertyKey.DependencyProperty;
+
         #endregion
 
         /************************************************************************/
@@ -304,8 +333,21 @@ namespace Restless.Toolkit.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            tabPanel = GetTemplateChild(PartTabPanel) as TabPanel;
-            if (tabPanel == null) throw new ArgumentException(nameof(tabPanel));
+            if (buttonTabList != null)
+            {
+                buttonTabList.Click -= ButtonTabListClick;
+            }
+
+            tabPanel = GetTemplateChild(PartTabPanel) as TabPanel ?? throw new ArgumentException(PartTabPanel);;
+            buttonTabList = GetTemplateChild(PartButtonTabList) as Button ?? throw new ArgumentException(PartButtonTabList);
+            tabList = GetTemplateChild(PartTabList) as Popup ?? throw new ArgumentException(PartTabList);
+            
+            buttonTabList.Click += ButtonTabListClick;
+        }
+
+        private void ButtonTabListClick(object sender, RoutedEventArgs e)
+        {
+            tabList.IsOpen = true;
         }
         #endregion
 
@@ -352,6 +394,12 @@ namespace Restless.Toolkit.Controls
         {
             base.OnSelectionChanged(e);
             UpdateSelectedItem();
+        }
+
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        {
+            base.OnItemsSourceChanged(oldValue, newValue);
+            IsTabListAvailable = newValue != null;
         }
         #endregion
 
