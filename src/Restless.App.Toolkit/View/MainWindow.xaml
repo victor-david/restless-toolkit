@@ -31,7 +31,7 @@
             </MenuItem>
         </Menu>
     </con:AppWindow.Menu>
-      
+
     <con:TabControl 
         Margin="10"
         TabHeight="40"
@@ -39,8 +39,6 @@
         AllowTabReorder="True"
         KeepContentOnTabSwitch="{Binding KeepContentOnTabSwitch}"
         ItemsSource="{Binding Pages}"
-        IsSynchronizedWithCurrentItem="True"
-        ItemTemplate="{StaticResource TabItemTemplate}"/>
-
+        DisplayMemberPath="DisplayName"/>
 
 </con:AppWindow>

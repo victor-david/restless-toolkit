@@ -25,7 +25,6 @@ namespace Restless.Toolkit.Controls
             if (parent == null) throw new ArgumentNullException(nameof(parent));
         }
 
-
         protected override Size MeasureOverride(Size constraint)
         {
             Size contentSize = new Size(0, parent.TabHeight + parent.TabHeightIncrease);

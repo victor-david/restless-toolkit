@@ -2,11 +2,13 @@
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -19,16 +21,19 @@ namespace Restless.Toolkit.Controls
     [TemplatePart(Name = PartTabPanel, Type = typeof(TabPanel))]
     [TemplatePart(Name = PartButtonTabList, Type = typeof(Button))]
     [TemplatePart(Name = PartTabList, Type = typeof(Popup))]
+    [TemplatePart(Name = PartTabListBox, Type = typeof(System.Windows.Controls.ListBox))]
     public class TabControl : System.Windows.Controls.TabControl
     {
         #region Private
         private const string PartTabPanel = "PART_TabPanel";
         private const string PartButtonTabList = "PART_ButtonTabList";
         private const string PartTabList = "PART_TabList";
+        private const string PartTabListBox = "PART_TabListBox";
 
         private TabPanel tabPanel;
         private Button buttonTabList;
-        private Popup tabList;
+        private Popup tabListPopup;
+        private System.Windows.Controls.ListBox tabListBox;
 
         private Window dragCursor;
         private Point startPoint;
@@ -321,7 +326,6 @@ namespace Restless.Toolkit.Controls
         /// Identifies the <see cref="IsTabListAvailable"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsTabListAvailableProperty = IsTabListAvailablePropertyKey.DependencyProperty;
-
         #endregion
 
         /************************************************************************/
@@ -333,21 +337,16 @@ namespace Restless.Toolkit.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            if (buttonTabList != null)
-            {
-                buttonTabList.Click -= ButtonTabListClick;
-            }
+            if (buttonTabList != null) buttonTabList.Click -= ButtonTabListClick;
+            if (tabListBox != null) tabListBox.SelectionChanged -= TabListBoxSelectionChanged;
 
             tabPanel = GetTemplateChild(PartTabPanel) as TabPanel ?? throw new ArgumentException(PartTabPanel);;
             buttonTabList = GetTemplateChild(PartButtonTabList) as Button ?? throw new ArgumentException(PartButtonTabList);
-            tabList = GetTemplateChild(PartTabList) as Popup ?? throw new ArgumentException(PartTabList);
-            
-            buttonTabList.Click += ButtonTabListClick;
-        }
+            tabListPopup = GetTemplateChild(PartTabList) as Popup ?? throw new ArgumentException(PartTabList);
+            tabListBox = GetTemplateChild(PartTabListBox) as System.Windows.Controls.ListBox ?? throw new ArgumentException(PartTabListBox);
 
-        private void ButtonTabListClick(object sender, RoutedEventArgs e)
-        {
-            tabList.IsOpen = true;
+            buttonTabList.Click += ButtonTabListClick;
+            tabListBox.SelectionChanged += TabListBoxSelectionChanged;
         }
         #endregion
 
@@ -400,6 +399,16 @@ namespace Restless.Toolkit.Controls
         {
             base.OnItemsSourceChanged(oldValue, newValue);
             IsTabListAvailable = newValue != null;
+        }
+
+        protected override void OnItemBindingGroupChanged(BindingGroup oldItemBindingGroup, BindingGroup newItemBindingGroup)
+        {
+            base.OnItemBindingGroupChanged(oldItemBindingGroup, newItemBindingGroup);
+        }
+
+        protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+        {
+            base.OnItemsChanged(e);
         }
         #endregion
 
@@ -667,6 +676,20 @@ namespace Restless.Toolkit.Controls
                 item.SyncToParentBorder(this);
             }
             tabPanel.InvalidateMeasure();
+        }
+
+        private void ButtonTabListClick(object sender, RoutedEventArgs e)
+        {
+            object temp = SelectedItem;
+            tabListBox.SelectedItem = null;
+            SelectedItem = temp;
+            tabListPopup.IsOpen = true;
+        }
+
+        private void TabListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            tabListPopup.IsOpen = false;
+            SelectedItem = tabListBox.SelectedItem;
         }
         #endregion
 

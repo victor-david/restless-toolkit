@@ -45,16 +45,36 @@
                 <Setter Property="Placement" Value="Left"/>
                 <Setter Property="HorizontalOffset" Value="8"/>
                 <Setter Property="VerticalOffset" Value="4"/>
+                <Setter Property="AllowsTransparency" Value="True"/>
                 <Setter Property="PopupAnimation" Value="Fade"/>
             </Style>
             <Style TargetType="ListBox">
+                <Setter Property="Margin" Value="0,0,8,8"/>
                 <Setter Property="Padding" Value="2,3"/>
                 <Setter Property="MinWidth" Value="160"/>
-                <Setter Property="BorderBrush" Value="DarkGray"/>
-                <Setter Property="IsSynchronizedWithCurrentItem" Value="True"/>
+                <Setter Property="IsSynchronizedWithCurrentItem" Value="False"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect BlurRadius="6" Opacity="0.55"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ItemContainerStyle">
+                    <Setter.Value>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Margin" Value="2,0"/>
+                            <Setter Property="Padding" Value="2,3"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="LightCoral"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </Style.Resources>
     </Style>
+
 
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- Restless.Toolkit.Controls.TabControl -->
@@ -87,7 +107,12 @@
                     <StackPanel>
                         <Path Data="M0,0 12,0 6,6Z"/>
                         <Popup x:Name="PART_TabList">
-                            <ListBox ItemsSource="{TemplateBinding ItemsSource}" ItemTemplate="{TemplateBinding ItemTemplate}"/>
+                            <ListBox 
+                                x:Name="PART_TabListBox"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                ItemsSource="{TemplateBinding ItemsSource}"
+                                DisplayMemberPath="{TemplateBinding DisplayMemberPath}"/>
                         </Popup>
                     </StackPanel>
                 </Button>
@@ -119,7 +144,7 @@
     <Style TargetType="con:TabControl">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Background" Value="White"/>
-        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
         <Setter Property="Padding" Value="10"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>
@@ -144,21 +169,12 @@
                 HorizontalAlignment="{Binding Path=HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                 VerticalAlignment="{Binding Path=VerticalContentAlignment,RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
         </Border>
-        <ControlTemplate.Triggers>
-            <!--<Trigger Property="IsSelected" Value="True">-->
-                <!--<Setter TargetName="Border" Property="Background" Value="{Binding Background, RelativeSource={RelativeSource AncestorType=con:TabControl}}"/>-->
-
-                <!--<Setter TargetName="Border" Property="Background" Value="Red"/>
-                <Setter TargetName="Border" Property="Opacity" Value="1.0"/>-->
-            <!--</Trigger>-->
-        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <Style TargetType="con:TabItem">
         <Setter Property="Panel.ZIndex" Value="1"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>
-        <!--<Setter Property="VerticalAlignment" Value="Bottom"/>-->
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template" Value="{StaticResource TabItemControlTemplate}"/>
