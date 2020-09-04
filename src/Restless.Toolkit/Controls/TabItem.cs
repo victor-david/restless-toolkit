@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Restless.Toolkit.Controls
@@ -9,7 +10,7 @@ namespace Restless.Toolkit.Controls
     public class TabItem : System.Windows.Controls.TabItem
     {
         #region Private
-        private double tabHeightIncrease;
+        private TabControl parent;
         private ContentPresenter contentPresenter;
         #endregion
 
@@ -19,30 +20,31 @@ namespace Restless.Toolkit.Controls
         public TabItem()
         {
             Panel.SetZIndex(this, 1);
-            TabHeightIncrease = TabControl.DefaultTabHeightIncrease;
+            VerticalAlignment = VerticalAlignment.Bottom;
+            HorizontalAlignment = HorizontalAlignment.Stretch;
         }
 
         static TabItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TabItem), new FrameworkPropertyMetadata(typeof(TabItem)));
+            HorizontalAlignmentProperty.OverrideMetadata(typeof(TabItem), new FrameworkPropertyMetadata()
+            {
+                DefaultValue = HorizontalAlignment.Stretch,
+                CoerceValueCallback = OnCoerceHorizontalAlignment
+            });
+
+            VerticalAlignmentProperty.OverrideMetadata(typeof(TabItem), new FrameworkPropertyMetadata()
+            {
+                DefaultValue = VerticalAlignment.Bottom,
+                CoerceValueCallback = OnCoerceVerticalAlignment,
+            });
         }
         #endregion
 
         /************************************************************************/
 
         #region Properties
-        /// <summary>
-        /// Gets the amount to increase the height of the tab when it is selected.
-        /// </summary>
-        public double TabHeightIncrease 
-        {
-            get => tabHeightIncrease; 
-            internal set
-            {
-                tabHeightIncrease = value;
-                Margin = new Thickness(0, tabHeightIncrease, 0, 0);
-            }
-        }
+        internal bool IsItemVisible { get; set; }
         #endregion
 
         /************************************************************************/
@@ -55,7 +57,10 @@ namespace Restless.Toolkit.Controls
         protected override void OnSelected(RoutedEventArgs e)
         {
             base.OnSelected(e);
-            SetSelected();
+            Height = parent.TabHeight + parent.TabHeightIncrease + BorderThickness.Top;
+            Background = parent.Background;
+            Opacity = 1.0;
+            Panel.SetZIndex(this, 2);
         }
 
         /// <summary>
@@ -65,7 +70,9 @@ namespace Restless.Toolkit.Controls
         protected override void OnUnselected(RoutedEventArgs e)
         {
             base.OnUnselected(e);
-            Margin = new Thickness(0, tabHeightIncrease, 0, 0);
+            Height = parent.TabHeight;
+            Background = parent.InactiveTabBackground;
+            Opacity = parent.InactiveTabOpacity;
             Panel.SetZIndex(this, 1);
         }
         #endregion
@@ -88,29 +95,36 @@ namespace Restless.Toolkit.Controls
             return contentPresenter;
         }
 
-        internal void SetSelected()
+        internal void SyncToParent(TabControl parent)
         {
-            if (GetParent() is TabControl parent)
-            {
-                double parentVal = -parent.BorderThickness.Left;
-                double left = parentVal;
-                if (parent.ItemContainerGenerator.ContainerFromIndex(0) == this)
-                {
-                    left = 0;
-                }
+            this.parent = parent ?? throw new ArgumentNullException(nameof(parent));
+            SyncToParentBorder(parent);
 
-                Margin = new Thickness(left, 0, parentVal, parentVal - 1);
-                Panel.SetZIndex(this, 2);
-            }
+            Height = parent.TabHeight;
+            MinWidth = parent.MinTabWidth;
+            Background = parent.InactiveTabBackground;
+            Opacity = parent.InactiveTabOpacity;
+        }
+
+        internal void SyncToParentBorder(TabControl parent)
+        {
+            double value = parent.BorderThickness.Left;
+            BorderThickness = new Thickness(value, value, value, 0);
+            BorderBrush = parent.BorderBrush;
         }
         #endregion
 
         /************************************************************************/
 
         #region Private methods
-        private TabControl GetParent()
+        private static object OnCoerceHorizontalAlignment(DependencyObject d, object baseValue)
         {
-            return ItemsControl.ItemsControlFromItemContainer(this) as TabControl;
+            return HorizontalAlignment.Stretch;
+        }
+
+        private static object OnCoerceVerticalAlignment(DependencyObject d, object baseValue)
+        {
+            return VerticalAlignment.Bottom;
         }
         #endregion
     }

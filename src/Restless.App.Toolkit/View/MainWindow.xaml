@@ -17,8 +17,8 @@
             <MenuItem Header="Tabs">
                 <MenuItem Header="Welcome" Command="{Binding Commands[DisplayWelcome]}"/>
                 <MenuItem Header="Mvvm" Command="{Binding Commands[DisplayMvvm]}"/>
-                <MenuItem Header="Controls" Command="{Binding Commands[DisplayControls]}"/>
-                <MenuItem Header="Demo" Command="{Binding Commands[DisplayDemo]}"/>
+                <MenuItem Header="Tab Controls" Command="{Binding Commands[DisplayTabControls]}"/>
+                <MenuItem Header="Unload / Keep" Command="{Binding DisplayUnloadTabCommand}"/>
                 <Separator/>
                 <MenuItem Header="Keep content on tab switch" IsChecked="{Binding KeepContentOnTabSwitch}" Command="{Binding Commands[ToggleKeepContentOnTabSwitch]}"/>
             </MenuItem>
@@ -31,7 +31,7 @@
             </MenuItem>
         </Menu>
     </con:AppWindow.Menu>
-      
+
     <con:TabControl 
         Margin="10"
         TabHeight="40"
@@ -39,8 +39,6 @@
         AllowTabReorder="True"
         KeepContentOnTabSwitch="{Binding KeepContentOnTabSwitch}"
         ItemsSource="{Binding Pages}"
-        IsSynchronizedWithCurrentItem="True"
-        ItemTemplate="{StaticResource TabItemTemplate}"/>
-
+        DisplayMemberPath="DisplayName"/>
 
 </con:AppWindow>

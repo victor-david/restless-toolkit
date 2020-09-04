@@ -1,9 +1,14 @@
 ﻿using Restless.Toolkit.Core;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -13,16 +18,26 @@ namespace Restless.Toolkit.Controls
     /// <summary>
     /// Represents a TabControl with extended capabilities.
     /// </summary>
-    [TemplatePart(Name = PartItemsHolder, Type = typeof(Panel))]
+    [TemplatePart(Name = PartTabPanel, Type = typeof(TabPanel))]
+    [TemplatePart(Name = PartButtonTabList, Type = typeof(Button))]
+    [TemplatePart(Name = PartTabList, Type = typeof(Popup))]
+    [TemplatePart(Name = PartTabListBox, Type = typeof(System.Windows.Controls.ListBox))]
     public class TabControl : System.Windows.Controls.TabControl
     {
         #region Private
-        private Panel itemsHolderPanel;
-        private const string PartItemsHolder = "PART_ItemsHolder";
+        private const string PartTabPanel = "PART_TabPanel";
+        private const string PartButtonTabList = "PART_ButtonTabList";
+        private const string PartTabList = "PART_TabList";
+        private const string PartTabListBox = "PART_TabListBox";
+
+        private TabPanel tabPanel;
+        private Button buttonTabList;
+        private Popup tabListPopup;
+        private System.Windows.Controls.ListBox tabListBox;
+
         private Window dragCursor;
         private Point startPoint;
         private bool dragging = false;
-        private const double DefaultTabHeight = 40.0;
         #endregion
 
         /************************************************************************/
@@ -52,10 +67,12 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Public properties
+        public const double DefaultTabHeight = 32.0;
+
         /// <summary>
         /// Gets the default value for <see cref="TabHeightIncrease"/>.
         /// </summary>
-        public const double DefaultTabHeightIncrease = 5.0;
+        public const double DefaultTabHeightIncrease = 4.0;
 
         /// <summary>
         /// Gets or sets a value that indicates if the tabs of this control can be reordered using drag and drop.
@@ -213,35 +230,13 @@ namespace Restless.Toolkit.Controls
             (
                 nameof(InactiveTabOpacity), typeof(double), typeof(TabControl), new FrameworkPropertyMetadata()
                 {
-                    DefaultValue = 0.25,
+                    DefaultValue = 0.475,
                 }
             );
-
-        /// <summary>
-        /// Gets the tab border thickness
-        /// </summary>
-        public Thickness TabBorderThickness
-        {
-            get => (Thickness)GetValue(TabBorderThicknessProperty);
-            private set => SetValue(TabBorderThicknessPropertyKey, value);
-        }
-
-        private static readonly DependencyPropertyKey TabBorderThicknessPropertyKey = DependencyProperty.RegisterReadOnly
-            (
-                nameof(TabBorderThickness), typeof(Thickness), typeof(TabControl), new FrameworkPropertyMetadata()
-                {
-                    DefaultValue = new Thickness(1, 1, 1, 0),
-                }
-            );
-
-        /// <summary>
-        /// Identifies the <see cref="TabBorderThickness"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty TabBorderThicknessProperty = TabBorderThicknessPropertyKey.DependencyProperty;
 
         /// <summary>
         /// Gets or sets the amount that a tab increases in height when it is selected.
-        /// The value of this property is clamped between 2.0 - 8.0, inclusive.
+        /// The value of this property is clamped between 0.0 - 8.0, inclusive.
         /// </summary>
         public double TabHeightIncrease
         {
@@ -265,7 +260,7 @@ namespace Restless.Toolkit.Controls
         private static object OnCoerceTabHeightIncrease(DependencyObject d, object baseValue)
         {
             double value = (double)baseValue;
-            return Math.Max(Math.Min(value, 8.0), 2.0);
+            return Math.Max(Math.Min(value, 8.0), 0.0);
         }
 
         private static void OnTabHeightIncreaseChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -312,18 +307,46 @@ namespace Restless.Toolkit.Controls
         /// Identifies the <see cref="SelectedTabContent"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SelectedTabContentProperty = SelectedTabContentPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets a boolean value that determines if the tab list is available.
+        /// </summary>
+        public bool IsTabListAvailable
+        {
+            get => (bool)GetValue(IsTabListAvailableProperty);
+            private set => SetValue(IsTabListAvailablePropertyKey, value);
+        }
+
+        private static readonly DependencyPropertyKey IsTabListAvailablePropertyKey = DependencyProperty.RegisterReadOnly
+            (
+                nameof(IsTabListAvailable), typeof(bool), typeof(TabControl), new PropertyMetadata(false)
+            );
+
+        /// <summary>
+        /// Identifies the <see cref="IsTabListAvailable"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsTabListAvailableProperty = IsTabListAvailablePropertyKey.DependencyProperty;
         #endregion
 
         /************************************************************************/
 
         #region Public methods
         /// <summary>
-        /// Get the ItemsHolder and generate any children
+        /// Called when the template is applied to get the tab panel.
         /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            itemsHolderPanel = GetTemplateChild(PartItemsHolder) as Panel;
+            if (buttonTabList != null) buttonTabList.Click -= ButtonTabListClick;
+            if (tabListBox != null) tabListBox.SelectionChanged -= TabListBoxSelectionChanged;
+
+            tabPanel = GetTemplateChild(PartTabPanel) as TabPanel ?? throw new ArgumentException(PartTabPanel);;
+            buttonTabList = GetTemplateChild(PartButtonTabList) as Button ?? throw new ArgumentException(PartButtonTabList);
+            tabListPopup = GetTemplateChild(PartTabList) as Popup ?? throw new ArgumentException(PartTabList);
+            tabListBox = GetTemplateChild(PartTabListBox) as System.Windows.Controls.ListBox ?? throw new ArgumentException(PartTabListBox);
+
+            buttonTabList.Click += ButtonTabListClick;
+            tabListBox.SelectionChanged += TabListBoxSelectionChanged;
         }
         #endregion
 
@@ -346,9 +369,8 @@ namespace Restless.Toolkit.Controls
             base.PrepareContainerForItemOverride(element, item);
             if (element is TabItem tabItem)
             {
-                tabItem.Height = TabHeight;
-                tabItem.MinWidth = MinTabWidth;
-                tabItem.TabHeightIncrease = TabHeightIncrease;
+                tabItem.SyncToParent(this);
+
                 if (!tabItem.HasHeader)
                 {
                     if (item is HeaderedContentControl head)
@@ -371,6 +393,22 @@ namespace Restless.Toolkit.Controls
         {
             base.OnSelectionChanged(e);
             UpdateSelectedItem();
+        }
+
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        {
+            base.OnItemsSourceChanged(oldValue, newValue);
+            IsTabListAvailable = newValue != null;
+        }
+
+        protected override void OnItemBindingGroupChanged(BindingGroup oldItemBindingGroup, BindingGroup newItemBindingGroup)
+        {
+            base.OnItemBindingGroupChanged(oldItemBindingGroup, newItemBindingGroup);
+        }
+
+        protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+        {
+            base.OnItemsChanged(e);
         }
         #endregion
 
@@ -459,10 +497,6 @@ namespace Restless.Toolkit.Controls
                     {
                         MoveByItems(tabSource, tabTarget);
                     }
-                    /* Source is already selected, but we must call this method in case 
-                     * tab was dropped in position zero, which receives special treatment.
-                     */
-                    tabSource.SetSelected();
                     e.Handled = true;
                 }
             }
@@ -634,6 +668,29 @@ namespace Restless.Toolkit.Controls
             if (SelectedItem is TabItem item) return item;
             return ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
         }
+
+        private void ActivateBorderChange()
+        {
+            foreach (var item in tabPanel.Children.OfType<TabItem>())
+            {
+                item.SyncToParentBorder(this);
+            }
+            tabPanel.InvalidateMeasure();
+        }
+
+        private void ButtonTabListClick(object sender, RoutedEventArgs e)
+        {
+            object temp = SelectedItem;
+            tabListBox.SelectedItem = null;
+            SelectedItem = temp;
+            tabListPopup.IsOpen = true;
+        }
+
+        private void TabListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            tabListPopup.IsOpen = false;
+            SelectedItem = tabListBox.SelectedItem;
+        }
         #endregion
 
         /************************************************************************/
@@ -651,11 +708,7 @@ namespace Restless.Toolkit.Controls
 
         private static void OnBorderThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is TabControl control)
-            {
-                double value = control.BorderThickness.Left;
-                control.TabBorderThickness = new Thickness(value, value, value, 0.0);
-            }
+            (d as TabControl)?.ActivateBorderChange();
         }
         #endregion
     }

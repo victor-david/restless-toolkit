@@ -1,0 +1,178 @@
+﻿<UserControl 
+    x:Class="Restless.App.Toolkit.TabControlsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:core="clr-namespace:Restless.Toolkit.Core;assembly=Restless.Toolkit"
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls;assembly=Restless.Toolkit"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800">
+    
+    <Grid core:Property.ColumnWidths="*,*">
+        
+        <con:TabControl
+            Margin="10,4"
+            Background="LightYellow"
+            BorderBrush="Tomato"
+            BorderThickness="{Binding TabBorderThickness}"
+            AllowTabReorder="True"
+            TabHeight="24"
+            MinTabWidth="48">
+            <con:TabItem Header="Tab 1">
+                <FlowDocumentScrollViewer>
+                    <FlowDocument>
+                        <Paragraph>
+                            This is a
+                            <Bold>Restless.Toolkit.Controls.TabControl</Bold>.
+                            There are several differences between this control and the Wpf TabControl.
+                        </Paragraph>
+                        <List>
+                            <ListItem>
+                                <Paragraph>
+                                    You can use drag and drop to reorder the tabs.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    You can choose whether or not tab content is unloaded when a tab becomes inactive.
+                                    The default is that content is unloaded, but you can set the
+                                    <Bold>KeepContentOnTabSwitch</Bold> 
+                                    property to prevent this. See the
+                                    <Hyperlink Command="{Binding DisplayUnloadTabCommand}">Unload / keep tab</Hyperlink>
+                                    for more information.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    You can specify the tab height and minimum tab width by setting these values on the
+                                    <Bold>TabControl</Bold>.
+                                    This is most useful when the tabs aren't defined in XAML, but are instead bound to a collection.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    You can set how much a selected tab rises above the rest.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    The border brush that you set for the 
+                                    <Bold>TabControl</Bold>
+                                    also affects the tabs. The background that you set for the TabControl
+                                    flows into the selected tab.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    You can set the border thickness of the
+                                    <Bold>TabControl</Bold>
+                                    and it automatically affects the thickness of the border around the tabs.
+                                    Border thickness is constrained, however, and can only be set to one or two,
+                                    and is always uniform.
+                                    <Hyperlink Command="{Binding ToggleBorderThicknessCommand}">Click here to change thickness</Hyperlink>.
+                                </Paragraph>
+                            </ListItem>
+                        </List>
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
+            </con:TabItem>
+            
+            <con:TabItem Header="Tab 2">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 2 Empty"/>
+            </con:TabItem>
+
+            <con:TabItem Header="Tab 3">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 3 Empty"/>                
+            </con:TabItem>
+
+            <con:TabItem Header="Tab 4">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 4 Empty"/>
+            </con:TabItem>
+
+            <con:TabItem Header="Tab 5">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 5 Empty"/>
+            </con:TabItem>
+
+            <con:TabItem Header="Tab 6">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 6 Empty"/>
+            </con:TabItem>
+
+            <con:TabItem Header="Tab 7">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 7 Empty"/>
+            </con:TabItem>
+
+        </con:TabControl>
+        
+        <TabControl
+            Grid.Column="1" Grid.Row="1"
+            Margin="10,4"
+            Background="LightYellow"
+            BorderThickness="1"
+            BorderBrush="Tomato">
+            
+            <TabItem Header="Tab 1">
+                <FlowDocumentScrollViewer>
+                    <FlowDocument>
+                        <Paragraph>
+                            This is a
+                            <Bold>System.Windows.Controls.TabControl</Bold> .
+                        </Paragraph>
+                        <List>
+                            <ListItem>
+                                <Paragraph>
+                                    Drag and drop is not supported.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    Content is unloaded when a tab becomes inactive. The state of controls
+                                    within the tab (such as the selected item in a list box) is lost, unless
+                                    explicity saved via binding or some other mechanism.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    You can set the height of each tab item (either individually or by using a style resource),
+                                    but it adversely affects the rendering.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    By default, tabs have their own border size and brush. You can change the brush via styling,
+                                    but the border size is not affected. If you set the top border thickness of the 
+                                    <Bold>TabControl</Bold> itself to a value other than one, it adversely affects the rendering.
+                                </Paragraph>
+                            </ListItem>
+                        </List>
+                        
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
+            </TabItem>
+            
+            <TabItem Header="Tab 2">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 2 Empty"/>
+            </TabItem>
+
+            <TabItem Header="Tab 3">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 3 Empty"/>
+            </TabItem>
+
+            <TabItem Header="Tab 4">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 4 Empty"/>
+            </TabItem>
+
+            <TabItem Header="Tab 5">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 5 Empty"/>
+            </TabItem>
+            
+            <TabItem Header="Tab 6">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 6 Empty"/>
+            </TabItem>
+            
+            <TabItem Header="Tab 7">
+                <TextBlock Style="{StaticResource TextBlockExplain}" Text="Tab 7 Empty"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
