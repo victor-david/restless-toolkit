@@ -41,25 +41,28 @@
         </Style>
 
         <DataTemplate DataType="{x:Type l:WelcomeViewModel}">
-            <l:WelcomeView />
+            <l:WelcomeView/>
         </DataTemplate>
         
         <DataTemplate DataType="{x:Type l:MvvmViewModel}">
-            <l:MvvmView />
+            <l:MvvmView/>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type l:TabControlsViewModel}">
-            <l:TabControlsView />
+            <l:TabControlsView/>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type l:DemoViewModel}">
-            <l:DemoView />
+            <l:DemoView/>
         </DataTemplate>
-
+        
+        <DataTemplate DataType="{x:Type l:OtherViewModel}">
+            <l:OtherView/>
+        </DataTemplate>
+        
         <DataTemplate x:Key="TabItemTemplate">
             <ContentPresenter Content="{Binding DisplayName}"/>
         </DataTemplate>
-
 
     </Application.Resources>
 </Application>

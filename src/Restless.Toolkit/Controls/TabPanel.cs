@@ -15,7 +15,7 @@ namespace Restless.Toolkit.Controls
         {
             SetZIndex(this, 1);
             VerticalAlignment = VerticalAlignment.Bottom;
-            HorizontalAlignment = HorizontalAlignment.Stretch;
+            HorizontalAlignment = HorizontalAlignment.Left;
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -28,45 +28,62 @@ namespace Restless.Toolkit.Controls
         protected override Size MeasureOverride(Size constraint)
         {
             Size contentSize = new Size(0, parent.TabHeight + parent.TabHeightIncrease);
-            int childIdx = 0;
-            foreach (TabItem child in InternalChildren.OfType<TabItem>().Where((item) => item.Visibility != Visibility.Collapsed))
-            {
-                child.IsLeftmost = childIdx == 0;
-                child.Measure(constraint);
+            int hideIdxThreshold = 0;
 
-                if (child.DesiredSize.Width + contentSize.Width < constraint.Width)
-                {
-                    child.Visibility = Visibility.Visible;
-                    contentSize.Width += child.DesiredSize.Width;
-                }
-                else
-                {
-                    child.Visibility = Visibility.Hidden;
-                }
-                childIdx++;
-            }
+            MeasureResult result;
+
+            do
+            {
+                result = PerformMeasure(constraint, hideIdxThreshold++);
+            } while (result.IsSelectedHidden || hideIdxThreshold == InternalChildren.Count - 1);
+
+            contentSize.Width = result.TotalWidth;
 
             return contentSize;
         }
 
+        private MeasureResult PerformMeasure(Size constraint, int autoHideIdxThreshold)
+        {
+            int childIdx = 0;
+            double totalWidth = 0.0;
+            bool isSelectedHidden = false;
+
+            foreach (TabItem child in InternalChildren.OfType<TabItem>().Where((item) => item.IsVisible))
+            {
+                child.Measure(constraint);
+                child.IsItemVisible = childIdx >= autoHideIdxThreshold && totalWidth + child.DesiredSize.Width <= constraint.Width;
+
+                if (child.IsItemVisible)
+                {
+                    totalWidth += child.DesiredSize.Width;
+                }
+
+                if (child.IsSelected)
+                {
+                    isSelectedHidden = !child.IsItemVisible;
+                }
+                childIdx++;
+            }
+            return new MeasureResult(totalWidth, isSelectedHidden);
+        }
+
+
         protected override Size ArrangeOverride(Size finalSize)
         {
-            Vector childOffset = new Vector();
+            double xOffset = 0.0;
             double border = parent.BorderThickness.Left;
             double rowHeight = parent.TabHeight + parent.TabHeightIncrease;
-            int childIdx = 0;
-            foreach (TabItem child in InternalChildren.OfType<TabItem>().Where((item) => item.Visibility == Visibility.Visible))
+
+            foreach (TabItem child in InternalChildren.OfType<TabItem>().Where((item) => item.IsVisible))
             {
-                double leftOffset = child.IsSelected && !child.IsLeftmost ? border : 0.0;
-                double rightOffset = child.IsSelected ? border : 0.0;
-                double totalWidth = child.DesiredSize.Width + leftOffset + rightOffset;
                 double yOffset = child.IsSelected ? 0.0 : parent.TabHeightIncrease;
                 double totalHeight = child.IsSelected ? rowHeight + border : rowHeight - yOffset;
+                double renderWidth = child.IsItemVisible ? child.DesiredSize.Width : 0.0;
 
-                Rect rect = new Rect(childOffset.X - leftOffset, childOffset.Y + yOffset, totalWidth, totalHeight);
+                Rect rect = new Rect(xOffset, yOffset, renderWidth, totalHeight);
                 child.Arrange(rect);
-                childOffset.X += child.DesiredSize.Width;
-                childIdx++;
+
+                xOffset += Math.Max(renderWidth - border, 0.0);
             }
 
             return finalSize;
@@ -80,5 +97,18 @@ namespace Restless.Toolkit.Controls
         {
             return null;
         }
+
+        #region Private helper class
+        private class MeasureResult
+        {
+            public double TotalWidth { get; }
+            public bool IsSelectedHidden { get; }
+            public MeasureResult(double totalWidth, bool isSelectedHidden)
+            {
+                TotalWidth = totalWidth;
+                IsSelectedHidden = isSelectedHidden;
+            }
+        }
+        #endregion
     }
 }

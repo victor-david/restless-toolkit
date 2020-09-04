@@ -21,18 +21,30 @@ namespace Restless.Toolkit.Controls
         {
             Panel.SetZIndex(this, 1);
             VerticalAlignment = VerticalAlignment.Bottom;
+            HorizontalAlignment = HorizontalAlignment.Stretch;
         }
 
         static TabItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TabItem), new FrameworkPropertyMetadata(typeof(TabItem)));
+            HorizontalAlignmentProperty.OverrideMetadata(typeof(TabItem), new FrameworkPropertyMetadata()
+            {
+                DefaultValue = HorizontalAlignment.Stretch,
+                CoerceValueCallback = OnCoerceHorizontalAlignment
+            });
+
+            VerticalAlignmentProperty.OverrideMetadata(typeof(TabItem), new FrameworkPropertyMetadata()
+            {
+                DefaultValue = VerticalAlignment.Bottom,
+                CoerceValueCallback = OnCoerceVerticalAlignment,
+            });
         }
         #endregion
 
         /************************************************************************/
 
         #region Properties
-        internal bool IsLeftmost { get;  set; }
+        internal bool IsItemVisible { get; set; }
         #endregion
 
         /************************************************************************/
@@ -99,6 +111,20 @@ namespace Restless.Toolkit.Controls
             double value = parent.BorderThickness.Left;
             BorderThickness = new Thickness(value, value, value, 0);
             BorderBrush = parent.BorderBrush;
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region Private methods
+        private static object OnCoerceHorizontalAlignment(DependencyObject d, object baseValue)
+        {
+            return HorizontalAlignment.Stretch;
+        }
+
+        private static object OnCoerceVerticalAlignment(DependencyObject d, object baseValue)
+        {
+            return VerticalAlignment.Bottom;
         }
         #endregion
     }

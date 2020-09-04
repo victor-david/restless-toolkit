@@ -63,6 +63,7 @@ namespace Restless.App.Toolkit
             Create<MvvmViewModel>();
             Create<TabControlsViewModel>();
             Create<DemoViewModel>();
+            Create<OtherViewModel>();
             SetActivePage(Pages[0]);
         }
 
