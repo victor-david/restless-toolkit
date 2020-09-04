@@ -2,6 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <OutputType>Library</OutputType>
+    <PackageId>Restless.Toolkit.Core</PackageId>
+    <AssemblyName>Restless.Toolkit.Core</AssemblyName>
+    <RootNamespace>Restless.Toolkit.Core</RootNamespace>
+    <Description>Provides core services such as sqlite and utilities.</Description>
+    <PackageProjectUrl>https://github.com/victor-david/restless-toolkit</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/victor-david/restless-toolkit</RepositoryUrl>
+    <Authors>Restless Animal Development</Authors>
+    <Company>Restless Animal Development</Company>
+    <Version>2.5.1</Version>
+    <Product>Restless Toolkit (Core)</Product>
+    <Title>Restless Toolkit (Core)</Title>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <Copyright>Copyright © 2020</Copyright>
+    <PackageTags>wpf sqlite utility</PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
