@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restless.App.Toolkit", "Restless.App.Toolkit\Restless.App.Toolkit.csproj", "{4E9485D6-9DAF-427E-98A2-A49C4593258F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restless.Toolkit", "Restless.Toolkit\Restless.Toolkit.csproj", "{8FED2EF9-12CA-4888-B9EE-A7EF09B72EEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restless.Toolkit", "Restless.Toolkit\Restless.Toolkit.csproj", "{8FED2EF9-12CA-4888-B9EE-A7EF09B72EEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restless.Toolkit.Core", "Restless.Toolkit.Core\Restless.Toolkit.Core.csproj", "{C1A54EB9-E994-4832-AA6B-5FD5EBDA7F70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8FED2EF9-12CA-4888-B9EE-A7EF09B72EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FED2EF9-12CA-4888-B9EE-A7EF09B72EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FED2EF9-12CA-4888-B9EE-A7EF09B72EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1A54EB9-E994-4832-AA6B-5FD5EBDA7F70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1A54EB9-E994-4832-AA6B-5FD5EBDA7F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1A54EB9-E994-4832-AA6B-5FD5EBDA7F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1A54EB9-E994-4832-AA6B-5FD5EBDA7F70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 
-namespace Restless.Toolkit.Database.SQLite
+namespace Restless.Toolkit.Core.Database.SQLite
 {
     /// <summary>
     /// Provides transaction services that include fallback for affected <see cref="DataRow"/> objects

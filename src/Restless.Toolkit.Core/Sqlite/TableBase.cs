@@ -1,4 +1,4 @@
-﻿using Restless.Toolkit.Resources;
+﻿using Restless.Toolkit.Core.Resources;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,7 +6,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 
-namespace Restless.Toolkit.Database.SQLite
+namespace Restless.Toolkit.Core.Database.SQLite
 {
     /// <summary>
     /// Represents the base class for a data table

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Restless.Toolkit.Database.SQLite
+namespace Restless.Toolkit.Core.Database.SQLite
 {
     /// <summary>
     /// Represents a collection of <see cref="ColumnDefinition"/> objects.

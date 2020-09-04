@@ -1,8 +1,8 @@
-﻿using Restless.Toolkit.Resources;
+﻿using Restless.Toolkit.Core.Resources;
 using System;
 using System.Data;
 
-namespace Restless.Toolkit.Database.SQLite
+namespace Restless.Toolkit.Core.Database.SQLite
 {
     /// <summary>
     /// Represents an object that encapsulate a single row. This class must be inherited.

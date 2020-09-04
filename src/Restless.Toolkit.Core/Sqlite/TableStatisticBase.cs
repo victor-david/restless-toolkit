@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Restless.Toolkit.Database.SQLite
+namespace Restless.Toolkit.Core.Database.SQLite
 {
     /// <summary>
     /// Represents the base class for table statistics. This class provides basic statistics;

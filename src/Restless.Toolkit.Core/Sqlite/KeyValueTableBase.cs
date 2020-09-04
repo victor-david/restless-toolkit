@@ -3,7 +3,7 @@ using System.Data;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Restless.Toolkit.Database.SQLite
+namespace Restless.Toolkit.Core.Database.SQLite
 {
     /// <summary>
     /// Provides base methods for managing an application table that uses 

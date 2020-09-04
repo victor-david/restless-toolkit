@@ -1,4 +1,4 @@
-﻿namespace Restless.Toolkit.Database.SQLite
+﻿namespace Restless.Toolkit.Core.Database.SQLite
 {
     /// <summary>
     /// Provides an enumeration of column types for a <see cref="ColumnDefinition"/>.

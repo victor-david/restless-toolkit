@@ -1,10 +1,10 @@
-﻿using Restless.Toolkit.Resources;
+﻿using Restless.Toolkit.Core.Resources;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace Restless.Toolkit.Database.SQLite
+namespace Restless.Toolkit.Core.Database.SQLite
 {
     /// <summary>
     /// Represents a data column that gets updated via a callback action.

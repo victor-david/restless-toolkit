@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace Restless.Toolkit.Database.SQLite
+namespace Restless.Toolkit.Core.Database.SQLite
 {
     /// <summary>
     /// Defines keys that are used to set <see cref="DataColumn.ExtendedProperties"/>.

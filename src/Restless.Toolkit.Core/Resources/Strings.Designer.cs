@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Restless.Toolkit.Resources {
+namespace Restless.Toolkit.Core.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Restless.Toolkit.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Restless.Toolkit.Resources.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Restless.Toolkit.Core.Resources.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,60 @@ namespace Restless.Toolkit.Resources {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specifed column does not belong to the specified table.
+        /// </summary>
+        internal static string InvalidOperationColumnDoesNotBelongToTable {
+            get {
+                return ResourceManager.GetString("InvalidOperationColumnDoesNotBelongToTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The data row does not belong to the table type that owns this object..
+        /// </summary>
+        internal static string InvalidOperationDataRowTableMismatch {
+            get {
+                return ResourceManager.GetString("InvalidOperationDataRowTableMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified data table has not been registered.
+        /// </summary>
+        internal static string InvalidOperationDataTableNotRegistered {
+            get {
+                return ResourceManager.GetString("InvalidOperationDataTableNotRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The table returned an empty string for ddl creation.
+        /// </summary>
+        internal static string InvalidOperationEmptyDdl {
+            get {
+                return ResourceManager.GetString("InvalidOperationEmptyDdl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table is read only.
+        /// </summary>
+        internal static string InvalidOperationTableIsReadOnly {
+            get {
+                return ResourceManager.GetString("InvalidOperationTableIsReadOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This method is not implemented.
+        /// </summary>
+        internal static string MethodNotImplemented {
+            get {
+                return ResourceManager.GetString("MethodNotImplemented", resourceCulture);
             }
         }
     }

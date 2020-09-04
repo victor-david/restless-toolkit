@@ -1,4 +1,4 @@
-﻿namespace Restless.Toolkit.Database.SQLite
+﻿namespace Restless.Toolkit.Core.Database.SQLite
 {
     /// <summary>
     /// Represents a table that does not exist in the database on disk.
