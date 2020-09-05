@@ -6,91 +6,62 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
-        <!--<TextBlock Style="{StaticResource TextBlockExplain}">
-            Welcome to <Bold>Restless Toolkit</Bold>.
-        </TextBlock>
-        <TextBlock Style="{StaticResource TextBlockExplain}">
-            This control is a <Bold>Restless.Toolkit.TabControl</Bold>. It's using a bound
-            collection of view models for its ItemSource. You can rearrange the tabs using drag and drop.
-        </TextBlock>-->
 
-
-
-        <FlowDocumentScrollViewer>
-            <FlowDocument>
-                <Paragraph>
-                    Welcome to
-                    <Bold>Restless.Toolkit</Bold>.
-                    This is a
-                    <Bold>Restless.Toolkit.Controls.TabControl</Bold>.
-                    There are several differences between this control and the Wpf TabControl.
-                </Paragraph>
-                <List>
-                    <ListItem>
-                        <Paragraph>
-                            You can use drag and drop to reorder the tabs.
-                        </Paragraph>
-                    </ListItem>
-                    <ListItem>
-                        <Paragraph>
-                            You can choose whether or not tab content is unloaded when a tab becomes inactive.
-                            The default is that content is unloaded, but you can set the
-                            <Bold>KeepContentOnTabSwitch</Bold>
-                            property to prevent this. See the
-                            <Hyperlink Command="{Binding DisplayUnloadTabCommand}">Unload / keep tab</Hyperlink>
-                            for more information.
-                        </Paragraph>
-                    </ListItem>
-                    <ListItem>
-                        <Paragraph>
-                            You can specify the tab height and minimum tab width by setting these values on the
-                            <Bold>TabControl</Bold>.
-                            This is most useful when the tabs aren't defined in XAML, but are instead bound to a collection.
-                        </Paragraph>
-                    </ListItem>
-                    <ListItem>
-                        <Paragraph>
-                            You can set how much a selected tab rises above the rest.
-                        </Paragraph>
-                    </ListItem>
-                    <ListItem>
-                        <Paragraph>
-                            The border brush that you set for the
-                            <Bold>TabControl</Bold>
-                            also affects the tabs. The background that you set for the TabControl
-                            flows into the selected tab.
-                        </Paragraph>
-                    </ListItem>
-                    <ListItem>
-                        <Paragraph>
-                            You can set the border thickness of the
-                            <Bold>TabControl</Bold>
-                            and it automatically affects the thickness of the border around the tabs.
-                            Border thickness is constrained, however, and can only be set to one or two,
-                            and is always uniform.
-                            <Hyperlink Command="{Binding ToggleBorderThicknessCommand}">Click here to change thickness</Hyperlink> .
-                        </Paragraph>
-                    </ListItem>
-                </List>
-            </FlowDocument>
-        </FlowDocumentScrollViewer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </StackPanel>
-    
-    
+    <FlowDocumentScrollViewer>
+        <FlowDocument>
+            <Paragraph>
+                Welcome. This is a
+                <Bold>Restless.Toolkit.Controls.TabControl</Bold>.
+                There are several differences between this control and the Wpf TabControl.
+            </Paragraph>
+            <List>
+                <ListItem>
+                    <Paragraph>
+                        You can use drag and drop to reorder the tabs.
+                    </Paragraph>
+                </ListItem>
+                <ListItem>
+                    <Paragraph>
+                        You can choose whether or not tab content is unloaded when a tab becomes inactive.
+                        The default is that content is unloaded, but you can set the
+                        <Bold>KeepContentOnTabSwitch</Bold>
+                        property to prevent this. See the
+                        <Hyperlink Command="{Binding DisplayUnloadTabCommand}">Unload / keep tab</Hyperlink>
+                        for more information.
+                    </Paragraph>
+                </ListItem>
+                <ListItem>
+                    <Paragraph>
+                        You can specify the tab height and minimum tab width by setting these values on the
+                        <Bold>TabControl</Bold>.
+                        This is most useful when the tabs aren't defined in XAML, but are instead bound to a collection.
+                    </Paragraph>
+                </ListItem>
+                <ListItem>
+                    <Paragraph>
+                        You can set how much a selected tab rises above the rest.
+                    </Paragraph>
+                </ListItem>
+                <ListItem>
+                    <Paragraph>
+                        The border brush that you set for the
+                        <Bold>TabControl</Bold>
+                        also affects the tabs. The background that you set for the TabControl
+                        flows into the selected tab.
+                    </Paragraph>
+                </ListItem>
+                <ListItem>
+                    <Paragraph>
+                        You can set the border thickness of the
+                        <Bold>TabControl</Bold>
+                        and it automatically affects the thickness of the border around the tabs.
+                        Border thickness is constrained, however, and can only be set to one or two,
+                        and is always uniform.
+                        <Hyperlink Command="{Binding ToggleBorderThicknessCommand}">Click here to change thickness</Hyperlink> .
+                    </Paragraph>
+                </ListItem>
+            </List>
+        </FlowDocument>
+    </FlowDocumentScrollViewer>
     
 </UserControl>
