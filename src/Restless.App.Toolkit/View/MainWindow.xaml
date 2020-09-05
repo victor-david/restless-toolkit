@@ -6,10 +6,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:core="clr-namespace:Restless.Toolkit.Core;assembly=Restless.Toolkit"
     xmlns:con="clr-namespace:Restless.Toolkit.Controls;assembly=Restless.Toolkit"
-    
     mc:Ignorable="d"
     Title="{Binding DisplayName}" 
     PathIcon="{StaticResource PathAppIcon}"
+    Topmost="True"
+    MinWidth="154" MinHeight="260"
     Height="760" Width="1180">
 
     <con:AppWindow.Menu>

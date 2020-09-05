@@ -29,13 +29,13 @@
             </TextBlock>
             
             <TextBlock Style="{StaticResource TextBlockExplain}">
-                If <Bold>KeepContentOnTabSwitch</Bold> is false, you can select a name in the list, and switch tabs;
+                If <Bold>KeepContentOnTabSwitch</Bold> is <Italic>false</Italic> (the default), you can select a name in the list, and switch tabs;
                 when you return to this tab, the name is no longer selected.
             </TextBlock>
 
             <TextBlock Style="{StaticResource TextBlockExplain}">
                 To toggle <Bold>KeepContentOnTabSwitch</Bold>, use menu <Bold>Tabs / Keep content on tab switch</Bold>.
-                The current value is: <Run Style="{StaticResource RunHigh}" Text="{Binding Source={x:Static local:MainWindowViewModel.Instance}, Path=KeepContentOnTabSwitch}"/>
+                The current value is: <Italic><Run Foreground="Red" Text="{Binding Source={x:Static local:MainWindowViewModel.Instance}, Path=KeepContentOnTabSwitch}"/></Italic>.
             </TextBlock>
         </StackPanel>
 

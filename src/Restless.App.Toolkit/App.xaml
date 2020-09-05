@@ -35,11 +35,6 @@
             <Setter Property="FontSize" Value="16"/>
         </Style>
 
-        <Style TargetType="Run" x:Key="RunHigh">
-            <Setter Property="Foreground" Value="Blue"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-
         <DataTemplate DataType="{x:Type l:WelcomeViewModel}">
             <l:WelcomeView/>
         </DataTemplate>
