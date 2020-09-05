@@ -704,7 +704,7 @@ namespace Restless.Toolkit.Controls
             if (baseValue is Thickness value)
             {
                 double largest = Math.Max(Math.Max(Math.Max(value.Left, value.Right), value.Top), value.Bottom);
-                return new Thickness(Math.Min(largest, 2.0));
+                return new Thickness(Math.Max(Math.Min(largest, 2.0), 1.0));
             }
             return new Thickness(1);
         }
