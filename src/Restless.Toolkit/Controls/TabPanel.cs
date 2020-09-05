@@ -31,11 +31,11 @@ namespace Restless.Toolkit.Controls
             int hideIdxThreshold = 0;
 
             MeasureResult result;
-
             do
             {
                 result = PerformMeasure(constraint, hideIdxThreshold++);
-            } while (result.IsSelectedHidden || hideIdxThreshold == InternalChildren.Count - 1);
+
+            } while (result.IsSelectedHidden && result.TotalWidth > 0.0);
 
             contentSize.Width = result.TotalWidth;
 
@@ -107,6 +107,11 @@ namespace Restless.Toolkit.Controls
             {
                 TotalWidth = totalWidth;
                 IsSelectedHidden = isSelectedHidden;
+            }
+
+            public override string ToString()
+            {
+                return $"TotalWitdh: {TotalWidth} IsSelectedHidden: {IsSelectedHidden}";
             }
         }
         #endregion
