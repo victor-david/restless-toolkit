@@ -671,11 +671,14 @@ namespace Restless.Toolkit.Controls
 
         private void ActivateBorderChange()
         {
-            foreach (var item in tabPanel.Children.OfType<TabItem>())
+            if (tabPanel != null)
             {
-                item.SyncToParentBorder(this);
+                foreach (var item in tabPanel.Children.OfType<TabItem>())
+                {
+                    item.SyncToParentBorder(this);
+                }
+                tabPanel.InvalidateMeasure();
             }
-            tabPanel.InvalidateMeasure();
         }
 
         private void ButtonTabListClick(object sender, RoutedEventArgs e)
