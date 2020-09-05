@@ -59,5 +59,32 @@ namespace Restless.Toolkit.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        internal static string CaptionConfirm {
+            get {
+                return ResourceManager.GetString("CaptionConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information.
+        /// </summary>
+        internal static string CaptionInformation {
+            get {
+                return ResourceManager.GetString("CaptionInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operation Not Available.
+        /// </summary>
+        internal static string CaptionOperationNotAvailable {
+            get {
+                return ResourceManager.GetString("CaptionOperationNotAvailable", resourceCulture);
+            }
+        }
     }
 }
