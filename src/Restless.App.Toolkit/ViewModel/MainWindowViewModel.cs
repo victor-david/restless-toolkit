@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -11,6 +12,7 @@ namespace Restless.App.Toolkit
     {
         #region Private
         private bool keepContentOnTabSwitch;
+        private Thickness tabBorderThickness;
         #endregion
 
         /************************************************************************/
@@ -27,9 +29,10 @@ namespace Restless.App.Toolkit
             Pages = new ObservableCollection<ViewModelBase>();
             Commands.Add("DisplayWelcome", RelayCommand.Create((p) => Create<WelcomeViewModel>()));
             Commands.Add("DisplayMvvm", RelayCommand.Create((p) => Create<MvvmViewModel>()));
-            Commands.Add("DisplayTabControls", RelayCommand.Create((p) => Create<TabControlsViewModel>()));
             Commands.Add("ToggleKeepContentOnTabSwitch", RelayCommand.Create((p) => KeepContentOnTabSwitch = !KeepContentOnTabSwitch));
             DisplayUnloadTabCommand = RelayCommand.Create((p) => Create<DemoViewModel>());
+            ToggleBorderThicknessCommand = RelayCommand.Create(RunToggleBorderThicknessCommand);
+            TabBorderThickness = new Thickness(1.0);
             InitializePages();
         }
         #endregion
@@ -52,6 +55,17 @@ namespace Restless.App.Toolkit
         {
             get;
         }
+
+        public ICommand ToggleBorderThicknessCommand
+        {
+            get;
+        }
+
+        public Thickness TabBorderThickness
+        {
+            get => tabBorderThickness;
+            private set => SetProperty(ref tabBorderThickness, value);
+        }
         #endregion
 
         /************************************************************************/
@@ -61,7 +75,6 @@ namespace Restless.App.Toolkit
         {
             Create<WelcomeViewModel>();
             Create<MvvmViewModel>();
-            Create<TabControlsViewModel>();
             Create<DemoViewModel>();
             Create<OtherViewModel>();
             SetActivePage(Pages[0]);
@@ -95,6 +108,18 @@ namespace Restless.App.Toolkit
             if (collectionView != null)
             {
                 collectionView.MoveCurrentTo(page);
+            }
+        }
+
+        private void RunToggleBorderThicknessCommand(object parm)
+        {
+            if (TabBorderThickness.Left == 1.0)
+            {
+                TabBorderThickness = new Thickness(2.0);
+            }
+            else
+            {
+                TabBorderThickness = new Thickness(1.0);
             }
         }
         #endregion

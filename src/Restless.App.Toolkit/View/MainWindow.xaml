@@ -38,6 +38,8 @@
         TabHeight="40"
         MinTabWidth="100"
         AllowTabReorder="True"
+        BorderBrush="IndianRed"
+        BorderThickness="{Binding TabBorderThickness}"
         KeepContentOnTabSwitch="{Binding KeepContentOnTabSwitch}"
         ItemsSource="{Binding Pages}"
         DisplayMemberPath="DisplayName"/>
