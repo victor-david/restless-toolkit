@@ -191,6 +191,35 @@ namespace Restless.Toolkit.Core
 
         /************************************************************************/
 
+        #region IsInverseEnabled
+        private const string IsInverseEnabledPropertyName = "IsInverseEnabled";
+
+        public static readonly DependencyProperty IsInverseEnabledProperty = DependencyProperty.RegisterAttached
+            (
+                IsInverseEnabledPropertyName, typeof(bool), typeof(Property), new PropertyMetadata(false, OnIsInverseEnabledChanged)
+            );
+
+        private static void OnIsInverseEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FrameworkElement element)
+            {
+                element.IsEnabled = (bool)e.NewValue == false;
+            }
+        }
+
+        public static void SetIsInverseEnabled(DependencyObject element, bool value)
+        {
+            element.SetValue(IsInverseEnabledProperty, value);
+        }
+
+        public static bool GetIsInverseEnabled(DependencyObject element)
+        {
+            return (bool)element.GetValue(IsInverseEnabledProperty);
+        }
+        #endregion
+
+        /************************************************************************/
+
         #region RolloverBrush
         private const string RolloverBrushPropertyName = "RolloverBrush";
 
