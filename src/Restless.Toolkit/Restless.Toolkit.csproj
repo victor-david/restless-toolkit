@@ -6,7 +6,7 @@
     <PackageId>Restless.Toolkit</PackageId>
     <AssemblyName>Restless.Toolkit</AssemblyName>
     <RootNamespace>Restless.Toolkit</RootNamespace>
-    <Description>Provides mvm base and various custom controls.</Description>
+    <Description>Provides simple mvm base classes and various custom controls for use in WPF applications.</Description>
     <PackageProjectUrl>https://github.com/victor-david/restless-toolkit</PackageProjectUrl>
     <RepositoryUrl>https://github.com/victor-david/restless-toolkit</RepositoryUrl>
     <Authors>Restless Animal Development</Authors>

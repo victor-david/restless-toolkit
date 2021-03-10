@@ -6,7 +6,7 @@
     <PackageId>Restless.Toolkit.Core</PackageId>
     <AssemblyName>Restless.Toolkit.Core</AssemblyName>
     <RootNamespace>Restless.Toolkit.Core</RootNamespace>
-    <Description>Provides core services such as sqlite and utilities.</Description>
+    <Description>Provides core services for use in a WPF application such as base classes for sqlite database, and various utilities.</Description>
     <PackageProjectUrl>https://github.com/victor-david/restless-toolkit</PackageProjectUrl>
     <RepositoryUrl>https://github.com/victor-david/restless-toolkit</RepositoryUrl>
     <Authors>Restless Animal Development</Authors>
