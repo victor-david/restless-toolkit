@@ -15,7 +15,7 @@
     <Product>Restless Toolkit (Core)</Product>
     <Title>Restless Toolkit (Core)</Title>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <Copyright>Copyright © 2020</Copyright>
+    <Copyright>Copyright © 2021</Copyright>
     <PackageTags>wpf sqlite utility</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>

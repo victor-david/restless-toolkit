@@ -15,7 +15,7 @@
     <Product>Restless Toolkit</Product>
     <Title>Restless.Toolkit</Title>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <Copyright>Copyright © 2020</Copyright>
+    <Copyright>Copyright © 2021</Copyright>
     <PackageTags>wpf controls wpf-controls mvvm</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
