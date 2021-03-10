@@ -8,8 +8,13 @@ controls, improved ones, while removing obsolete functionality, and combining ot
 There are three projects:
 
 * **Restless.Toolkit** - This .dll project contains custom controls, MVVM base classes, and other helper classes used
-for presentation. Its target frameworks are **netcoreapp3.1** and **net461**.
-
+for presentation. Its target frameworks are **netcoreapp3.1** and **net461**. Custom controls in this package include:
+  * AppWindow - An application window with custom title bar, borders and icons, and the ability to have the the application's main menu inside the title bar.
+  * TabControl - A custom tab control that supports re-ordering tabs via drag and drop, ability to set tab height and a consistent width,
+and the ability to maintain the status of tabs during tab switch.
+  * DataGrid - A custom data grid control that enables more complex sorting and other features.
+  * More...
+ 
 * **Restless.Toolkit.Core** - This .dll project contains classes that aren't part of presentation, such as base classes
 for Sqlite databases. Its target framework is **netstandard2.1**.
 
