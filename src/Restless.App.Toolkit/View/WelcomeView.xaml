@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:toolkit="clr-namespace:Restless.App.Toolkit" d:DataContext="{d:DesignInstance Type=toolkit:WelcomeViewModel}"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800">
 
@@ -26,7 +27,7 @@
                         The default is that content is unloaded, but you can set the
                         <Bold>KeepContentOnTabSwitch</Bold>
                         property to prevent this. See the
-                        <Hyperlink Command="{Binding DisplayUnloadTabCommand}">Unload / keep tab</Hyperlink>
+                        <Hyperlink Command="{Binding Source={x:Static toolkit:MainWindowViewModel.Instance}, Path=DisplayUnloadTabCommand}">Unload / keep tab</Hyperlink>
                         for more information.
                     </Paragraph>
                 </ListItem>
@@ -57,7 +58,7 @@
                         and it automatically affects the thickness of the border around the tabs.
                         Border thickness is constrained, however, and can only be set to one or two,
                         and is always uniform.
-                        <Hyperlink Command="{Binding ToggleBorderThicknessCommand}">Click here to change thickness</Hyperlink> .
+                        <Hyperlink Command="{Binding Source={x:Static toolkit:MainWindowViewModel.Instance}, Path=ToggleBorderThicknessCommand}">Click here to change thickness</Hyperlink> .
                     </Paragraph>
                 </ListItem>
             </List>
