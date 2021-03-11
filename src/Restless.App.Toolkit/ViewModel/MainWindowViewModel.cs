@@ -11,6 +11,7 @@ namespace Restless.App.Toolkit
     public class MainWindowViewModel : ViewModelBase
     {
         #region Private
+        private bool allowTabReorder;
         private bool keepContentOnTabSwitch;
         private Thickness tabBorderThickness;
         #endregion
@@ -29,10 +30,12 @@ namespace Restless.App.Toolkit
             Pages = new ObservableCollection<ViewModelBase>();
             Commands.Add("DisplayWelcome", RelayCommand.Create((p) => Create<WelcomeViewModel>()));
             Commands.Add("DisplayMvvm", RelayCommand.Create((p) => Create<MvvmViewModel>()));
+            Commands.Add("ToggleAllowTabReorder", RelayCommand.Create((p) => AllowTabReorder = !AllowTabReorder));
             Commands.Add("ToggleKeepContentOnTabSwitch", RelayCommand.Create((p) => KeepContentOnTabSwitch = !KeepContentOnTabSwitch));
             DisplayUnloadTabCommand = RelayCommand.Create((p) => Create<DemoViewModel>());
             ToggleBorderThicknessCommand = RelayCommand.Create(RunToggleBorderThicknessCommand);
             TabBorderThickness = new Thickness(1.0);
+            AllowTabReorder = true;
             InitializePages();
         }
         #endregion
@@ -40,6 +43,12 @@ namespace Restless.App.Toolkit
         /************************************************************************/
 
         #region Properties
+        public bool AllowTabReorder
+        {
+            get => allowTabReorder;
+            set => SetProperty(ref allowTabReorder, value);
+        }
+
         public bool KeepContentOnTabSwitch
         {
             get => keepContentOnTabSwitch;

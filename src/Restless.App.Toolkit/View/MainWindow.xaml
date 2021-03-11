@@ -21,6 +21,7 @@
                 <MenuItem Header="Tab Controls" Command="{Binding Commands[DisplayTabControls]}"/>
                 <MenuItem Header="Unload / Keep" Command="{Binding DisplayUnloadTabCommand}"/>
                 <Separator/>
+                <MenuItem Header="Allow tabs to be reordered" IsChecked="{Binding AllowTabReorder}" Command="{Binding Commands[ToggleAllowTabReorder]}"/>
                 <MenuItem Header="Keep content on tab switch" IsChecked="{Binding KeepContentOnTabSwitch}" Command="{Binding Commands[ToggleKeepContentOnTabSwitch]}"/>
             </MenuItem>
             <MenuItem Header="View">
@@ -37,7 +38,7 @@
         Margin="10"
         TabHeight="40"
         MinTabWidth="100"
-        AllowTabReorder="True"
+        AllowTabReorder="{Binding AllowTabReorder}"
         BorderBrush="IndianRed"
         BorderThickness="{Binding TabBorderThickness}"
         KeepContentOnTabSwitch="{Binding KeepContentOnTabSwitch}"
