@@ -12,16 +12,29 @@ namespace Restless.Toolkit.Core
         #region RowHeights
         private const string RowHeightsPropertyName = "RowHeights";
 
+        /// <summary>
+        /// Gets the RowHeights attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
         public static string GetRowHeights(DependencyObject obj)
         {
             return (string)obj.GetValue(RowHeightsProperty);
         }
 
+        /// <summary>
+        /// Sets the RowHeights attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
         public static void SetRowHeights(DependencyObject obj, string value)
         {
             obj.SetValue(RowHeightsProperty, value);
         }
 
+        /// <summary>
+        /// Identifies the RowHeights attached dependency property.
+        /// </summary>
         public static readonly DependencyProperty RowHeightsProperty = DependencyProperty.RegisterAttached
             (
                 RowHeightsPropertyName, typeof(string), typeof(Property), new PropertyMetadata()
@@ -74,16 +87,29 @@ namespace Restless.Toolkit.Core
         #region ColumnWidths
         private const string ColumnWidthsPropertyName = "ColumnWidths";
 
+        /// <summary>
+        /// Gets the ColumnWidths attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
         public static string GetColumnWidths(DependencyObject obj)
         {
             return (string)obj.GetValue(ColumnWidthsProperty);
         }
 
+        /// <summary>
+        /// Sets the ColumnWidths attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
         public static void SetColumnWidths(DependencyObject obj, string value)
         {
             obj.SetValue(ColumnWidthsProperty, value);
         }
 
+        /// <summary>
+        /// Identifies the ColumnWidths attached dependency property.
+        /// </summary>
         public static readonly DependencyProperty ColumnWidthsProperty = DependencyProperty.RegisterAttached
             (
                 ColumnWidthsPropertyName, typeof(string), typeof(Property), new PropertyMetadata()
@@ -136,6 +162,29 @@ namespace Restless.Toolkit.Core
         #region IsVisible
         private const string IsVisiblePropertyName = "IsVisible";
 
+        /// <summary>
+        /// Gets the IsVisible attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
+        public static bool GetIsVisible(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsVisibleProperty);
+        }
+
+        /// <summary>
+        /// Sets the IsVisible attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
+        public static void SetIsVisible(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsVisibleProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the IsVisible attached dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.RegisterAttached
             (
                 IsVisiblePropertyName, typeof(bool), typeof(Property), new PropertyMetadata(true, OnIsVisibleChanged)
@@ -148,16 +197,6 @@ namespace Restless.Toolkit.Core
                 element.Visibility = ((bool)e.NewValue) == true ? Visibility.Visible : Visibility.Collapsed;
             }
         }
-
-        public static void SetIsVisible(DependencyObject element, bool value)
-        {
-            element.SetValue(IsVisibleProperty, value);
-        }
-
-        public static bool GetIsVisible(DependencyObject element)
-        {
-            return (bool)element.GetValue(IsVisibleProperty);
-        }
         #endregion
 
         /************************************************************************/
@@ -165,6 +204,29 @@ namespace Restless.Toolkit.Core
         #region IsCollapsed
         private const string IsCollapsedPropertyName = "IsCollapsed";
 
+        /// <summary>
+        /// Gets the IsCollapsed attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
+        public static bool GetIsCollapsed(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsCollapsedProperty);
+        }
+
+        /// <summary>
+        /// Sets the IsCollapsed attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
+        public static void SetIsCollapsed(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsCollapsedProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the IsCollapsed attached dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsCollapsedProperty = DependencyProperty.RegisterAttached
             (
                 IsCollapsedPropertyName, typeof(bool), typeof(Property), new PropertyMetadata(false, OnIsCollapsedChanged)
@@ -177,16 +239,6 @@ namespace Restless.Toolkit.Core
                 element.Visibility = ((bool)e.NewValue) == true ? Visibility.Collapsed : Visibility.Visible;
             }
         }
-
-        public static void SetIsCollapsed(DependencyObject element, bool value)
-        {
-            element.SetValue(IsCollapsedProperty, value);
-        }
-
-        public static bool GetIsCollapsed(DependencyObject element)
-        {
-            return (bool)element.GetValue(IsCollapsedProperty);
-        }
         #endregion
 
         /************************************************************************/
@@ -194,6 +246,29 @@ namespace Restless.Toolkit.Core
         #region IsInverseEnabled
         private const string IsInverseEnabledPropertyName = "IsInverseEnabled";
 
+        /// <summary>
+        /// Gets the IsInverseEnabled attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
+        public static bool GetIsInverseEnabled(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsInverseEnabledProperty);
+        }
+
+        /// <summary>
+        /// Sets the IsInverseEnabled attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
+        public static void SetIsInverseEnabled(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsInverseEnabledProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the IsInverseEnabled attached dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsInverseEnabledProperty = DependencyProperty.RegisterAttached
             (
                 IsInverseEnabledPropertyName, typeof(bool), typeof(Property), new PropertyMetadata(false, OnIsInverseEnabledChanged)
@@ -206,16 +281,6 @@ namespace Restless.Toolkit.Core
                 element.IsEnabled = (bool)e.NewValue == false;
             }
         }
-
-        public static void SetIsInverseEnabled(DependencyObject element, bool value)
-        {
-            element.SetValue(IsInverseEnabledProperty, value);
-        }
-
-        public static bool GetIsInverseEnabled(DependencyObject element)
-        {
-            return (bool)element.GetValue(IsInverseEnabledProperty);
-        }
         #endregion
 
         /************************************************************************/
@@ -223,20 +288,33 @@ namespace Restless.Toolkit.Core
         #region RolloverBrush
         private const string RolloverBrushPropertyName = "RolloverBrush";
 
+        /// <summary>
+        /// Gets the RolloverBrush attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
+        public static Brush GetRolloverBrush(DependencyObject obj)
+        {
+            return (Brush)obj.GetValue(RolloverBrushProperty);
+        }
+
+        /// <summary>
+        /// Sets the RolloverBrush attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
+        public static void SetRolloverBrush(DependencyObject obj, Brush value)
+        {
+            obj.SetValue(RolloverBrushProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the RolloverBrush attached dependency property.
+        /// </summary>
         public static readonly DependencyProperty RolloverBrushProperty = DependencyProperty.RegisterAttached
             (
                 RolloverBrushPropertyName, typeof(Brush), typeof(Property), new PropertyMetadata(Brushes.Transparent)
             );
-
-        public static void SetRolloverBrush(DependencyObject element, Brush value)
-        {
-            element.SetValue(RolloverBrushProperty, value);
-        }
-
-        public static Brush GetRolloverBrush(DependencyObject element)
-        {
-            return (Brush)element.GetValue(RolloverBrushProperty);
-        }
         #endregion
     }
 }

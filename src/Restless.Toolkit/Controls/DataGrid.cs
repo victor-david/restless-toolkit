@@ -306,7 +306,7 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         /// <remarks>
         /// <para>
-        /// If <see cref="RestlessDataGrid"/> is contained within an outer scroll viewer
+        /// If <see cref="DataGrid"/> is contained within an outer scroll viewer
         /// with other content to scroll as a unit, the mouse wheel has no effect when the mouse
         /// is within the list box. Set this property to true to allow mouse wheel movement
         /// within the list box to manage the outer scroll viewer.
@@ -427,7 +427,7 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
-        /// Occurs when the <see cref="RestlessDataGrid"/> is sorting, raises the Sorting event.
+        /// Occurs when the <see cref="DataGrid"/> is sorting, raises the Sorting event.
         /// </summary>
         /// <param name="e">The event arguments.</param>
         protected override void OnSorting(DataGridSortingEventArgs e)

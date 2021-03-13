@@ -7,10 +7,16 @@ using System.Windows.Media;
 
 namespace Restless.Toolkit.Controls
 {
+    /// <summary>
+    /// Represents the panel that holds the tab items.
+    /// </summary>
     public class TabPanel : Panel
     {
         private TabControl parent;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TabPanel"/> class.
+        /// </summary>
         public TabPanel()
         {
             SetZIndex(this, 1);
@@ -18,6 +24,8 @@ namespace Restless.Toolkit.Controls
             HorizontalAlignment = HorizontalAlignment.Left;
         }
 
+
+        /// <inheritdoc/>
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -25,6 +33,7 @@ namespace Restless.Toolkit.Controls
             if (parent == null) throw new ArgumentNullException(nameof(parent));
         }
 
+        /// <inheritdoc/>
         protected override Size MeasureOverride(Size constraint)
         {
             Size contentSize = new Size(0, parent.TabHeight + parent.TabHeightIncrease);
@@ -67,7 +76,7 @@ namespace Restless.Toolkit.Controls
             return new MeasureResult(totalWidth, isSelectedHidden);
         }
 
-
+        /// <inheritdoc/>
         protected override Size ArrangeOverride(Size finalSize)
         {
             double xOffset = 0.0;

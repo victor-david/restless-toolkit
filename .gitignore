@@ -5,3 +5,4 @@ obj/
 bin/
 help/
 *.csproj.user
+src/Restless.Toolkit/Restless.Toolkit.xml

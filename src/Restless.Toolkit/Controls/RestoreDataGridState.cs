@@ -3,7 +3,7 @@
 namespace Restless.Toolkit.Controls
 {
     /// <summary>
-    /// Provides an enumeration that may be applied to the <see cref="RestlessDataGrid.RestoreStateBehavior"/> property.
+    /// Provides an enumeration that may be applied to the <see cref="DataGrid.RestoreStateBehavior"/> property.
     /// </summary>
     [Flags]
     public enum RestoreDataGridState

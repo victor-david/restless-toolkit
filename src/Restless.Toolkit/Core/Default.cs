@@ -1,4 +1,5 @@
 ﻿using Restless.Toolkit.Controls;
+using System.Windows.Controls;
 
 namespace Restless.Toolkit.Core
 {
@@ -17,7 +18,7 @@ namespace Restless.Toolkit.Core
             /// <summary>
             /// Gets or sets the date format to use for both
             /// the <see cref="DataGridColumnExtensions.MakeDate(DataGridBoundColumn, string, int, bool)"/> extension
-            /// and the <see cref="RestlessPopupCalendar"/> control.
+            /// and the popup calendar control.
             /// </summary>
             public static string Date
             {
@@ -36,7 +37,7 @@ namespace Restless.Toolkit.Core
             public static string DataGridDate = "MMM dd, yyyy";
 
             /// <summary>
-            /// Gets or sets the format used for the <see cref="RestlessPopupCalendar"/> control.
+            /// Gets or sets the format used for the PopupCalendar control.
             /// </summary>
             public static string PopupCalendarDate = "MMM dd, yyyy";
         }

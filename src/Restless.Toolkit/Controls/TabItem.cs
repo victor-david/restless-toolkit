@@ -17,6 +17,9 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TabItem"/> class.
+        /// </summary>
         public TabItem()
         {
             Panel.SetZIndex(this, 1);

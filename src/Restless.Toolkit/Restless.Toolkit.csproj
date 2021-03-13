@@ -19,6 +19,9 @@
     <PackageTags>wpf controls wpf-controls mvvm</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>Restless.Toolkit.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Update="Resources\Strings.Designer.cs">
       <DesignTime>True</DesignTime>

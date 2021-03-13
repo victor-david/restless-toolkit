@@ -67,6 +67,9 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Public properties
+        /// <summary>
+        /// Gets the default tab height.
+        /// </summary>
         public const double DefaultTabHeight = 32.0;
 
         /// <summary>
@@ -353,17 +356,30 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Protected methods
-
+        /// <summary>
+        /// Gets a boolean value that indicates if the specified item is its own container.
+        /// </summary>
+        /// <param name="item">The item to check.</param>
+        /// <returns>true if <paramref name="item"/> is <see cref="TabItem"/>; otherwise, false.</returns>
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
             return item is TabItem;
         }
 
+        /// <summary>
+        /// Gets a container item.
+        /// </summary>
+        /// <returns>A new <see cref="TabItem"/>.</returns>
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new TabItem();
         }
 
+        /// <summary>
+        /// Prepares an item container
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <param name="item">The item.</param>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
@@ -385,27 +401,27 @@ namespace Restless.Toolkit.Controls
             }
         }
 
-        /// <summary>
-        /// Called when the selection on the control changes.
-        /// </summary>
-        /// <param name="e">The event arguments.</param>
+        /// <inheritdoc/>
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
             base.OnSelectionChanged(e);
             UpdateSelectedItem();
         }
 
+        /// <inheritdoc/>
         protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
         {
             base.OnItemsSourceChanged(oldValue, newValue);
             IsTabListAvailable = newValue != null;
         }
 
+        /// <inheritdoc/>
         protected override void OnItemBindingGroupChanged(BindingGroup oldItemBindingGroup, BindingGroup newItemBindingGroup)
         {
             base.OnItemBindingGroupChanged(oldItemBindingGroup, newItemBindingGroup);
         }
 
+        /// <inheritdoc/>
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
         {
             base.OnItemsChanged(e);

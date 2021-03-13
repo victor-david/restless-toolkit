@@ -71,7 +71,7 @@ namespace Restless.Toolkit.Mvvm
 
         #region Constructor
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandDictionaryBase"/> class.
+        /// Initializes a new instance of the <see cref="CommandDictionaryBase{T}"/> class.
         /// </summary>
         protected CommandDictionaryBase()
         {
@@ -153,41 +153,79 @@ namespace Restless.Toolkit.Mvvm
             storage.Clear();
         }
 
+        /// <summary>
+        /// Removes the item with the specified key from the dictionary.
+        /// </summary>
+        /// <param name="key">The key</param>
+        /// <returns>true if removed; otherwise, false.</returns>
         public bool Remove(T key)
         {
             return ((IDictionary<T, RelayCommand>)storage).Remove(key);
         }
 
+        /// <summary>
+        /// Attempts to retrieve the value with the specified key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value to set if found</param>
+        /// <returns>true if the value retrieved; otherwise, false.</returns>
         public bool TryGetValue(T key, out RelayCommand value)
         {
             return ((IDictionary<T, RelayCommand>)storage).TryGetValue(key, out value);
         }
 
+        /// <summary>
+        /// Adds the specified key/value pair to the dictionary.
+        /// </summary>
+        /// <param name="item">The key/value to add.</param>
         public void Add(KeyValuePair<T, RelayCommand> item)
         {
             ((ICollection<KeyValuePair<T, RelayCommand>>)storage).Add(item);
         }
 
+        /// <summary>
+        /// Gets a boolean value that indicates if the specified key/value pair exists in the dictionary.
+        /// </summary>
+        /// <param name="item">The key/value to check.</param>
+        /// <returns>true if the specified key/value exists; otherwise, false.</returns>
         public bool Contains(KeyValuePair<T, RelayCommand> item)
         {
             return ((ICollection<KeyValuePair<T, RelayCommand>>)storage).Contains(item);
         }
 
+        /// <summary>
+        /// Copies items from the dictionary to the specified array.
+        /// </summary>
+        /// <param name="array">The array.</param>
+        /// <param name="arrayIndex">The index into the array into which to copy.</param>
         public void CopyTo(KeyValuePair<T, RelayCommand>[] array, int arrayIndex)
         {
             ((ICollection<KeyValuePair<T, RelayCommand>>)storage).CopyTo(array, arrayIndex);
         }
 
+        /// <summary>
+        /// Removes the specified key/value pair from the disctionary.
+        /// </summary>
+        /// <param name="item">The key/value to remove.</param>
+        /// <returns>true if removed; otherwise, false.</returns>
         public bool Remove(KeyValuePair<T, RelayCommand> item)
         {
             return ((ICollection<KeyValuePair<T, RelayCommand>>)storage).Remove(item);
         }
 
+        /// <summary>
+        /// Gets the enumerator for this collection.
+        /// </summary>
+        /// <returns>The enumerator.</returns>
         public IEnumerator<KeyValuePair<T, RelayCommand>> GetEnumerator()
         {
             return ((IEnumerable<KeyValuePair<T, RelayCommand>>)storage).GetEnumerator();
         }
 
+        /// <summary>
+        /// Gets the enumerator for this collection.
+        /// </summary>
+        /// <returns>The enumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)storage).GetEnumerator();

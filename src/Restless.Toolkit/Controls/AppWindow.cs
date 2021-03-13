@@ -14,6 +14,9 @@ namespace Restless.Toolkit.Controls
     public class AppWindow : Window
     {
         #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppWindow"/> class.
+        /// </summary>
         public AppWindow()
         {
             MinimizeCommand = RelayCommand.Create((p) => WindowState = WindowState.Minimized);
