@@ -6,6 +6,7 @@
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/TabControl.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ImageButton.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ImageToggleButton.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/LineItem.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>

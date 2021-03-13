@@ -1,0 +1,53 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls">
+
+    <Style TargetType="con:LineItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="con:LineItem">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{TemplateBinding ItemGridWidth}"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <ContentPresenter 
+                            Content="{TemplateBinding Item}" 
+                            Margin="{TemplateBinding ItemMargin}"
+                            HorizontalAlignment="{TemplateBinding ItemHorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding ItemVerticalAlignment}"/>
+
+                        <ContentPresenter
+                            Grid.Column="1"
+                            Content="{TemplateBinding Value}"
+                            HorizontalAlignment="{TemplateBinding ValueHorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding ValueVerticalAlignment}"/>
+
+                        <!--<TextBlock
+                            Grid.Column="0"
+                            Margin="{Binding HeaderMarginInternal, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
+                            Foreground="{Binding HeaderForeground, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
+                            FontSize="{Binding HeaderFontSize, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
+                            VerticalAlignment="{Binding HeaderVerticalAlignment, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
+                            Text="{Binding Header, RelativeSource={RelativeSource AncestorType=con:LineItem}}"/>-->
+
+                        <!--<TextBlock
+                            Grid.Column="1"
+                            Foreground="{Binding ValueForeground, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
+                            FontSize="{Binding ValueFontSize, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
+                            VerticalAlignment="{Binding ValueVerticalAlignment, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
+                            TextWrapping="Wrap"
+                            Text="{Binding Value, RelativeSource={RelativeSource AncestorType=con:LineItem}}"/>-->
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
