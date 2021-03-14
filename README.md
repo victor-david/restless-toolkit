@@ -23,7 +23,7 @@ and the ability to maintain the status of tabs during tab switch.
 [![Nuget](https://img.shields.io/nuget/v/Restless.Toolkit.Core.svg?style=flat-square)](https://www.nuget.org/packages/Restless.Toolkit.Core/)
 
 This .dll project contains classes that aren't part of presentation, such as base classes
-for Sqlite databases. Its target framework is **netstandard2.1**.
+for Sqlite databases. Its target frameworks are **netstandard2.0** and **netstandard2.1**.
 
 ## Restless.App.Toolkit
 
