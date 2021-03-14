@@ -6,3 +6,4 @@ bin/
 help/
 *.csproj.user
 src/Restless.Toolkit/Restless.Toolkit.xml
+src/Restless.Toolkit.Core/Restless.Toolkit.Core.xml
