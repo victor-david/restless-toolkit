@@ -64,7 +64,7 @@ namespace Restless.Toolkit.Controls
 
         private static void OnDataGridColumnsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is DataGrid myGrid) 
+            if (d is System.Windows.Controls.DataGrid myGrid) 
             {
                 ObservableCollection<DataGridColumn> Columns = (ObservableCollection<DataGridColumn>)e.NewValue;
                 var prop = typeof(DataGridColumn).GetProperty("DataGridOwner", BindingFlags.Instance | BindingFlags.NonPublic);
