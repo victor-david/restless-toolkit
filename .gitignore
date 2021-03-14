@@ -5,6 +5,6 @@ obj/
 bin/
 help/
 *.csproj.user
-# Documentation files. Get generated on build and in the packages.
+# Documentation files. Get generated on build and are in the packages.
 src/Restless.Toolkit/Restless.Toolkit.xml
 src/Restless.Toolkit.Core/Restless.Toolkit.Core.xml
