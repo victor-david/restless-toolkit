@@ -61,6 +61,24 @@ namespace Restless.Toolkit.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file cannot be opened..
+        /// </summary>
+        internal static string InvalidOperationCannotOpenFile {
+            get {
+                return ResourceManager.GetString("InvalidOperationCannotOpenFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot open the specified web site.
+        /// </summary>
+        internal static string InvalidOperationCannotOpenWebSite {
+            get {
+                return ResourceManager.GetString("InvalidOperationCannotOpenWebSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The specifed column does not belong to the specified table.
         /// </summary>
         internal static string InvalidOperationColumnDoesNotBelongToTable {
