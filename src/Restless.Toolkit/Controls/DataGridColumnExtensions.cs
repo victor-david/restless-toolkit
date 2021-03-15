@@ -61,11 +61,18 @@ namespace Restless.Toolkit.Controls
         /// <param name="col">The column.</param>
         /// <param name="style">The style to set.</param>
         /// <returns>The column</returns>
-        public static DataGridBoundColumn AddCellStyle(this DataGridBoundColumn col, Style style)
+        public static DataGridColumn AddCellStyle(this DataGridColumn col, Style style)
         {
             if (style != null)
             {
-                col.ElementStyle = style;
+                if (col is DataGridBoundColumn boundCol)
+                {
+                    boundCol.ElementStyle = style;
+                }
+                else
+                {
+                    col.CellStyle = style;
+                }
             }
             return col;
         }
@@ -76,7 +83,7 @@ namespace Restless.Toolkit.Controls
         /// <param name="col">The column.</param>
         /// <param name="style">The style to set.</param>
         /// <returns>The column.</returns>
-        public static DataGridBoundColumn AddHeaderStyle(this DataGridBoundColumn col, Style style)
+        public static DataGridColumn AddHeaderStyle(this DataGridColumn col, Style style)
         {
             if (style != null && style.TargetType == typeof(DataGridColumnHeader))
             {
@@ -96,7 +103,7 @@ namespace Restless.Toolkit.Controls
         /// For this method to work, two styles must be available, you must pass <paramref name="headerStyle"/> and <paramref name="cellStyle"/>
         /// or set <see cref="Default.Style.DataGridHeaderCenter"/> and <see cref="Default.Style.TextBlockCenter"/> before calling this method.
         /// </remarks>
-        public static DataGridBoundColumn MakeCentered(this DataGridBoundColumn col, string headerStyle = null, string cellStyle = null)
+        public static DataGridColumn MakeCentered(this DataGridColumn col, string headerStyle = null, string cellStyle = null)
         {
             Style s1 = (Style)Application.Current.TryFindResource(!string.IsNullOrEmpty(headerStyle) ? headerStyle : Default.Style.DataGridHeaderCenter); 
             Style s2 = (Style)Application.Current.TryFindResource(!string.IsNullOrEmpty(cellStyle) ? cellStyle : Default.Style.TextBlockCenter);
@@ -114,7 +121,7 @@ namespace Restless.Toolkit.Controls
         /// For this method to work, two styles must be available, you must pass <paramref name="headerStyle"/> and <paramref name="cellStyle"/>
         /// or set <see cref="Default.Style.DataGridHeaderRight"/> and <see cref="Default.Style.TextBlockRight"/> before calling this method.
         /// </remarks>
-        public static DataGridBoundColumn MakeRightAligned(this DataGridBoundColumn col, string headerStyle = null, string cellStyle = null)
+        public static DataGridColumn MakeRightAligned(this DataGridColumn col, string headerStyle = null, string cellStyle = null)
         {
             Style s1 = (Style)Application.Current.TryFindResource(!string.IsNullOrEmpty(headerStyle) ? headerStyle : Default.Style.DataGridHeaderRight);
             Style s2 = (Style)Application.Current.TryFindResource(!string.IsNullOrEmpty(cellStyle) ? cellStyle : Default.Style.TextBlockRight);
@@ -140,7 +147,7 @@ namespace Restless.Toolkit.Controls
         /// <param name="col">The column</param>
         /// <param name="width">The flex width factor, 1 is standard, 2 is double, etc.</param>
         /// <returns>The column</returns>
-        public static DataGridBoundColumn MakeFlexWidth(this DataGridBoundColumn col, double width)
+        public static DataGridColumn MakeFlexWidth(this DataGridColumn col, double width)
         {
             col.Width = new DataGridLength(width, DataGridLengthUnitType.Star);
             return col;
@@ -200,7 +207,7 @@ namespace Restless.Toolkit.Controls
         /// </para>
         /// <para>
         ///   If the HeaderStyle property has already been set (for instance, via a previous call to
-        ///   <see cref="MakeCentered(DataGridBoundColumn, string, string)"/>, the HeaderStyle.Setters collection is sealed.
+        ///   <see cref="MakeCentered(DataGridColumn, string, string)"/>, the HeaderStyle.Setters collection is sealed.
         ///   Under these conditions, this method does not set the tooltip text and no error is thrown.
         /// </para>
         /// </remarks>
@@ -214,7 +221,6 @@ namespace Restless.Toolkit.Controls
                 }
                 else
                 {
-                    var obj = col.Header;
                     if (col.HeaderStyle == null)
                     {
                         col.HeaderStyle = new Style(typeof(DataGridColumnHeader), (Style)Application.Current.TryFindResource(Default.Style.DataGridHeader));

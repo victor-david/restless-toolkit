@@ -101,14 +101,13 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Creates an image column that displays an image according to the specified converter.
         /// </summary>
-        /// <typeparam name="T">The converter type</typeparam>
-        /// <param name="header">The column header string</param>
-        /// <param name="bindingName">The binding name, i.e the column name within the table</param>
-        /// <param name="converterParm">A paramater to pass to the converter</param>
-        /// <param name="imageXY">The X and Y size of the image (default 12.0)</param>
-        /// <param name="isVisible">true (default) if the column should be visible</param>
+        /// <typeparam name="T">The converter type.</typeparam>
+        /// <param name="header">The column header string.</param>
+        /// <param name="bindingName">The binding name, i.e the column name within the table.</param>
+        /// <param name="parameter">A parameter to pass to the converter, ex: the name of the resource to use.</param>
+        /// <param name="imageXY">The X and Y size of the image (default 12.0).</param>
         /// <returns>The newly created column.</returns>
-        public DataGridTemplateColumn CreateImage<T>(string header, string bindingName, object converterParm = null, double imageXY = 12.0, bool isVisible = true) where T : IValueConverter, new()
+        public DataGridTemplateColumn CreateImage<T>(string header, string bindingName, object parameter = null, double imageXY = 12.0) where T : IValueConverter, new()
         {
             DataGridTemplateColumn col = new DataGridTemplateColumn
             {
@@ -122,14 +121,46 @@ namespace Restless.Toolkit.Controls
             {
                 Mode = BindingMode.OneWay,
                 Converter = new T(),
-                ConverterParameter = converterParm
+                ConverterParameter = parameter
             };
             factory.SetValue(Image.SourceProperty, binding);
             factory.SetValue(Image.WidthProperty, imageXY);
             factory.SetValue(Image.HeightProperty, imageXY);
-            DataTemplate cellTemplate = new DataTemplate();
-            cellTemplate.VisualTree = factory;
-            col.CellTemplate = cellTemplate;
+            col.CellTemplate = new DataTemplate()
+            {
+                VisualTree = factory
+            };
+            Add(col);
+            return col;
+        }
+
+        /// <summary>
+        /// Creates a content control column that displays the specified resource according to the specified converter.
+        /// </summary>
+        /// <typeparam name="T">The converter type.</typeparam>
+        /// <param name="header">The column header string.</param>
+        /// <param name="bindingName">The binding name, i.e the column name within the table.</param>
+        /// <param name="parameter">A parameter to pass to the converter, ex: the name of the resource to use.</param>
+        /// <returns>The newly created column.</returns>
+        public DataGridTemplateColumn CreateResource<T>(string header, string bindingName, object parameter) where T : IValueConverter, new()
+        {
+            DataGridTemplateColumn col = new DataGridTemplateColumn
+            {
+                Header = MakeTextBlockHeader(header),
+            };
+
+            FrameworkElementFactory factory = new FrameworkElementFactory(typeof(ContentControl));
+            Binding binding = new Binding(bindingName)
+            {
+                Mode = BindingMode.OneWay,
+                Converter = new T(),
+                ConverterParameter = parameter
+            };
+            factory.SetValue(ContentControl.ContentProperty, binding);
+            col.CellTemplate = new DataTemplate
+            {
+                VisualTree = factory
+            };
             Add(col);
             return col;
         }
