@@ -62,7 +62,7 @@
     </Style>
 
     <ControlTemplate x:Key="MenuItemControlTemplate" TargetType="MenuItem">
-        <Border Background="{TemplateBinding Background}" Height="{TemplateBinding Height}">
+        <Border x:Name="MainBorder" Background="{TemplateBinding Background}" Height="{TemplateBinding Height}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition x:Name="Column0" Width="28"/>
@@ -71,7 +71,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Border 
-                    x:Name="BorderCheck"
+                    x:Name="CheckBorder"
                     Height="10" Width="10"
                     CornerRadius="1"
                     VerticalAlignment="Center"
@@ -80,7 +80,7 @@
                     Visibility="Collapsed"/>
 
                 <Border 
-                    x:Name="BorderIcon" 
+                    x:Name="IconBorder" 
                     BorderBrush="{Binding MenuHighlightBrush, RelativeSource={RelativeSource AncestorType=con:AppWindow}}" 
                     BorderThickness="1"
                     Height="24" Width="24"
@@ -127,11 +127,15 @@
             </Trigger>
 
             <Trigger Property="Icon" Value="{x:Null}">
-                <Setter TargetName="BorderIcon" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="IconBorder" Property="Visibility" Value="Collapsed"/>
             </Trigger>
             
             <Trigger Property="IsChecked" Value="False">
-                <Setter TargetName="BorderIcon" Property="BorderBrush" Value="Transparent"/>
+                <Setter TargetName="IconBorder" Property="BorderBrush" Value="Transparent"/>
+            </Trigger>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="MainBorder" Property="Opacity" Value="0.45"/>
             </Trigger>
             
             <MultiTrigger>
@@ -139,7 +143,7 @@
                     <Condition Property="IsChecked" Value="True"/>
                     <Condition Property="Icon" Value="{x:Null}"/>
                 </MultiTrigger.Conditions>
-                <Setter TargetName="BorderCheck" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="CheckBorder" Property="Visibility" Value="Visible"/>
             </MultiTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
