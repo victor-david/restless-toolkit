@@ -27,7 +27,9 @@
             <MenuItem Header="View">
                 <MenuItem Header="Geneva" InputGestureText="F5"/>
                 <MenuItem Header="London" InputGestureText="F6"/>
-                <MenuItem Header="New York"/>
+                <MenuItem Header="Seattle (No icon)" IsChecked="{Binding IsSeattleChecked}" Command="{Binding Commands[ToggleSeattle]}"/>
+                <MenuItem Header="New York (Icon)" IsChecked="{Binding IsNewYorkChecked}" Icon="{StaticResource AddPathIcon}" Command="{Binding Commands[ToggleNewYork]}"/>
+                <MenuItem Header="Los Angeles (Disabled)" Icon="{StaticResource UserPathIcon}" IsChecked="True" IsEnabled="False"/>
                 <Separator/>
                 <MenuItem Header="Application settings"/>
             </MenuItem>

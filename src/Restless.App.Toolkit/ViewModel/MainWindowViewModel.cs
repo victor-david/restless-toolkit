@@ -13,6 +13,8 @@ namespace Restless.App.Toolkit
         #region Private
         private bool allowTabReorder;
         private bool keepContentOnTabSwitch;
+        private bool isSeattleChecked;
+        private bool isNewYorkChecked;
         private Thickness tabBorderThickness;
         #endregion
 
@@ -32,10 +34,13 @@ namespace Restless.App.Toolkit
             Commands.Add("DisplayMvvm", RelayCommand.Create((p) => Create<MvvmViewModel>()));
             Commands.Add("ToggleAllowTabReorder", RelayCommand.Create((p) => AllowTabReorder = !AllowTabReorder));
             Commands.Add("ToggleKeepContentOnTabSwitch", RelayCommand.Create((p) => KeepContentOnTabSwitch = !KeepContentOnTabSwitch));
+            Commands.Add("ToggleSeattle", (p) => IsSeattleChecked = !IsSeattleChecked);
+            Commands.Add("ToggleNewYork", (p) => IsNewYorkChecked = !IsNewYorkChecked);
             DisplayUnloadTabCommand = RelayCommand.Create((p) => Create<DemoViewModel>());
             ToggleBorderThicknessCommand = RelayCommand.Create(RunToggleBorderThicknessCommand);
             TabBorderThickness = new Thickness(1.0);
             AllowTabReorder = true;
+            IsSeattleChecked = true;
             InitializePages();
         }
         #endregion
@@ -53,6 +58,18 @@ namespace Restless.App.Toolkit
         {
             get => keepContentOnTabSwitch;
             set => SetProperty(ref keepContentOnTabSwitch, value);
+        }
+
+        public bool IsSeattleChecked
+        {
+            get => isSeattleChecked;
+            set => SetProperty(ref isSeattleChecked, value);
+        }
+
+        public bool IsNewYorkChecked
+        {
+            get => isNewYorkChecked;
+            set => SetProperty(ref isNewYorkChecked, value);
         }
 
         public ObservableCollection<ViewModelBase> Pages
