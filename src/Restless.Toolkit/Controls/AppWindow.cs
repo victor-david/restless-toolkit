@@ -45,7 +45,7 @@ namespace Restless.Toolkit.Controls
 
         #region Window properties
         /// <summary>
-        /// Gets or sets the title bar menu
+        /// Gets or sets the title bar menu.
         /// </summary>
         public Menu Menu
         {
@@ -61,6 +61,39 @@ namespace Restless.Toolkit.Controls
                 nameof(Menu), typeof(Menu), typeof(AppWindow), new PropertyMetadata(null)
             );
 
+        /// <summary>
+        /// Gets or sets the opacity for the title bar menu.
+        /// </summary>
+        public double MenuOpacity
+        {
+            get => (double)GetValue(MenuOpacityProperty);
+            set => SetValue(MenuOpacityProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MenuOpacity"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MenuOpacityProperty = DependencyProperty.Register
+            (
+                nameof(MenuOpacity), typeof(double), typeof(AppWindow), new PropertyMetadata(0.95)
+            );
+
+        /// <summary>
+        /// Gets or sets the brush to use for a menu item that is checked.
+        /// </summary>
+        public Brush MenuHighlightBrush
+        {
+            get => (Brush)GetValue(MenuHighlightBrushProperty);
+            set => SetValue(MenuHighlightBrushProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MenuHighlightBrush"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MenuHighlightBrushProperty = DependencyProperty.Register
+            (
+                nameof(MenuHighlightBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.Firebrick)
+            );
 
         /// <summary>
         /// Gets or sets the brush used for the background of the title bar.
