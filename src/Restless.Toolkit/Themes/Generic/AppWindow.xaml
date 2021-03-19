@@ -241,7 +241,7 @@
 
 
                         <!-- Minimize -->
-                        <Button Grid.Column="3" Style="{StaticResource ButtonTitleBar}" Command="{TemplateBinding MinimizeCommand}">
+                        <Button Name="ButtonMinimize" Grid.Column="3" Style="{StaticResource ButtonTitleBar}" Command="{TemplateBinding MinimizeCommand}">
                             <Path Data="M 0,5 10,5"/>
                         </Button>
 
@@ -276,6 +276,15 @@
             <Trigger Property="WindowState" Value="Normal">
                 <Setter TargetName="ButtonRestore" Property="Visibility" Value="Collapsed"/>
             </Trigger>
+            <Trigger Property="ResizeMode" Value="CanMinimize">
+                <Setter TargetName="ButtonMaximize" Property="IsEnabled" Value="False"/>
+                <Setter TargetName="ButtonRestore" Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+            <Trigger Property="ResizeMode" Value="NoResize">
+                <Setter TargetName="ButtonMinimize" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ButtonMaximize" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="ButtonRestore" Property="Visibility" Value="Collapsed"/>
+            </Trigger>            
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
