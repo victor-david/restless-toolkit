@@ -165,6 +165,91 @@ namespace Restless.Toolkit.Controls
             );
 
         /// <summary>
+        /// Gets or sets a boolean value that determines if the title bar back button is visible.
+        /// </summary>
+        public bool IsBackButtonVisible
+        {
+            get => (bool)GetValue(IsBackButtonVisibleProperty);
+            set => SetValue(IsBackButtonVisibleProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IsBackButtonVisible"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsBackButtonVisibleProperty = DependencyProperty.Register
+            (
+                nameof(IsBackButtonVisible), typeof(bool), typeof(AppWindow), new PropertyMetadata(false)
+            );
+
+        /// <summary>
+        /// Gets or sets a boolean value that determines if the title bar back button is enabled.
+        /// </summary>
+        public bool IsBackButtonEnabled
+        {
+            get => (bool)GetValue(IsBackButtonEnabledProperty);
+            set => SetValue(IsBackButtonEnabledProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IsBackButtonEnabled"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsBackButtonEnabledProperty = DependencyProperty.Register
+            (
+                nameof(IsBackButtonEnabled), typeof(bool), typeof(AppWindow), new PropertyMetadata(true)
+            );
+
+        /// <summary>
+        /// Gets or sets the title bar back button background brush.
+        /// </summary>
+        public Brush BackButtonBackgroundBrush
+        {
+            get => (Brush)GetValue(BackButtonBackgroundBrushProperty);
+            set => SetValue(BackButtonBackgroundBrushProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="BackButtonBackgroundBrush"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty BackButtonBackgroundBrushProperty = DependencyProperty.Register
+            (
+                nameof(BackButtonBackgroundBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.White)
+            );
+
+        /// <summary>
+        /// Gets or sets the title bar back button icon brush
+        /// </summary>
+        public Brush BackButtonIconBrush
+        {
+            get => (Brush)GetValue(BackButtonIconBrushProperty);
+            set => SetValue(BackButtonIconBrushProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="BackButtonIconBrush"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty BackButtonIconBrushProperty = DependencyProperty.Register
+            (
+                nameof(BackButtonIconBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.DodgerBlue)
+            );
+
+        /// <summary>
+        /// Gets or sets the command to associate with the back button.
+        /// </summary>
+        public ICommand BackButtonCommand
+        {
+            get => (ICommand)GetValue(BackButtonCommandProperty);
+            set => SetValue(BackButtonCommandProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="BackButtonCommand"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty BackButtonCommandProperty = DependencyProperty.Register
+            (
+                nameof(BackButtonCommand), typeof(ICommand), typeof(AppWindow), new PropertyMetadata(null)
+            );
+
+        /// <summary>
         /// Gets or sets an icon defined by a path
         /// </summary>
         public Path PathIcon
