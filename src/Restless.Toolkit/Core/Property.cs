@@ -64,7 +64,7 @@ namespace Restless.Toolkit.Core
                 {
                     string value2 = value.Replace("*", "");
                     if (string.IsNullOrEmpty(value2)) value2 = "1";
-                    var numHeight = int.Parse(value2);
+                    var numHeight = double.Parse(value2);
                     grid.RowDefinitions.Add(new RowDefinition
                     {
                         Height = new GridLength(numHeight, GridUnitType.Star)
@@ -139,7 +139,7 @@ namespace Restless.Toolkit.Core
                 {
                     string value2 = value.Replace("*", "");
                     if (string.IsNullOrEmpty(value2)) value2 = "1";
-                    var numWidth = int.Parse(value2);
+                    var numWidth = double.Parse(value2);
                     grid.ColumnDefinitions.Add(new ColumnDefinition
                     {
                         Width = new GridLength(numWidth, GridUnitType.Star)
