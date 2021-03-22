@@ -28,7 +28,7 @@ namespace Restless.Toolkit.Controls
             SystemParameters.StaticPropertyChanged += SystemParametersStaticPropertyChanged;
             Loaded += (s, e) => OnLoaded(s, e);
             UseLayoutRounding = true;
-            RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
+            //RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
             // Default for the following is: Auto, Ideal, Auto
             TextOptions.SetTextRenderingMode(this, TextRenderingMode.ClearType);
             TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
