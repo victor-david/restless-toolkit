@@ -195,24 +195,7 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty IsBackButtonEnabledProperty = DependencyProperty.Register
             (
-                nameof(IsBackButtonEnabled), typeof(bool), typeof(AppWindow), new PropertyMetadata(true)
-            );
-
-        /// <summary>
-        /// Gets or sets the title bar back button background brush.
-        /// </summary>
-        public Brush BackButtonBackgroundBrush
-        {
-            get => (Brush)GetValue(BackButtonBackgroundBrushProperty);
-            set => SetValue(BackButtonBackgroundBrushProperty, value);
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="BackButtonBackgroundBrush"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty BackButtonBackgroundBrushProperty = DependencyProperty.Register
-            (
-                nameof(BackButtonBackgroundBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.White)
+                nameof(IsBackButtonEnabled), typeof(bool), typeof(AppWindow), new PropertyMetadata(false)
             );
 
         /// <summary>
@@ -229,7 +212,7 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty BackButtonIconBrushProperty = DependencyProperty.Register
             (
-                nameof(BackButtonIconBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.DodgerBlue)
+                nameof(BackButtonIconBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.OrangeRed)
             );
 
         /// <summary>
