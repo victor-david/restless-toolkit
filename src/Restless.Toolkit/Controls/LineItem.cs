@@ -71,9 +71,10 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty ItemProperty = DependencyProperty.Register
             (
-                nameof(Item), typeof(object), typeof(LineItem), new PropertyMetadata()
+                nameof(Item), typeof(object), typeof(LineItem), new FrameworkPropertyMetadata()
                 {
                     DefaultValue = null,
+                    BindsTwoWayByDefault = true,
                     PropertyChangedCallback = OnItemChanged,
                 }
             );
@@ -288,9 +289,10 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register
             (
-                nameof(Value), typeof(object), typeof(LineItem), new PropertyMetadata()
+                nameof(Value), typeof(object), typeof(LineItem), new FrameworkPropertyMetadata()
                 {
                     DefaultValue = null,
+                    BindsTwoWayByDefault = true,
                     PropertyChangedCallback = OnValueChanged
                 }
             );
