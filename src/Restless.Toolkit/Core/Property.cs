@@ -316,5 +316,53 @@ namespace Restless.Toolkit.Core
                 RolloverBrushPropertyName, typeof(Brush), typeof(Property), new PropertyMetadata(Brushes.Transparent)
             );
         #endregion
+
+        /************************************************************************/
+
+        #region DefaultDock
+        private const string DefaultDockPropertyName = "DefaultDock";
+
+        /// <summary>
+        /// Gets the DefaultDock attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
+        public static Dock GetDefaultDock(DependencyObject obj)
+        {
+            return (Dock)obj.GetValue(DefaultDockProperty);
+        }
+
+        /// <summary>
+        /// Sets the DefaultDock attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
+        public static void SetDefaultDock(DependencyObject obj, Dock value)
+        {
+            obj.SetValue(DefaultDockProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the DefaultDock attached dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DefaultDockProperty = DependencyProperty.RegisterAttached
+            (
+                DefaultDockPropertyName, typeof(Dock), typeof(Property), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = Dock.Left,
+                    Inherits = true,
+                    AffectsRender = true,
+                    PropertyChangedCallback = OnDefaultDockChanged
+                }
+            );
+
+        private static void OnDefaultDockChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is Dock dock)
+            {
+                d.SetValue(DockPanel.DockProperty, dock);
+            }
+        }
+        #endregion
     }
 }
