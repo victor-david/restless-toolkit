@@ -113,6 +113,22 @@ namespace Restless.Toolkit.Controls
             );
 
         /// <summary>
+        /// Gets or sets the opacity for the title bar menu.
+        /// </summary>
+        public double MenuOpacity
+        {
+            get => (double)GetValue(MenuOpacityProperty);
+            set => SetValue(MenuOpacityProperty, value);
+        }
+        /// <summary>
+        /// Identifies the <see cref="MenuOpacity"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MenuOpacityProperty = DependencyProperty.Register
+            (
+                nameof(MenuOpacity), typeof(double), typeof(AppWindow), new PropertyMetadata(1.0)
+            );
+
+        /// <summary>
         /// Gets or sets the brush used for the background of the title bar.
         /// </summary>
         public Brush TitleBarBackground

@@ -123,6 +123,7 @@
                     <Border 
                         BorderBrush="{Binding MenuBorderBrush, RelativeSource={RelativeSource AncestorType=con:AppWindow}}"
                         BorderThickness="1"
+                        Opacity="{Binding MenuOpacity, RelativeSource={RelativeSource AncestorType=con:AppWindow}}"
                         Background="{Binding MenuBackgroundBrush, RelativeSource={RelativeSource AncestorType=con:AppWindow}}">
                         
                         <StackPanel IsItemsHost="True"/>
