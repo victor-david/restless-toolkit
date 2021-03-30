@@ -62,20 +62,37 @@ namespace Restless.Toolkit.Controls
             );
 
         /// <summary>
-        /// Gets or sets the opacity for the title bar menu.
+        /// Gets or sets the border brush for the title bar menu.
         /// </summary>
-        public double MenuOpacity
+        public Brush MenuBorderBrush
         {
-            get => (double)GetValue(MenuOpacityProperty);
-            set => SetValue(MenuOpacityProperty, value);
+            get => (Brush)GetValue(MenuBorderBrushProperty);
+            set => SetValue(MenuBorderBrushProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <see cref="MenuOpacity"/> dependency property.
+        /// Identifies the <see cref="MenuBorderBrush"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty MenuOpacityProperty = DependencyProperty.Register
+        public static readonly DependencyProperty MenuBorderBrushProperty = DependencyProperty.Register
             (
-                nameof(MenuOpacity), typeof(double), typeof(AppWindow), new PropertyMetadata(0.95)
+                nameof(MenuBorderBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.Gray)
+            );
+
+        /// <summary>
+        /// Gets or sets the background brush for the title bar menu.
+        /// </summary>
+        public Brush MenuBackgroundBrush
+        {
+            get => (Brush)GetValue(MenuBackgroundBrushProperty);
+            set => SetValue(MenuBackgroundBrushProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MenuBackgroundBrush"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MenuBackgroundBrushProperty = DependencyProperty.Register
+            (
+                nameof(MenuBackgroundBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.LightGray)
             );
 
         /// <summary>

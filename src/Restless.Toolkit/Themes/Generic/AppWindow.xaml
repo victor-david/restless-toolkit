@@ -120,8 +120,13 @@
                     Focusable="False"
                     PopupAnimation="None">
 
-                    <Border BorderBrush="Gray" BorderThickness="1" Background="#fff0f0f0" Opacity="{Binding MenuOpacity, RelativeSource={RelativeSource AncestorType=con:AppWindow}}">
+                    <Border 
+                        BorderBrush="{Binding MenuBorderBrush, RelativeSource={RelativeSource AncestorType=con:AppWindow}}"
+                        BorderThickness="1"
+                        Background="{Binding MenuBackgroundBrush, RelativeSource={RelativeSource AncestorType=con:AppWindow}}">
+                        
                         <StackPanel IsItemsHost="True"/>
+                        
                     </Border>
                 </Popup>
             </Grid>
@@ -194,6 +199,22 @@
                             </MultiTrigger>
                         </Style.Triggers>
                     </Style>
+
+                    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator">
+                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Separator">
+                                    <Border 
+                                        Height="1"
+                                        Margin="28,2,2,2"
+                                        Opacity="0.55"
+                                        Background="{Binding MenuBorderBrush, RelativeSource={RelativeSource AncestorType=con:AppWindow}}"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
                 </Style.Resources>
             </Style>
         </Style.Resources>
@@ -316,6 +337,7 @@
         <Setter Property="TitleBarBackground" Value="#ff24292e"/>
         <Setter Property="TitleBarForeground" Value="White"/>
         <Setter Property="TitleBarButtonBrush" Value="#ffa0a0a0"/>
+        <Setter Property="MenuBackgroundBrush" Value="#FFF0F0F0"/>
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome
