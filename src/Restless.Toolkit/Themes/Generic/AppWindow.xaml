@@ -236,6 +236,7 @@
     </Style>
 
     <Geometry x:Key="ArrowLeftGeometry">M20,10V14H11L14.5,17.5L12.08,19.92L4.16,12L12.08,4.08L14.5,6.5L11,10H20Z</Geometry>
+    <Geometry x:Key="CloseGeometry">M 0,0 9,9 M 0,9 9,0</Geometry>
 
     <ControlTemplate x:Key="AppWindowTemplate" TargetType="con:AppWindow">
         <Border 
@@ -296,13 +297,13 @@
 
                         <!-- Close -->
                         <Button Grid.Column="7" Style="{StaticResource TitleBarButtonStyle}" Command="{TemplateBinding CloseCommand}" core:Property.RolloverBrush="#FFEE0000">
-                            <Path Data="M 0,0 9,9 M 0,9 9,0"/>
+                            <Path Data="{StaticResource CloseGeometry}"/>
                         </Button>
                     </Grid>
                 </Border>
 
                 <!-- Client area -->
-                <Border Grid.Row="1" Background="{TemplateBinding Background}">
+                <Border Grid.Row="1" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
                     <ContentPresenter/>
                 </Border>
             </Grid>
@@ -335,6 +336,7 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="BorderBrush" Value="#ff1f3c76"/>
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="TitleBarBackground" Value="#ff24292e"/>
         <Setter Property="TitleBarForeground" Value="White"/>
         <Setter Property="TitleBarButtonBrush" Value="#ffa0a0a0"/>
@@ -348,6 +350,114 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Template" Value="{StaticResource AppWindowTemplate}"/>
+    </Style>
+
+    <ControlTemplate x:Key="MessageWindowTemplate" TargetType="con:MessageWindow">
+        <Border 
+            Name="MainBorder"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            Background="Transparent">
+            <Grid core:Property.RowHeights="29,*">
+                <!-- Title bar -->
+                <Border 
+                    Background="{TemplateBinding TitleBarBackground}" 
+                    BorderBrush="{TemplateBinding TitleBarBorderBrush}"
+                    BorderThickness="0,0,0,1">
+
+                    <Grid core:Property.ColumnWidths="Auto,*,Auto">
+
+                        <ContentPresenter Content="{TemplateBinding PathIcon}" Margin="5,0"/>
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Style="{StaticResource TitleBarTextBlockStyle}"
+                            Text="{TemplateBinding Title}"/>
+
+                        <!-- Close -->
+                        <Button Grid.Column="2" Style="{StaticResource TitleBarButtonStyle}" Command="{TemplateBinding CloseCommand}" core:Property.RolloverBrush="#FFEE0000">
+                            <Path Data="{StaticResource CloseGeometry}"/>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Client area -->
+                <Border Grid.Row="1" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock 
+                            Grid.ColumnSpan="3"
+                            Text="{TemplateBinding Message}"
+                            TextWrapping="Wrap"/>
+
+                        <Button 
+                            x:Name="ButtonYes"
+                            Grid.Row="1" 
+                            Grid.Column="1"
+                            Style="{TemplateBinding ButtonStyle}"
+                            Command="{TemplateBinding ButtonYesCommand}"
+                            Content="{TemplateBinding ButtonYesText}"/>
+
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Style="{TemplateBinding ButtonStyle}"
+                            Command="{TemplateBinding ButtonNoCommand}"
+                            Content="{TemplateBinding ButtonNoText}"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="MessageWindowType" Value="Okay">
+                <Setter TargetName="ButtonYes" Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+
+            <Trigger Property="MessageWindowType" Value="Error">
+                <Setter TargetName="ButtonYes" Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="con:MessageWindow" BasedOn="{StaticResource {x:Type con:AppWindow}}">
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Template" Value="{StaticResource MessageWindowTemplate}"/>
+        <Setter Property="Title" Value="Confirmation"/>
+        <Setter Property="ButtonYesText" Value="Yes"/>
+        <Setter Property="ButtonNoText" Value="No"/>
+        <Setter Property="ButtonStyle">
+            <Setter.Value>
+                <Style TargetType="Button">
+                    <Setter Property="Height" Value="28"/>
+                    <Setter Property="MinWidth" Value="82"/>
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="MessageWindowType" Value="ContinueCancel">
+                <Setter Property="ButtonYesText" Value="Continue"/>
+                <Setter Property="ButtonNoText" Value="Cancel"/>
+            </Trigger>
+            <Trigger Property="MessageWindowType" Value="Okay">
+                <Setter Property="Title" Value="Notice"/>
+                <Setter Property="ButtonNoText" Value="Okay"/>
+            </Trigger>
+            <Trigger Property="MessageWindowType" Value="Error">
+                <Setter Property="Title" Value="Error"/>
+                <Setter Property="ButtonNoText" Value="Close"/>
+            </Trigger>
+
+        </Style.Triggers>
     </Style>
    
 </ResourceDictionary>

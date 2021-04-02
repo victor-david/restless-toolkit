@@ -11,6 +11,7 @@
     <RepositoryUrl>https://github.com/victor-david/restless-toolkit</RepositoryUrl>
     <Authors>Restless Animal Development</Authors>
     <Company>Restless Animal Development</Company>
+    <LangVersion>8</LangVersion>
     <Version>2.5.5</Version>
     <Product>Restless Toolkit</Product>
     <Title>Restless.Toolkit</Title>

@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:con="clr-namespace:Restless.Toolkit.Controls;assembly=Restless.Toolkit"
+    xmlns:toolkit="clr-namespace:Restless.App.Toolkit" d:DataContext="{d:DesignInstance Type=toolkit:OtherViewModel}"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800">
 
@@ -26,6 +27,11 @@
                 <Setter Property="ValueForeground" Value="DarkGray"/>
                 <Setter Property="ItemFontSize" Value="14"/>
                 <Setter Property="ValueFontSize" Value="14"/>
+            </Style>
+            <Style TargetType="con:LinkedTextBlock">
+                <Setter Property="Margin" Value="14,4"/>
+                <Setter Property="Foreground" Value="DarkSlateBlue"/>
+                <Setter Property="RolloverBrush" Value="Blue"/>
             </Style>
         </StackPanel.Resources>
         <TextBlock Style="{StaticResource TextBlockExplain}">
@@ -63,7 +69,26 @@
             </con:LineItem.Value>
         </con:LineItem>
 
+        <Separator/>
+
+        <TextBlock Style="{StaticResource TextBlockExplain}">
+            The <Bold>MessageWindow</Bold> control extends <Bold>AppWindow</Bold>.
+        </TextBlock>
+
+        <TextBlock Style="{StaticResource TextBlockExplain}">
+            You can use styles to change its appearance depending on its type
+            (<Bold>yes/no</Bold>, <Bold>continue/cancel</Bold>, <Bold>okay</Bold>, <Bold>error</Bold>)
+        </TextBlock>
+
+        <con:LinkedTextBlock Text="Open Yes/No" Command="{Binding Commands[OpenYesNo]}"/>
+        <con:LinkedTextBlock Text="Open Continue/Cancel" Command="{Binding Commands[OpenContinueCancel]}"/>
+        <con:LinkedTextBlock Text="Open Okay" Command="{Binding Commands[OpenOkay]}"/>
+        <con:LinkedTextBlock Text="Open Error" Command="{Binding Commands[OpenError]}"/>
+
+        <TextBlock FontSize="14" Margin="14,4">
+            <Run Text="MessageWindow result:"/>
+            <Run Foreground="Red" Text="{Binding MessageWindowResult, Mode=OneWay}"/>
+        </TextBlock>
+
     </StackPanel>
-
-
 </UserControl>
