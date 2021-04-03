@@ -28,7 +28,7 @@ namespace Restless.Toolkit.Controls
             SystemParameters.StaticPropertyChanged += SystemParametersStaticPropertyChanged;
             Loaded += (s, e) => OnLoaded(s, e);
             UseLayoutRounding = true;
-            RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
+            //RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
             // Default for the following is: Auto, Ideal, Auto
             TextOptions.SetTextRenderingMode(this, TextRenderingMode.ClearType);
             TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
@@ -62,20 +62,37 @@ namespace Restless.Toolkit.Controls
             );
 
         /// <summary>
-        /// Gets or sets the opacity for the title bar menu.
+        /// Gets or sets the border brush for the title bar menu.
         /// </summary>
-        public double MenuOpacity
+        public Brush MenuBorderBrush
         {
-            get => (double)GetValue(MenuOpacityProperty);
-            set => SetValue(MenuOpacityProperty, value);
+            get => (Brush)GetValue(MenuBorderBrushProperty);
+            set => SetValue(MenuBorderBrushProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <see cref="MenuOpacity"/> dependency property.
+        /// Identifies the <see cref="MenuBorderBrush"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty MenuOpacityProperty = DependencyProperty.Register
+        public static readonly DependencyProperty MenuBorderBrushProperty = DependencyProperty.Register
             (
-                nameof(MenuOpacity), typeof(double), typeof(AppWindow), new PropertyMetadata(0.95)
+                nameof(MenuBorderBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.Gray)
+            );
+
+        /// <summary>
+        /// Gets or sets the background brush for the title bar menu.
+        /// </summary>
+        public Brush MenuBackgroundBrush
+        {
+            get => (Brush)GetValue(MenuBackgroundBrushProperty);
+            set => SetValue(MenuBackgroundBrushProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MenuBackgroundBrush"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MenuBackgroundBrushProperty = DependencyProperty.Register
+            (
+                nameof(MenuBackgroundBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.LightGray)
             );
 
         /// <summary>
@@ -93,6 +110,22 @@ namespace Restless.Toolkit.Controls
         public static readonly DependencyProperty MenuHighlightBrushProperty = DependencyProperty.Register
             (
                 nameof(MenuHighlightBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.Firebrick)
+            );
+
+        /// <summary>
+        /// Gets or sets the opacity for the title bar menu.
+        /// </summary>
+        public double MenuOpacity
+        {
+            get => (double)GetValue(MenuOpacityProperty);
+            set => SetValue(MenuOpacityProperty, value);
+        }
+        /// <summary>
+        /// Identifies the <see cref="MenuOpacity"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MenuOpacityProperty = DependencyProperty.Register
+            (
+                nameof(MenuOpacity), typeof(double), typeof(AppWindow), new PropertyMetadata(1.0)
             );
 
         /// <summary>
@@ -162,6 +195,74 @@ namespace Restless.Toolkit.Controls
         public static readonly DependencyProperty TitleBarBorderBrushProperty = DependencyProperty.Register
             (
                 nameof(TitleBarBorderBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.Black)
+            );
+
+        /// <summary>
+        /// Gets or sets a boolean value that determines if the title bar back button is visible.
+        /// </summary>
+        public bool IsBackButtonVisible
+        {
+            get => (bool)GetValue(IsBackButtonVisibleProperty);
+            set => SetValue(IsBackButtonVisibleProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IsBackButtonVisible"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsBackButtonVisibleProperty = DependencyProperty.Register
+            (
+                nameof(IsBackButtonVisible), typeof(bool), typeof(AppWindow), new PropertyMetadata(false)
+            );
+
+        /// <summary>
+        /// Gets or sets a boolean value that determines if the title bar back button is enabled.
+        /// </summary>
+        public bool IsBackButtonEnabled
+        {
+            get => (bool)GetValue(IsBackButtonEnabledProperty);
+            set => SetValue(IsBackButtonEnabledProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IsBackButtonEnabled"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsBackButtonEnabledProperty = DependencyProperty.Register
+            (
+                nameof(IsBackButtonEnabled), typeof(bool), typeof(AppWindow), new PropertyMetadata(false)
+            );
+
+        /// <summary>
+        /// Gets or sets the title bar back button icon brush
+        /// </summary>
+        public Brush BackButtonIconBrush
+        {
+            get => (Brush)GetValue(BackButtonIconBrushProperty);
+            set => SetValue(BackButtonIconBrushProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="BackButtonIconBrush"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty BackButtonIconBrushProperty = DependencyProperty.Register
+            (
+                nameof(BackButtonIconBrush), typeof(Brush), typeof(AppWindow), new PropertyMetadata(Brushes.OrangeRed)
+            );
+
+        /// <summary>
+        /// Gets or sets the command to associate with the back button.
+        /// </summary>
+        public ICommand BackButtonCommand
+        {
+            get => (ICommand)GetValue(BackButtonCommandProperty);
+            set => SetValue(BackButtonCommandProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="BackButtonCommand"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty BackButtonCommandProperty = DependencyProperty.Register
+            (
+                nameof(BackButtonCommand), typeof(ICommand), typeof(AppWindow), new PropertyMetadata(null)
             );
 
         /// <summary>

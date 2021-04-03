@@ -19,31 +19,16 @@
                         <ContentPresenter 
                             Content="{TemplateBinding Item}" 
                             Margin="{TemplateBinding ItemMargin}"
+                            TextElement.Foreground="{TemplateBinding ItemForeground}"
                             HorizontalAlignment="{TemplateBinding ItemHorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding ItemVerticalAlignment}"/>
 
                         <ContentPresenter
                             Grid.Column="1"
                             Content="{TemplateBinding Value}"
+                            TextElement.Foreground="{TemplateBinding ValueForeground}"
                             HorizontalAlignment="{TemplateBinding ValueHorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding ValueVerticalAlignment}"/>
-
-                        <!--<TextBlock
-                            Grid.Column="0"
-                            Margin="{Binding HeaderMarginInternal, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
-                            Foreground="{Binding HeaderForeground, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
-                            FontSize="{Binding HeaderFontSize, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
-                            VerticalAlignment="{Binding HeaderVerticalAlignment, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
-                            Text="{Binding Header, RelativeSource={RelativeSource AncestorType=con:LineItem}}"/>-->
-
-                        <!--<TextBlock
-                            Grid.Column="1"
-                            Foreground="{Binding ValueForeground, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
-                            FontSize="{Binding ValueFontSize, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
-                            VerticalAlignment="{Binding ValueVerticalAlignment, RelativeSource={RelativeSource AncestorType=con:LineItem}}"
-                            TextWrapping="Wrap"
-                            Text="{Binding Value, RelativeSource={RelativeSource AncestorType=con:LineItem}}"/>-->
-
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

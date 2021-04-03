@@ -2,15 +2,32 @@
     x:Class="Restless.App.Toolkit.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:tk="http://schemas.restless.toolkit.com/2021"
     xmlns:l="clr-namespace:Restless.App.Toolkit">
     <Application.Resources>
         <Style TargetType="Path">
             <Setter Property="Fill" Value="DodgerBlue"/>
             <Setter Property="Stretch" Value="Uniform"/>
         </Style>
-        <Path x:Key="PathAppIcon" Fill="Yellow" Data="M22 13V19H6V13H22M6 5V11H16V5H6M2 2V22H4V2H2" />
-        <Path x:Key="AddPathIcon" Data="M20 14H14V20H10V14H4V10H10V4H14V10H20V14Z" />
-        <Path x:Key="UserPathIcon" Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+        <Path x:Key="PathAppIcon" x:Shared="False"  Fill="Yellow" Data="M22 13V19H6V13H22M6 5V11H16V5H6M2 2V22H4V2H2" />
+        <Path x:Key="AddPathIcon" x:Shared="False"  Data="M20 14H14V20H10V14H4V10H10V4H14V10H20V14Z" />
+        <Path x:Key="UserPathIcon" x:Shared="False"  Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+
+        <Style TargetType="tk:MessageWindow">
+            <Setter Property="PathIcon" Value="{StaticResource PathAppIcon}"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="TitleBarBackground" Value="LightBlue"/>
+            <Setter Property="TitleBarForeground" Value="DarkBlue"/>
+            <Style.Triggers>
+                <Trigger Property="MessageWindowType" Value="Error">
+                    <Setter Property="Background" Value="LightBlue"/>
+                    <Setter Property="TitleBarBackground" Value="Red"/>
+                    <Setter Property="TitleBarForeground" Value="White"/>
+                    <Setter Property="Title" Value="We have an error"/>
+                    <Setter Property="ButtonNoText" Value="Bummer"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
         <Style TargetType="TextBlock" x:Key="TextBlockExplain">
             <Setter Property="Margin" Value="4,4,4,8"/>
