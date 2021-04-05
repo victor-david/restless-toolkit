@@ -243,6 +243,108 @@ namespace Restless.Toolkit.Core
 
         /************************************************************************/
 
+        #region IsLongVisible
+        private const string IsLongVisiblePropertyName = "IsLongVisible";
+
+        /// <summary>
+        /// Gets the IsLongVisible attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
+        /// <remarks>
+        /// See <see cref="IsLongVisibleProperty"/> for more information.
+        /// </remarks>
+        public static long GetIsLongVisible(DependencyObject obj)
+        {
+            return (long)obj.GetValue(IsLongVisibleProperty);
+        }
+
+        /// <summary>
+        /// Sets the IsLongVisible attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
+        /// <remarks>
+        /// See <see cref="IsLongVisibleProperty"/> for more information.
+        /// </remarks>
+        public static void SetIsLongVisible(DependencyObject obj, long value)
+        {
+            obj.SetValue(IsLongVisibleProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the IsLongVisible attached dependency property.
+        /// </summary>
+        /// <remarks>
+        /// This dependency property and its companion <see cref="IsLongVisibleValueProperty"/> may be attached
+        /// to an element to control its visibility depending on whether the value bound here is equal to the
+        /// value found on the <see cref="IsLongVisibleValueProperty"/>. Typically, this property is bound
+        /// to a changing value and <see cref="IsLongVisibleValueProperty"/> contains a fixed value on
+        /// which to compare.
+        /// </remarks>
+        public static readonly DependencyProperty IsLongVisibleProperty = DependencyProperty.RegisterAttached
+            (
+                IsLongVisiblePropertyName, typeof(long), typeof(Property), new PropertyMetadata()
+                {
+                    DefaultValue = 0L,
+                    PropertyChangedCallback = OnIsLongVisibleChanged
+                }
+            );
+
+        private static void OnIsLongVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FrameworkElement element)
+            {
+                long val = GetIsLongVisibleValue(element);
+                element.Visibility = ((long)e.NewValue) == val ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        private const string IsLongVisibleValuePropertyName = "IsLongVisibleValue";
+
+        /// <summary>
+        /// Gets the IsLongVisibleValue attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
+        /// <remarks>
+        /// See <see cref="IsLongVisibleValueProperty"/> for more information.
+        /// </remarks>
+        public static long GetIsLongVisibleValue(DependencyObject obj)
+        {
+            return (long)obj.GetValue(IsLongVisibleValueProperty);
+        }
+
+        /// <summary>
+        /// Sets the IsLongVisibleValue attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
+        /// <remarks>
+        /// See <see cref="IsLongVisibleValueProperty"/> for more information.
+        /// </remarks>
+        public static void SetIsLongVisibleValue(DependencyObject obj, long value)
+        {
+            obj.SetValue(IsLongVisibleValueProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the IsLongVisibleValue attached dependency property.
+        /// </summary>
+        /// <remarks>
+        /// This dependency property and its companion <see cref="IsLongVisibleProperty"/> may be attached
+        /// to an element to control its visibility. When <see cref="IsLongVisibleProperty"/> equals the value
+        /// of this property, the element is visible; otherwise it is collapsed. Typically, <see cref="IsLongVisibleProperty"/>
+        /// is bound to a changing value and this property contains a fixed value on which to compare.
+        /// </remarks>
+        public static readonly DependencyProperty IsLongVisibleValueProperty = DependencyProperty.RegisterAttached
+            (
+                IsLongVisibleValuePropertyName, typeof(long), typeof(Property), new PropertyMetadata(0L)
+            );
+        #endregion
+
+        /************************************************************************/
+
         #region IsInverseEnabled
         private const string IsInverseEnabledPropertyName = "IsInverseEnabled";
 
