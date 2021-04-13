@@ -16,60 +16,52 @@
         <SolidColorBrush x:Key="TransparentRedBrush" Color="{StaticResource TransparentRedColor}"/>
         <SolidColorBrush x:Key="TransparentGreenBrush" Color="{StaticResource TransparentGreenColor}"/>
         <SolidColorBrush x:Key="TransparentBlueBrush" Color="{StaticResource TransparentBlueColor}"/>
+
+        <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Width" Value="62"/>
+            <Setter Property="Command" Value="{Binding Commands[SetColor]}"/>
+        </Style>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockExplain}">
+            <Setter Property="Margin" Value="0,10,0,2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
     </UserControl.Resources>
 
-    <Grid tk:Property.RowHeights="*,Auto,*" tk:Property.ColumnWidths="*,*">
+    <Grid tk:Property.RowHeights="*" tk:Property.ColumnWidths="*,Auto,1.5*,*">
 
-        <tk:ColorPicker 
+        <tk:ColorPicker
             CanvasWidth="{Binding CanvasWidth}"
             SliderSize="{Binding SliderSize}"
             SelectedColor="{Binding SelectedColor}"/>
 
-        <StackPanel Grid.Column="1" Margin="10,4">
-            <TextBlock Grid.Column="1" Style="{StaticResource TextBlockExplain}">
+        <Border Grid.Column="1" Margin="24,0" Background="#FFCCCCCC" Width="1"/>
+        <StackPanel Grid.Column="2">
+            <TextBlock>
                 This tab pane demonstrates the <Bold>Restless.Toolkit.Controls.ColorPicker</Bold>
-                control. The preset values below the control belong to this view and view model,
+                control. The preset values below belong to this view and view model,
                 not the control, and are used to show how the control's output color is bound
                 to a property in the view model.
             </TextBlock>
 
-            <TextBlock Style="{StaticResource TextBlockExplain}" Text="Canvas size"/>
+            <TextBlock Text="Canvas size"/>
 
             <Slider
                 Minimum="{x:Static tk:ColorPicker.MinCanvasWidth}"
                 Maximum="{x:Static tk:ColorPicker.MaxCanvasWidth}"
                 Value="{Binding CanvasWidth}"/>
 
-            <TextBlock Style="{StaticResource TextBlockExplain}" Text="Slider size"/>
+            <TextBlock Text="Slider size"/>
 
             <Slider
                 Minimum="{x:Static tk:ColorSlider.MinSliderSize}"
                 Maximum="{x:Static tk:ColorSlider.MaxSliderSize}"
                 Value="{Binding SliderSize}"/>
 
-        </StackPanel>
-
-        <Separator Grid.Row="1" Grid.ColumnSpan="2" Margin="2,12"/>
-       
-        <!-- Presets and feedback from control -->
-        <StackPanel Grid.Row="2">
-            <StackPanel.Resources>
-                <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
-                    <Setter Property="Margin" Value="1"/>
-                    <Setter Property="Height" Value="24"/>
-                    <Setter Property="Width" Value="62"/>
-                    <Setter Property="Command" Value="{Binding Commands[SetColor]}"/>
-                </Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Margin" Value="2"/>
-                    <Setter Property="Foreground" Value="Gray"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                </Style>
-            </StackPanel.Resources>
-            
             <!-- Presets -->
             <TextBlock Text="Presets"/>
-            
+
             <WrapPanel>
                 <Button Background="CadetBlue" CommandParameter="{x:Static Colors.CadetBlue}" ToolTip="CadetBlue"/>
                 <Button Background="Coral" CommandParameter="{x:Static Colors.Coral}" ToolTip="Coral"/>
@@ -82,8 +74,9 @@
                 <Button Background="LightSlateGray" CommandParameter="{x:Static Colors.LightSlateGray}" ToolTip="LightSlateGray"/>
                 <Button Background="DarkSalmon" CommandParameter="{x:Static Colors.DarkSalmon}" ToolTip="DarkSalmon"/>
                 <Button Background="Teal" CommandParameter="{x:Static Colors.Teal}" ToolTip="Teal"/>
-                <Button Background="MediumAquamarine" CommandParameter="{x:Static Colors.MediumAquamarine}" ToolTip="MediumAquamarine"/>
                 <Button Background="RosyBrown" CommandParameter="{x:Static Colors.RosyBrown}" ToolTip="RosyBrown"/>
+                <Button Background="MediumAquamarine" CommandParameter="{x:Static Colors.MediumAquamarine}" ToolTip="MediumAquamarine"/>
+                <Button Background="IndianRed" CommandParameter="{x:Static Colors.IndianRed}" ToolTip="IndianRed"/>
                 <Button
                     Background="{StaticResource TransparentRedBrush}"
                     CommandParameter="{StaticResource TransparentRedColor}"
@@ -100,16 +93,16 @@
                     Content="T"
                     ToolTip="Transparent Blue"/>
             </WrapPanel>
-            
+
             <!-- Feedback from ColorPicker -->
-            <StackPanel Margin="0,16" Orientation="Horizontal">
-                <TextBlock Text="Bound Color"/>
-                <Border Margin="10,0" Width="150" Height="32">
-                    <Border.Background>
-                        <SolidColorBrush Color="{Binding SelectedColor}"/>
-                    </Border.Background>
-                </Border>
-            </StackPanel>
+            <TextBlock Text="Bound Color"/>
+
+            <Border Width="150" Height="32" HorizontalAlignment="Left">
+                <Border.Background>
+                    <SolidColorBrush Color="{Binding SelectedColor}"/>
+                </Border.Background>
+            </Border>
+
         </StackPanel>
     </Grid>
 </UserControl>
