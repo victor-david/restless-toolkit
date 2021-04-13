@@ -5,13 +5,29 @@
     xmlns:tk="http://schemas.restless.toolkit.com/2021"
     xmlns:l="clr-namespace:Restless.App.Toolkit">
     <Application.Resources>
-        <Style TargetType="Path">
+        <Style x:Key="DefaultPathStyle" TargetType="Path">
             <Setter Property="Fill" Value="DodgerBlue"/>
             <Setter Property="Stretch" Value="Uniform"/>
         </Style>
-        <Path x:Key="PathAppIcon" x:Shared="False"  Fill="Yellow" Data="M22 13V19H6V13H22M6 5V11H16V5H6M2 2V22H4V2H2" />
-        <Path x:Key="AddPathIcon" x:Shared="False"  Data="M20 14H14V20H10V14H4V10H10V4H14V10H20V14Z" />
-        <Path x:Key="UserPathIcon" x:Shared="False"  Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+        
+        <Path
+            x:Key="PathAppIcon"
+            x:Shared="False"
+            Fill="Yellow"
+            Style="{StaticResource DefaultPathStyle}" 
+            Data="M22 13V19H6V13H22M6 5V11H16V5H6M2 2V22H4V2H2"/>
+        
+        <Path 
+            x:Key="AddPathIcon"
+            x:Shared="False"
+            Style="{StaticResource DefaultPathStyle}"
+            Data="M20 14H14V20H10V14H4V10H10V4H14V10H20V14Z"/>
+        
+        <Path
+            x:Key="UserPathIcon"
+            x:Shared="False"
+            Style="{StaticResource DefaultPathStyle}"
+            Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
 
         <Style TargetType="tk:MessageWindow">
             <Setter Property="PathIcon" Value="{StaticResource PathAppIcon}"/>
@@ -58,6 +74,55 @@
             <Setter Property="FontSize" Value="16"/>
         </Style>
 
+        <Style x:Key="DefaultButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="LightBlue"/>
+            <Setter Property="Foreground" Value="DarkBlue"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="1"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter
+                                x:Name="ContentPresenter"
+                                Grid.Column="1"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Focusable="False"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Gray"/>
+                            </Trigger>
+                           </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}"/>
+
         <DataTemplate DataType="{x:Type l:WelcomeViewModel}">
             <l:WelcomeView/>
         </DataTemplate>
@@ -73,7 +138,11 @@
         <DataTemplate DataType="{x:Type l:OtherViewModel}">
             <l:OtherView/>
         </DataTemplate>
-        
+
+        <DataTemplate DataType="{x:Type l:ColorPickerViewModel}">
+            <l:ColorPickerView/>
+        </DataTemplate>
+
         <DataTemplate x:Key="TabItemTemplate">
             <ContentPresenter Content="{Binding DisplayName}"/>
         </DataTemplate>
