@@ -7,6 +7,8 @@
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ImageButton.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ImageToggleButton.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/LineItem.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ColorSlider.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ColorPicker.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>

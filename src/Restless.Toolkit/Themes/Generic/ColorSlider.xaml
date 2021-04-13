@@ -1,0 +1,58 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls">
+   
+    <!-- ColorSliderThumb  -->
+    <ControlTemplate x:Key="ColorSliderThumbControlTemplate" TargetType="con:ColorSliderThumb">
+        <Border 
+            Name="MainBorder"
+            Margin="{TemplateBinding Margin}"
+            Width="{TemplateBinding Width}"
+            Height="{TemplateBinding Height}"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"/>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <!--<Setter TargetName="MainBorder" Property="Background" Value="{Binding Background, RelativeSource={RelativeSource Mode=Self}}"/>-->
+            </Trigger>
+            <!--<Trigger Property="IsMouseCaptureWithin" Value="True">
+                <Setter TargetName="MainBorder" Property="Background" Value="#FF4F93BD"/>
+            </Trigger>-->
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="DefaultColorSliderThumbStyle" TargetType="con:ColorSliderThumb">
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template" Value="{StaticResource ColorSliderThumbControlTemplate}"/>
+    </Style>
+
+    <Style TargetType="con:ColorSliderThumb" BasedOn="{StaticResource DefaultColorSliderThumbStyle}"/>
+
+    <!-- ColorSlider -->
+    <ControlTemplate x:Key="ColorSliderControlVerticalTemplate" TargetType="con:ColorSlider">
+        <Border Background="{TemplateBinding Background}" Width="{TemplateBinding SliderSize}">
+            <Border Background="{TemplateBinding PanelBrush}">
+                <Track x:Name="PART_Track" Orientation="Vertical">
+                    <Track.Thumb>
+                        <con:ColorSliderThumb
+                            Margin="0"
+                            Height="10"
+                            Background="{TemplateBinding ThumbBrush}"/>
+                    </Track.Thumb>
+                </Track>
+            </Border>
+        </Border>
+    </ControlTemplate>
+
+    <Style x:Key="DefaultColorPickerStyle" TargetType="con:ColorSlider">
+        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="Template" Value="{StaticResource ColorSliderControlVerticalTemplate}"/>
+    </Style>
+
+    <Style TargetType="con:ColorSlider" BasedOn="{StaticResource DefaultColorPickerStyle}"/>
+
+</ResourceDictionary>

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
     <UseWpf>true</UseWpf>
     <OutputType>Library</OutputType>
     <PackageId>Restless.Toolkit</PackageId>
@@ -12,7 +12,7 @@
     <Authors>Restless Animal Development</Authors>
     <Company>Restless Animal Development</Company>
     <LangVersion>8</LangVersion>
-    <Version>2.5.6</Version>
+    <Version>2.5.7</Version>
     <Product>Restless Toolkit</Product>
     <Title>Restless.Toolkit</Title>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
@@ -23,6 +23,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>Restless.Toolkit.xml</DocumentationFile>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="WpfScreenHelper" Version="1.0.0" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -36,5 +39,4 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
 </Project>
