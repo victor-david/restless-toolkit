@@ -24,6 +24,21 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
+        /// Adds a resource with the specified key to the icon of the menu item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="resourceKey">The resource key.</param>
+        /// <returns>The item</returns>
+        public static MenuItem AddIconResource(this MenuItem item, object resourceKey)
+        {
+            if (resourceKey != null)
+            {
+                item.Icon = Application.Current.TryFindResource(resourceKey);
+            }
+            return item;
+        }
+
+        /// <summary>
         /// Adds a command parameter to the menu item
         /// </summary>
         /// <param name="item"></param>
