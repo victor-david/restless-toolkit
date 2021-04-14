@@ -34,11 +34,11 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Gets the maximum allowed value of <see cref="SliderSize"/>.
         /// </summary>
-        public const double MaxSliderSize = 58;
+        public const double MaxSliderSize = 38;
         /// <summary>
         /// Gets the default value of <see cref="SliderSize"/>.
         /// </summary>
-        public const double DefaultSliderSize = 22;
+        public const double DefaultSliderSize = 20;
         #endregion
 
         /************************************************************************/
@@ -70,6 +70,23 @@ namespace Restless.Toolkit.Controls
             double value = (double)baseValue;
             return Math.Min(Math.Max(value, MinSliderSize), MaxSliderSize);
         }
+
+        /// <summary>
+        /// Gets or sets the label that is displayed for the slider.
+        /// </summary>
+        public string Label
+        {
+            get => (string)GetValue(LabelProperty);
+            set => SetValue(LabelProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Label"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register
+            (
+                nameof(Label), typeof(string), typeof(ColorSlider), new PropertyMetadata()
+            );
 
         /// <summary>
         /// Gets or sets the brush to use on the thumb.

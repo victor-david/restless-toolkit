@@ -10,9 +10,12 @@ namespace Restless.Toolkit.Controls
     /// <summary>
     /// Represents the main picker panel
     /// </summary>
+    [TemplatePart(Name = PartCanvas, Type = typeof(Border))]
     internal class MainPicker : Control
     {
         #region Private
+        private const string PartCanvas = "PART_Canvas";
+        private Border canvas;
         private readonly MainPickerAdorner adorner;
         private bool isAdornerPositionSyncSuspended;
         private bool isColorComponentChangedEventSuspended;
@@ -148,6 +151,83 @@ namespace Restless.Toolkit.Controls
                 control.OnColorComponentChanged();
             }
         }
+
+        /// <summary>
+        /// From this assembly, gets or sets the red color component value.
+        /// </summary>
+        internal double Red
+        {
+            get => (double)GetValue(RedProperty);
+            set => SetValue(RedProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Red"/> dependency property.
+        /// </summary>
+        internal static readonly DependencyProperty RedProperty = DependencyProperty.Register
+            (
+                nameof(Red), typeof(double), typeof(MainPicker), new PropertyMetadata()
+                {
+                    DefaultValue = ColorValues.DefaultRed,
+                    CoerceValueCallback = OnCoerceRbgaColorComponent,
+                    PropertyChangedCallback = OnRgbColorComponentPropertyChanged,
+                }
+            );
+
+        /// <summary>
+        /// From this assembly, gets or sets the green color component value.
+        /// </summary>
+        internal double Green
+        {
+            get => (double)GetValue(GreenProperty);
+            set => SetValue(GreenProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Green"/> dependency property.
+        /// </summary>
+        internal static readonly DependencyProperty GreenProperty = DependencyProperty.Register
+            (
+                nameof(Green), typeof(double), typeof(MainPicker), new PropertyMetadata()
+                {
+                    DefaultValue = ColorValues.DefaultGreen,
+                    CoerceValueCallback = OnCoerceRbgaColorComponent,
+                    PropertyChangedCallback = OnRgbColorComponentPropertyChanged,
+                }
+            );
+
+        /// <summary>
+        /// From this assembly, gets or sets the blue color component value.
+        /// </summary>
+        internal double Blue
+        {
+            get => (double)GetValue(BlueProperty);
+            set => SetValue(BlueProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Blue"/> dependency property.
+        /// </summary>
+        internal static readonly DependencyProperty BlueProperty = DependencyProperty.Register
+            (
+                nameof(Blue), typeof(double), typeof(MainPicker), new PropertyMetadata()
+                {
+                    DefaultValue = ColorValues.DefaultBlue,
+                    CoerceValueCallback = OnCoerceRbgaColorComponent,
+                    PropertyChangedCallback = OnRgbColorComponentPropertyChanged,
+                }
+            );
+
+        private static object OnCoerceRbgaColorComponent(DependencyObject d, object baseValue)
+        {
+            double value = (double)baseValue;
+            return Math.Min(Math.Max(value, ColorValues.MinRgbaComponent), ColorValues.MaxRgbaComponent);
+        }
+
+        private static void OnRgbColorComponentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            //(d as MainPicker)?.ApplyRgbToSelectedColor();
+        }
         #endregion
 
         /************************************************************************/
@@ -175,6 +255,27 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
+        #region Properties (injection element)
+        /// <summary>
+        /// Gets or sets an element that is injected into the template
+        /// </summary>
+        public UIElement InjectionElement
+        {
+            get => (UIElement)GetValue(InjectionElementProperty);
+            set => SetValue(InjectionElementProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="InjectionElement"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty InjectionElementProperty = DependencyProperty.Register
+            (
+                nameof(InjectionElement), typeof(UIElement), typeof(MainPicker), new PropertyMetadata()
+            );
+        #endregion
+
+        /************************************************************************/
+
         #region Public methods (although public, this is an internal class)
         /// <summary>
         /// Updates the color components (hue, saturation, and brightness)
@@ -194,35 +295,28 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
-        #region Protected methods
+        #region Public methods
         /// <summary>
-        /// Called on mouse movement to update the adorner and color components.
+        /// Called when the control template is applied.
         /// </summary>
-        /// <param name="e">Mouse args.</param>
-        protected override void OnMouseMove(MouseEventArgs e)
+        public override void OnApplyTemplate()
         {
-            base.OnMouseMove(e);
-
-            if (e.LeftButton == MouseButtonState.Pressed)
+            base.OnApplyTemplate();
+            if (canvas != null)
             {
-                Mouse.Capture(this);
-                Point point = e.GetPosition(this).ClampToElement(this);
-                SyncAdornerPositionToMousePosition(point);
-                SyncColorComponentsToMousePosition(point);
+                canvas.MouseMove -= CanvasMouseMove;
+                canvas.MouseUp -= CanvasMouseUp;
             }
-        }
 
-        /// <summary>
-        /// Called on mouse up to update the adorner and color components.
-        /// </summary>
-        /// <param name="e">Mouse args.</param>
-        protected override void OnMouseUp(MouseButtonEventArgs e)
-        {
-            base.OnMouseUp(e);
-            Mouse.Capture(null);
-            Point point = e.GetPosition(this).ClampToElement(this);
-            SyncAdornerPositionToMousePosition(point);
-            SyncColorComponentsToMousePosition(point);
+            canvas = GetTemplateChild(PartCanvas) as Border;
+
+            if (canvas == null)
+            {
+                throw new NotImplementedException("Control template not implemented correctly");
+            }
+
+            canvas.MouseMove += CanvasMouseMove;
+            canvas.MouseUp += CanvasMouseUp;
         }
         #endregion
 
@@ -236,6 +330,25 @@ namespace Restless.Toolkit.Controls
                 layer.Add(adorner);
                 SyncAdornerPositionToColorComponents();
             }
+        }
+
+        private void CanvasMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Mouse.Capture(canvas);
+                Point point = e.GetPosition(canvas).ClampToElement(canvas);
+                SyncAdornerPositionToMousePosition(point);
+                SyncColorComponentsToMousePosition(point);
+            }
+        }
+
+        private void CanvasMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Mouse.Capture(null);
+            Point point = e.GetPosition(canvas).ClampToElement(canvas);
+            SyncAdornerPositionToMousePosition(point);
+            SyncColorComponentsToMousePosition(point);
         }
 
         /// <summary>
@@ -286,10 +399,13 @@ namespace Restless.Toolkit.Controls
         /// <param name="clampedPoint">The mouse position (clamped to be inside of this control)</param>
         private void SyncColorComponentsToMousePosition(Point clampedPoint)
         {
-            SuspendAdornerPositionSync();
-            Saturation = clampedPoint.X / ActualWidth;
-            Brightness = 1 - (clampedPoint.Y / ActualHeight);
-            ResumeAdornerPositionSync();
+            if (canvas != null)
+            {
+                SuspendAdornerPositionSync();
+                Saturation = clampedPoint.X / canvas.ActualWidth;
+                Brightness = 1 - (clampedPoint.Y / canvas.ActualHeight);
+                ResumeAdornerPositionSync();
+            }
         }
 
         /// <summary>
@@ -298,9 +414,9 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         private void SyncAdornerPositionToColorComponents()
         {
-            if (!isAdornerPositionSyncSuspended)
+            if (!isAdornerPositionSyncSuspended && canvas != null)
             {
-                adorner.Position = new Point(Saturation * ActualWidth, (1 - Brightness) * ActualHeight);
+                adorner.Position = new Point(Saturation * canvas.ActualWidth, (1 - Brightness) * canvas.ActualHeight);
             }
         }
 
