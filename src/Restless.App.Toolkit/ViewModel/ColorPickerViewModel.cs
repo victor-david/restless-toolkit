@@ -16,7 +16,7 @@ namespace Restless.App.Toolkit
             Commands.Add("SetColor", RunSetColorCommand);
             CanvasWidth = ColorPicker.DefaultCanvasWidth;
             SliderSize = ColorSlider.DefaultSliderSize;
-            SelectedColor = Colors.Green;
+            SelectedColor = ColorValues.DefaultColor;
         }
 
         /// <summary>

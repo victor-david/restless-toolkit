@@ -339,7 +339,7 @@ namespace Restless.Toolkit.Controls
                 EndPoint = new Point(1, 0)
             };
             PanelBrush.GradientStops.Add(new GradientStop(Colors.White, 0));
-            PanelBrush.GradientStops.Add(new GradientStop(Colors.Red, 1));
+            PanelBrush.GradientStops.Add(new GradientStop(ColorValues.DefaultColor, 1));
         }
         #endregion
     }
