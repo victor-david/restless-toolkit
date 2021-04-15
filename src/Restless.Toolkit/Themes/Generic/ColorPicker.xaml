@@ -160,6 +160,8 @@
                                                 Grid.Column="1"
                                                 Margin="4,0"
                                                 MaxWidth="98"
+                                                IsReadOnly="True"
+                                                IsReadOnlyCaretVisible="True"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Center"
                                                 Text="{Binding ColorHexCode, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"/>
