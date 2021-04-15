@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:core="clr-namespace:Restless.Toolkit.Core"
     xmlns:con="clr-namespace:Restless.Toolkit.Controls">
     
     <!-- Support Brushes -->
@@ -37,97 +38,155 @@
         </LinearGradientBrush.GradientStops>
     </LinearGradientBrush>
 
+    <Thickness x:Key="DefaultSliderMargin">0,2,0,2</Thickness>
+    <Thickness x:Key="InjectionMargin">0,4,0,2</Thickness>
+    
     <!-- Component of ColorPicker: MainPicker -->
+    <ControlTemplate x:Key="MainPickerControlTemplate" TargetType="con:MainPicker">
+        <Grid 
+            core:Property.ColumnWidths="Auto,Auto"
+            core:Property.RowHeights="Auto,Auto,Auto">
+            <Border 
+                Background="{TemplateBinding Background}"
+                Width="{Binding CanvasWidth, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
+                Height="{Binding CanvasHeight, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}">
+
+                <Border x:Name="PART_Canvas" Background="{TemplateBinding PanelBrush}">
+                    <Border.OpacityMask>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Border.OpacityMask>
+                </Border>
+            </Border>
+
+            <con:ColorSlider
+                Grid.Column="1"
+                Margin="8,0,0,0"
+                Minimum="{x:Static con:ColorValues.MinHue}"
+                Maximum="{x:Static con:ColorValues.MaxHue}"
+                Value="{Binding Hue, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                IsDirectionReversed="True"
+                SliderSize="{Binding SliderSize, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
+                Background="{StaticResource HuePickerBackgroundBrush}"/>
+
+            <ContentPresenter 
+                Grid.Row="1" 
+                Margin="{StaticResource InjectionMargin}"
+                Content="{TemplateBinding InjectionElement}"/>
+            
+            <StackPanel 
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                core:Property.IsVisible="{Binding DisplayRgb, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}">
+
+                <con:ColorSlider
+                    Margin="{StaticResource DefaultSliderMargin}"
+                    Orientation="Horizontal"
+                    Minimum="{x:Static con:ColorValues.MinRgbaComponent}"
+                    Maximum="{x:Static con:ColorValues.MaxRgbaComponent}"
+                    Label="R"
+                    Value="{Binding Red, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                    SliderSize="{Binding SliderSize, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
+                    Background="{StaticResource TransparentCheckeredBrush}"/>
+
+                <con:ColorSlider
+                    Margin="{StaticResource DefaultSliderMargin}"
+                    Orientation="Horizontal"
+                    Minimum="{x:Static con:ColorValues.MinRgbaComponent}"
+                    Maximum="{x:Static con:ColorValues.MaxRgbaComponent}"
+                    Label="G"
+                    Value="{Binding Green, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                    SliderSize="{Binding SliderSize, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
+                    Background="{StaticResource TransparentCheckeredBrush}"/>
+
+                <con:ColorSlider
+                    Margin="{StaticResource DefaultSliderMargin}"
+                    Orientation="Horizontal"
+                    Minimum="{x:Static con:ColorValues.MinRgbaComponent}"
+                    Maximum="{x:Static con:ColorValues.MaxRgbaComponent}"
+                    Label="B"
+                    Value="{Binding Blue, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                    SliderSize="{Binding SliderSize, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
+                    Background="{StaticResource TransparentCheckeredBrush}"/>
+
+            </StackPanel>
+        </Grid>
+    </ControlTemplate>
+
     <Style TargetType="con:MainPicker">
         <Setter Property="Background" Value="Black"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="con:MainPicker">
-                    <Border Background="{TemplateBinding Background}">
-                        <Border Background="{TemplateBinding PanelBrush}">
-                            <Border.OpacityMask>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStop Color="#FFFFFFFF" Offset="0"/>
-                                        <GradientStop Color="#00000000" Offset="1"/>
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
-                            </Border.OpacityMask>
-                        </Border>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Template" Value="{StaticResource MainPickerControlTemplate}"/>
     </Style>
 
     <Style x:Key="DefaultColorPickerStyle" TargetType="con:ColorPicker">
-        <!--<Style.Resources>
-            <Style TargetType="Grid">
-                <Setter Property="ShowGridLines" Value="True"/>
-            </Style>
-        </Style.Resources>-->
+        <Setter Property="TextElement.Foreground" Value="Gray"/>
+        <Setter Property="Sliders" Value="Default"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="con:ColorPicker">
                     <AdornerDecorator>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+                        <Border 
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
                             
-                            <con:MainPicker
-                                x:Name="PART_MainPicker"
-                                Width="{TemplateBinding CanvasWidth}"
-                                Height="{TemplateBinding CanvasHeight}"
-                                Margin="{TemplateBinding PickerMargin}"/>
+                            <Grid
+                                core:Property.RowHeights="Auto,Auto,Auto,*"
+                                core:Property.ColumnWidths="Auto,Auto,*">
 
-                            <con:ColorSlider
-                                Grid.Column="1"
-                                Grid.RowSpan="2"
-                                Minimum="0"
-                                Maximum="360"
-                                Value="{Binding Hue, ElementName=PART_MainPicker}"
-                                IsDirectionReversed="True"
-                                Margin="{TemplateBinding PickerMargin}"
-                                SliderSize="{TemplateBinding SliderSize}"
-                                Background="{StaticResource HuePickerBackgroundBrush}"/>
+                                <con:MainPicker x:Name="PART_MainPicker" Margin="0">
+                                    <con:MainPicker.InjectionElement>
+                                        <!-- Selected color and hex code display -->
+                                        <Grid core:Property.ColumnWidths="Auto,*">
+                                            <!-- Selected color -->
+                                            <Border
+                                                HorizontalAlignment="Left"
+                                                Width="{TemplateBinding DemoCanvasWidth}"
+                                                Height="{TemplateBinding DemoCanvasHeight}"
+                                                Background="{StaticResource TransparentCheckeredBrush}">
 
-                            <con:ColorSlider
-                                x:Name="PART_AlphaPicker"
-                                Grid.Column="2"
-                                Grid.RowSpan="2"
-                                Minimum="0"
-                                Maximum="255"
-                                Value="{Binding Alpha, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
-                                IsDirectionReversed="True"
-                                Margin="{TemplateBinding PickerMargin}"
-                                SliderSize="{TemplateBinding SliderSize}"
-                                Background="{StaticResource TransparentCheckeredBrush}"/>
+                                                <Border Background="{TemplateBinding SelectedColorBrush}"/>
 
-                            <!-- Selected color display -->
-                            <Grid Grid.Row="1" Grid.ColumnSpan="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Border
-                                    Width="{TemplateBinding DemoCanvasWidth}"
-                                    Height="{TemplateBinding DemoCanvasHeight}"
-                                    Background="{StaticResource TransparentCheckeredBrush}"
-                                    Margin="{TemplateBinding PickerMargin}">
+                                            </Border>
 
-                                    <Border Background="{TemplateBinding SelectedColorBrush}"/>
-                                </Border>
+                                            <!-- Hex code -->
+                                            <TextBox
+                                                Grid.Column="1"
+                                                Margin="4,0"
+                                                MaxWidth="98"
+                                                IsReadOnly="True"
+                                                IsReadOnlyCaretVisible="True"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding ColorHexCode, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"/>
+                                        </Grid>
 
-                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="#FFA0A0A0"/>
+                                    </con:MainPicker.InjectionElement>
+                                </con:MainPicker>
+
+                                <!-- Alpha slider -->
+                                <con:ColorSlider
+                                    x:Name="PART_AlphaPicker"
+                                    Grid.Row="2"
+                                    Grid.ColumnSpan="2"
+                                    Margin="{StaticResource DefaultSliderMargin}"
+                                    core:Property.IsVisible="{TemplateBinding DisplayAlpha}"
+                                    Orientation="Horizontal"
+                                    Minimum="{x:Static con:ColorValues.MinRgbaComponent}"
+                                    Maximum="{x:Static con:ColorValues.MaxRgbaComponent}"
+                                    Label="A"
+                                    Value="{Binding Alpha, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
+                                    SliderSize="{TemplateBinding SliderSize}"
+                                    Background="{StaticResource TransparentCheckeredBrush}"/>
+
                             </Grid>
-                        </Grid>
+                        </Border>
                     </AdornerDecorator>
                 </ControlTemplate>
             </Setter.Value>

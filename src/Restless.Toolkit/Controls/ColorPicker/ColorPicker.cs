@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -19,23 +18,7 @@ namespace Restless.Toolkit.Controls
         private const double WidthHeightRatio = 1.0 / 1.618;
         private MainPicker mainPicker;
         private ColorSlider alphaPicker;
-        private ColorUpdateOrign selectedColorUpdateOrign;
-        #endregion
-
-        /************************************************************************/
-
-        #region Private helper enum
-        private enum ColorUpdateOrign
-        {
-            /// <summary>
-            /// Color is being upated via the control consumer.
-            /// </summary>
-            Consumer,
-            /// <summary>
-            /// Color is being updated from within the control itself.
-            /// </summary>
-            ControlInternal
-        }
+        private bool mainPickerEventInProgress;
         #endregion
 
         /************************************************************************/
@@ -44,7 +27,7 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Gets the minimum allowed value of <see cref="CanvasWidth"/>.
         /// </summary>
-        public const double MinCanvasWidth = 112;
+        public const double MinCanvasWidth = 148;
         /// <summary>
         /// Gets the maximum allowed value of <see cref="CanvasWidth"/>.
         /// </summary>
@@ -74,29 +57,114 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
-        #region Properties
+        #region Properties (sliders)
         /// <summary>
-        /// Gets or sets the margin for the hue and alpha pickers.
+        /// Gets or sets the configuration of the sliders
         /// </summary>
-        public Thickness PickerMargin
+        public ColorSliderConfig Sliders
         {
-            get => (Thickness)GetValue(PickerMarginProperty);
-            set => SetValue(PickerMarginProperty, value);
+            get => (ColorSliderConfig)GetValue(SlidersProperty);
+            set => SetValue(SlidersProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <see cref="PickerMargin"/> dependency property.
+        /// Identifies the <see cref="Sliders"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty PickerMarginProperty = DependencyProperty.Register
+        public static readonly DependencyProperty SlidersProperty = DependencyProperty.Register
             (
-                nameof(PickerMargin), typeof(Thickness), typeof(ColorPicker), new PropertyMetadata()
+                nameof(Sliders), typeof(ColorSliderConfig), typeof(ColorPicker), new PropertyMetadata()
                 {
-                    DefaultValue = new Thickness(2)
+                    DefaultValue = ColorSliderConfig.Default,
+                    PropertyChangedCallback = OnSlidersPropertyChanged,
+                }
+            );
+
+        private static void OnSlidersPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ColorPicker control)
+            {
+                control.DisplayAlpha = control.Sliders.HasFlag(ColorSliderConfig.Alpha);
+                control.DisplayRgb = control.Sliders.HasFlag(ColorSliderConfig.Rgb);
+            }
+        }
+
+        /// <summary>
+        /// Gets a boolean value that determines if the alpha slider is displayed.
+        /// </summary>
+        public bool DisplayAlpha
+        {
+            get => (bool)GetValue(DisplayAlphaProperty);
+            private set => SetValue(DisplayAlphaPropertyKey, value);
+        }
+
+        private static readonly DependencyPropertyKey DisplayAlphaPropertyKey = DependencyProperty.RegisterReadOnly
+            (
+                nameof(DisplayAlpha), typeof(bool), typeof(ColorPicker), new PropertyMetadata()
+                {
+                    DefaultValue = true,
                 }
             );
 
         /// <summary>
-        /// Gets or sets the dimension (both width and height) for the main picker canvas
+        /// Identifies the <see cref="DisplayAlpha"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DisplayAlphaProperty = DisplayAlphaPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets a boolean value that deterneins if the RGB sliders are displayed.
+        /// </summary>
+        public bool DisplayRgb
+        {
+            get => (bool)GetValue(DisplayRgbProperty);
+            private set => SetValue(DisplayRgbPropertyKey, value);
+        }
+
+        private static readonly DependencyPropertyKey DisplayRgbPropertyKey = DependencyProperty.RegisterReadOnly
+            (
+                nameof(DisplayRgb), typeof(bool), typeof(ColorPicker), new PropertyMetadata()
+                {
+                    DefaultValue = true,
+                }
+            );
+
+        /// <summary>
+        /// Identifies the <see cref="DisplayRgb"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DisplayRgbProperty = DisplayRgbPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets or sets the slider size.
+        /// </summary>
+        public double SliderSize
+        {
+            get => (double)GetValue(SliderSizeProperty);
+            set => SetValue(SliderSizeProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="SliderSize"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SliderSizeProperty = DependencyProperty.Register
+            (
+                nameof(SliderSize), typeof(double), typeof(ColorPicker), new PropertyMetadata()
+                {
+                    DefaultValue = ColorSlider.DefaultSliderSize,
+                    CoerceValueCallback = OnCoerceSliderSize,
+                }
+            );
+
+        private static object OnCoerceSliderSize(DependencyObject d, object baseValue)
+        {
+            double value = (double)baseValue;
+            return Math.Min(Math.Max(value, ColorSlider.MinSliderSize), ColorSlider.MaxSliderSize);
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region Properties (canvas)
+        /// <summary>
+        /// Gets or sets the width for the main picker canvas.
         /// </summary>
         public double CanvasWidth
         {
@@ -133,7 +201,7 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
-        /// Gets the canvas width
+        /// Gets the canvas height.
         /// </summary>
         public double CanvasHeight
         {
@@ -206,34 +274,11 @@ namespace Restless.Toolkit.Controls
         /// Identifies the <see cref="DemoCanvasHeight"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DemoCanvasHeightProperty = DemoCanvasHeightPropertyKey.DependencyProperty;
+        #endregion
 
-        /// <summary>
-        /// Gets or sets the slider size.
-        /// </summary>
-        public double SliderSize
-        {
-            get => (double)GetValue(SliderSizeProperty);
-            set => SetValue(SliderSizeProperty, value);
-        }
+        /************************************************************************/
 
-        /// <summary>
-        /// Identifies the <see cref="SliderSize"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty SliderSizeProperty = DependencyProperty.Register
-            (
-                nameof(SliderSize), typeof(double), typeof(ColorPicker), new PropertyMetadata()
-                {
-                    DefaultValue = ColorSlider.DefaultSliderSize,
-                    CoerceValueCallback = OnCoerceSliderSize,
-                }
-            );
-
-        private static object OnCoerceSliderSize(DependencyObject d, object baseValue)
-        {
-            double value = (double)baseValue;
-            return Math.Min(Math.Max(value, ColorSlider.MinSliderSize), ColorSlider.MaxSliderSize);
-        }
-
+        #region Properties (color components)
         /// <summary>
         /// From this assembly, gets or sets the alpha value.
         /// </summary>
@@ -250,16 +295,16 @@ namespace Restless.Toolkit.Controls
             (
                 nameof(Alpha), typeof(double), typeof(ColorPicker), new FrameworkPropertyMetadata()
                 {
-                    DefaultValue = ColorValues.MaxAlpha,
-                    CoerceValueCallback = OnCoerceAlphaProperty,
+                    DefaultValue = ColorValues.DefaultAlpha,
+                    CoerceValueCallback = OnCoerceAlpha,
                     PropertyChangedCallback = OnAlphaPropertyChanged
                 }
             );
 
-        private static object OnCoerceAlphaProperty(DependencyObject d, object baseValue)
+        private static object OnCoerceAlpha(DependencyObject d, object baseValue)
         {
             double value = (double)baseValue;
-            return Math.Min(Math.Max(value, ColorValues.MinAlpha), ColorValues.MaxAlpha);
+            return Math.Min(Math.Max(Math.Round(value), ColorValues.MinRgbaComponent), ColorValues.MaxRgbaComponent);
         }
 
         private static void OnAlphaPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -283,7 +328,7 @@ namespace Restless.Toolkit.Controls
             (
                 nameof(SelectedColor), typeof(Color), typeof(ColorPicker), new FrameworkPropertyMetadata()
                 {
-                    DefaultValue = Colors.Red,
+                    DefaultValue = ColorValues.DefaultColor,
                     BindsTwoWayByDefault = true,
                     PropertyChangedCallback = OnSelectedColorPropertyChanged,
                 }
@@ -314,6 +359,26 @@ namespace Restless.Toolkit.Controls
         /// Identifies the <see cref="SelectedColorBrush"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SelectedColorBrushProperty = SelectedColorBrushPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// From this assenbly, gets or sets the color hex code.
+        /// </summary>
+        internal string ColorHexCode
+        {
+            get => (string)GetValue(ColorHexCodeProperty);
+            set => SetValue(ColorHexCodeProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColorHexCode"/> dependency property.
+        /// </summary>
+        internal static readonly DependencyProperty ColorHexCodeProperty = DependencyProperty.Register
+            (
+                nameof(ColorHexCode), typeof(string), typeof(ColorPicker), new PropertyMetadata()
+                {
+                    DefaultValue = ColorValues.DefaultHexCode
+                }
+            );
         #endregion
 
         /************************************************************************/
@@ -353,17 +418,18 @@ namespace Restless.Toolkit.Controls
 
         private void OnSelectedColorChanged()
         {
-            SyncAlpa();
+            SyncAlpha();
             UpdateAlphaPanelBrush();
             UpdateSelectedColorBrush();
+            UpdateColorHexCode();
             SyncToMainPicker();
         }
 
         private void MainPickerColorComponentChanged(object sender, ColorComponents e)
         {
-            selectedColorUpdateOrign = ColorUpdateOrign.ControlInternal;
+            mainPickerEventInProgress = true;
             SelectedColor = ColorHelper.ColorFromHSB(e.Hue, e.Saturation, e.Brightness);
-            selectedColorUpdateOrign = ColorUpdateOrign.Consumer;
+            mainPickerEventInProgress = false;
         }
 
         private void UpdateSelectedColorBrush()
@@ -371,9 +437,14 @@ namespace Restless.Toolkit.Controls
             SelectedColorBrush.Color = SelectedColor;
         }
 
+        private void UpdateColorHexCode()
+        {
+            ColorHexCode = SelectedColor.ToString();
+        }
+
         private void SyncToMainPicker()
         {
-            if (selectedColorUpdateOrign == ColorUpdateOrign.Consumer)
+            if (!mainPickerEventInProgress)
             {
                 mainPicker?.UpdateColorComponents(SelectedColor);
             }
@@ -384,9 +455,9 @@ namespace Restless.Toolkit.Controls
         /// or taking the alpha value from the selected color and applying it
         /// to the <see cref="Alpha"/> property, depending on the origin of the color change.
         /// </summary>
-        private void SyncAlpa()
+        private void SyncAlpha()
         {
-            if (selectedColorUpdateOrign == ColorUpdateOrign.ControlInternal)
+            if (mainPickerEventInProgress)
             {
                 ApplyAlphaToSelectedColor();
             }
@@ -424,7 +495,7 @@ namespace Restless.Toolkit.Controls
         /// </remarks>
         private void InitializeSelectedColorBrush()
         {
-            SelectedColorBrush = new SolidColorBrush(Colors.Red);
+            SelectedColorBrush = new SolidColorBrush(ColorValues.DefaultColor);
         }
 
         /// <summary>
@@ -440,10 +511,10 @@ namespace Restless.Toolkit.Controls
                 alphaPicker.PanelBrush = new LinearGradientBrush()
                 {
                     StartPoint = new Point(0, 0),
-                    EndPoint = new Point(0,1)
+                    EndPoint = new Point(1,0)
                 };
                 alphaPicker.PanelBrush.GradientStops.Add(new GradientStop(Colors.Transparent, 0));
-                alphaPicker.PanelBrush.GradientStops.Add(new GradientStop(Colors.Red, 1));
+                alphaPicker.PanelBrush.GradientStops.Add(new GradientStop(ColorValues.DefaultColor, 1));
             }
         }
         #endregion
