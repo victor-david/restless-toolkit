@@ -304,7 +304,7 @@ namespace Restless.Toolkit.Controls
         private static object OnCoerceAlpha(DependencyObject d, object baseValue)
         {
             double value = (double)baseValue;
-            return Math.Min(Math.Max(value, ColorValues.MinRgbaComponent), ColorValues.MaxRgbaComponent);
+            return Math.Min(Math.Max(Math.Round(value), ColorValues.MinRgbaComponent), ColorValues.MaxRgbaComponent);
         }
 
         private static void OnAlphaPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -466,7 +466,6 @@ namespace Restless.Toolkit.Controls
                 Alpha = SelectedColor.A;
             }
         }
-
 
         private void ApplyAlphaToSelectedColor()
         {

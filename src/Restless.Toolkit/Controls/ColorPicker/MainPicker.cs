@@ -10,6 +10,13 @@ namespace Restless.Toolkit.Controls
     /// <summary>
     /// Represents the main picker panel
     /// </summary>
+    /// <remarks>
+    /// This control provides the main picker panel that is used to select a color by
+    /// moving the maker around in a gradient area. It also supplies a Hue slider and 
+    /// RGB sliders that may be used for color adjustment. It does not provide alpha
+    /// adjustment; that is handled by <see cref="ColorPicker"/>, the control that
+    /// interacts with this control and the application using the control.
+    /// </remarks>
     [TemplatePart(Name = PartCanvas, Type = typeof(Border))]
     internal class MainPicker : Control
     {
