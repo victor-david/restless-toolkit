@@ -32,6 +32,7 @@
     <Grid tk:Property.RowHeights="*" tk:Property.ColumnWidths="*,Auto,1.5*,*">
 
         <tk:ColorPicker
+            Sliders="{Binding SliderConfig}"
             CanvasWidth="{Binding CanvasWidth}"
             SliderSize="{Binding SliderSize}"
             SelectedColor="{Binding SelectedColor}"/>
@@ -45,19 +46,29 @@
                 to a property in the view model.
             </TextBlock>
 
-            <TextBlock Text="Canvas size"/>
+            <Grid tk:Property.ColumnWidths="*,*">
+                <StackPanel>
+                    <TextBlock Text="Canvas size"/>
 
-            <Slider
-                Minimum="{x:Static tk:ColorPicker.MinCanvasWidth}"
-                Maximum="{x:Static tk:ColorPicker.MaxCanvasWidth}"
-                Value="{Binding CanvasWidth}"/>
+                    <Slider
+                        Minimum="{x:Static tk:ColorPicker.MinCanvasWidth}"
+                        Maximum="{x:Static tk:ColorPicker.MaxCanvasWidth}"
+                        Value="{Binding CanvasWidth}"/>
 
-            <TextBlock Text="Slider size"/>
+                    <TextBlock Text="Slider size"/>
 
-            <Slider
-                Minimum="{x:Static tk:ColorSlider.MinSliderSize}"
-                Maximum="{x:Static tk:ColorSlider.MaxSliderSize}"
-                Value="{Binding SliderSize}"/>
+                    <Slider
+                        Minimum="{x:Static tk:ColorSlider.MinSliderSize}"
+                        Maximum="{x:Static tk:ColorSlider.MaxSliderSize}"
+                        Value="{Binding SliderSize}"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1" Margin="24,0">
+                    <TextBlock Text="Other options"/>
+                    <CheckBox IsChecked="{Binding DisplayRgbSliders}" Content="Display RGB slider"/>
+                    <CheckBox IsChecked="{Binding DisplayAlphaSlider}" Content="Display alpha slider"/>
+                </StackPanel>
+            </Grid>
 
             <!-- Presets -->
             <TextBlock Text="Presets"/>
