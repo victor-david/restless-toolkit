@@ -332,6 +332,7 @@ namespace Restless.Toolkit.Controls
         {
             if (AdornerLayer.GetAdornerLayer(this) is AdornerLayer layer)
             {
+                layer.Remove(adorner);
                 layer.Add(adorner);
                 SyncAdornerPositionToColorComponents();
             }
