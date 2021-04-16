@@ -89,9 +89,10 @@
                     Minimum="{x:Static con:ColorValues.MinRgbaComponent}"
                     Maximum="{x:Static con:ColorValues.MaxRgbaComponent}"
                     Label="R"
+                    BorderThickness="1"
+                    BorderBrush="{TemplateBinding BorderBrush}"
                     Value="{Binding Red, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                    SliderSize="{Binding SliderSize, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
-                    Background="{StaticResource TransparentCheckeredBrush}"/>
+                    SliderSize="{Binding SliderSize, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"/>
 
                 <con:ColorSlider
                     Margin="{StaticResource DefaultSliderMargin}"
@@ -99,9 +100,10 @@
                     Minimum="{x:Static con:ColorValues.MinRgbaComponent}"
                     Maximum="{x:Static con:ColorValues.MaxRgbaComponent}"
                     Label="G"
+                    BorderThickness="1"
+                    BorderBrush="{TemplateBinding BorderBrush}"
                     Value="{Binding Green, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                    SliderSize="{Binding SliderSize, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
-                    Background="{StaticResource TransparentCheckeredBrush}"/>
+                    SliderSize="{Binding SliderSize, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"/>
 
                 <con:ColorSlider
                     Margin="{StaticResource DefaultSliderMargin}"
@@ -109,9 +111,10 @@
                     Minimum="{x:Static con:ColorValues.MinRgbaComponent}"
                     Maximum="{x:Static con:ColorValues.MaxRgbaComponent}"
                     Label="B"
+                    BorderThickness="1"
+                    BorderBrush="{TemplateBinding BorderBrush}"
                     Value="{Binding Blue, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                    SliderSize="{Binding SliderSize, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
-                    Background="{StaticResource TransparentCheckeredBrush}"/>
+                    SliderSize="{Binding SliderSize, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"/>
 
             </StackPanel>
         </Grid>
@@ -140,7 +143,7 @@
                                 core:Property.RowHeights="Auto,Auto,Auto,*"
                                 core:Property.ColumnWidths="Auto,Auto,*">
 
-                                <con:MainPicker x:Name="PART_MainPicker" Margin="0">
+                                <con:MainPicker x:Name="PART_MainPicker" Margin="0" BorderBrush="LightGray">
                                     <con:MainPicker.InjectionElement>
                                         <!-- Selected color and hex code display -->
                                         <Grid core:Property.ColumnWidths="Auto,*">
@@ -181,6 +184,8 @@
                                     Minimum="{x:Static con:ColorValues.MinRgbaComponent}"
                                     Maximum="{x:Static con:ColorValues.MaxRgbaComponent}"
                                     Label="A"
+                                    BorderThickness="1"
+                                    BorderBrush="LightGray"
                                     Value="{Binding Alpha, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"
                                     SliderSize="{TemplateBinding SliderSize}"
                                     Background="{StaticResource TransparentCheckeredBrush}"/>

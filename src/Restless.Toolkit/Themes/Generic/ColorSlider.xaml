@@ -59,7 +59,12 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             
-            <Border Grid.Column="1" Background="{TemplateBinding Background}" Height="{TemplateBinding SliderSize}">
+            <Border 
+                Grid.Column="1"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Background="{TemplateBinding Background}"
+                Height="{TemplateBinding SliderSize}">
                 <Border Background="{TemplateBinding PanelBrush}">
                     <Track x:Name="PART_Track" Orientation="Horizontal">
                         <Track.Thumb>
