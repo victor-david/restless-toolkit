@@ -428,7 +428,36 @@ namespace Restless.Toolkit.Controls
         private void MainPickerColorComponentChanged(object sender, ColorComponents e)
         {
             mainPickerEventInProgress = true;
-            SelectedColor = ColorHelper.ColorFromHSB(e.Hue, e.Saturation, e.Brightness);
+            /* This event handler gets called when one of the HSB color components of MainPicker
+             * changes, even though it may not result in a different color. For example,
+             * when color saturation is zero (gray scale), a change in hue does not affect
+             * the resultant color.
+             * 
+             * However, in an odd aspect of WPF that I wasn't aware of, by assigning the
+             * same value to a dependency property that it currently holds, the binding
+             * still propagates back to the source (in the case of a two way or one way
+             * to source binding) even though the property didn't actually change its value.
+             * 
+             * The PropertyChangedCallback doesn't get called when the same value is assigned
+             * (as expected), but the binding still propagates.
+             * 
+             * Because of this behavior, first we obtain the color from the HSB values
+             * and check to see if the resultant color is the same. If it's the same,
+             * we don't assign it to the SelectedColor property. This is done to avoid
+             * adverse effects on the consumer of the SelectedColor property who might
+             * have SelectedColor bound to a property of the consumer's and expect that
+             * the binding mechanism fires only when the value is actually different.
+             * 
+             * This frees the consumer from the need to check if the incoming bound
+             * value is the same as their backing store. Of course, if the consumer is 
+             * using a dependency property as their storage, their PropertyChangedCallback
+             * won't fire on the same value.
+             */
+            Color color = ColorHelper.ColorFromHSB(e.Hue, e.Saturation, e.Brightness);
+            if (color != SelectedColor)
+            {
+                SelectedColor = color;
+            }
             mainPickerEventInProgress = false;
         }
 
