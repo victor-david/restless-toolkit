@@ -243,6 +243,52 @@ namespace Restless.Toolkit.Core
 
         /************************************************************************/
 
+        #region IsNull
+        private const string IsNullCollapsedPropertyName = "IsNullCollapsed";
+
+        /// <summary>
+        /// Gets the IsNullCollapsed attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
+        public static object GetIsNullCollapsed(DependencyObject obj)
+        {
+            return obj.GetValue(IsNullCollapsedProperty);
+        }
+
+        /// <summary>
+        /// Sets the IsNullCollapsed attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
+        public static void SetIsNullCollapsed(DependencyObject obj, object value)
+        {
+            obj.SetValue(IsNullCollapsedProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the IsNullCollapsed attached dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsNullCollapsedProperty = DependencyProperty.RegisterAttached
+            (
+                IsNullCollapsedPropertyName, typeof(object), typeof(Property), new PropertyMetadata()
+                {
+                    DefaultValue = new object(),
+                    PropertyChangedCallback = OnIsNullCollapsedChanged
+                }
+            );
+
+        private static void OnIsNullCollapsedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FrameworkElement element)
+            {
+                element.Visibility = e.NewValue == null ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+        #endregion
+
+        /************************************************************************/
+
         #region IsLongVisible
         private const string IsLongVisiblePropertyName = "IsLongVisible";
 
