@@ -1,0 +1,123 @@
+﻿<UserControl
+    x:Class="Restless.App.Toolkit.ColorPickerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:tk="http://schemas.restless.toolkit.com/2021"
+    xmlns:toolkit="clr-namespace:Restless.App.Toolkit" d:DataContext="{d:DesignInstance Type=toolkit:ColorPickerViewModel}"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Color x:Key="LightGrayColor">#FFDEDEDE</Color>
+        <Color x:Key="TransparentRedColor">#80FF0000</Color>
+        <Color x:Key="TransparentGreenColor">#80008000</Color>
+        <Color x:Key="TransparentBlueColor">#800000FF</Color>
+        
+        <SolidColorBrush x:Key="LightGrayBrush" Color="{StaticResource LightGrayColor}"/>
+        <SolidColorBrush x:Key="TransparentRedBrush" Color="{StaticResource TransparentRedColor}"/>
+        <SolidColorBrush x:Key="TransparentGreenBrush" Color="{StaticResource TransparentGreenColor}"/>
+        <SolidColorBrush x:Key="TransparentBlueBrush" Color="{StaticResource TransparentBlueColor}"/>
+        
+        <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Width" Value="62"/>
+            <Setter Property="Command" Value="{Binding Commands[SetColor]}"/>
+        </Style>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockExplain}">
+            <Setter Property="Margin" Value="0,10,0,2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid tk:Property.RowHeights="*" tk:Property.ColumnWidths="*,Auto,1.5*,*">
+
+        <tk:ColorPicker
+            Sliders="{Binding SliderConfig}"
+            CanvasWidth="{Binding CanvasWidth}"
+            SliderSize="{Binding SliderSize}"
+            SelectedColor="{Binding SelectedColor}"/>
+
+        <Border Grid.Column="1" Margin="24,0" Background="#FFCCCCCC" Width="1"/>
+        <StackPanel Grid.Column="2">
+            <TextBlock>
+                This tab pane demonstrates the <Bold>Restless.Toolkit.Controls.ColorPicker</Bold>
+                control. The preset values below belong to this view and view model,
+                not the control, and are used to show how the control's output color is bound
+                to a property in the view model.
+            </TextBlock>
+
+            <Grid tk:Property.ColumnWidths="*,*">
+                <StackPanel>
+                    <TextBlock Text="Canvas size"/>
+
+                    <Slider
+                        Minimum="{x:Static tk:ColorPicker.MinCanvasWidth}"
+                        Maximum="{x:Static tk:ColorPicker.MaxCanvasWidth}"
+                        Value="{Binding CanvasWidth}"/>
+
+                    <TextBlock Text="Slider size"/>
+
+                    <Slider
+                        Minimum="{x:Static tk:ColorSlider.MinSliderSize}"
+                        Maximum="{x:Static tk:ColorSlider.MaxSliderSize}"
+                        Value="{Binding SliderSize}"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1" Margin="24,0">
+                    <TextBlock Text="Other options"/>
+                    <CheckBox IsChecked="{Binding DisplayRgbSliders}" Content="Display RGB slider"/>
+                    <CheckBox IsChecked="{Binding DisplayAlphaSlider}" Content="Display alpha slider"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Presets -->
+            <TextBlock Text="Presets"/>
+
+            <WrapPanel>
+                <Button Background="CadetBlue" CommandParameter="{x:Static Colors.CadetBlue}" ToolTip="CadetBlue"/>
+                <Button Background="Coral" CommandParameter="{x:Static Colors.Coral}" ToolTip="Coral"/>
+                <Button Background="Red" CommandParameter="{x:Static Colors.Red}" ToolTip="Red"/>
+                <Button Background="Green" CommandParameter="{x:Static Colors.Green}" ToolTip="Green"/>
+                <Button Background="Black" CommandParameter="{x:Static Colors.Black}" ToolTip="Black"/>
+                <Button Background="Orchid" CommandParameter="{x:Static Colors.Orchid}" ToolTip="Orchid"/>
+                <Button Background="RoyalBlue" CommandParameter="{x:Static Colors.RoyalBlue}" ToolTip="RoyalBlue"/>
+                <Button Background="Yellow" CommandParameter="{x:Static Colors.Yellow}" ToolTip="Yellow"/>
+                <Button Background="LightSlateGray" CommandParameter="{x:Static Colors.LightSlateGray}" ToolTip="LightSlateGray"/>
+                <Button Background="DarkSalmon" CommandParameter="{x:Static Colors.DarkSalmon}" ToolTip="DarkSalmon"/>
+                <Button Background="Teal" CommandParameter="{x:Static Colors.Teal}" ToolTip="Teal"/>
+                <Button Background="RosyBrown" CommandParameter="{x:Static Colors.RosyBrown}" ToolTip="RosyBrown"/>
+                <Button Background="MediumAquamarine" CommandParameter="{x:Static Colors.MediumAquamarine}" ToolTip="MediumAquamarine"/>
+                <Button Background="IndianRed" CommandParameter="{x:Static Colors.IndianRed}" ToolTip="IndianRed"/>
+                <Button Background="{StaticResource LightGrayBrush}" CommandParameter="{StaticResource LightGrayColor}" ToolTip="LightGray #FFDECEDE"/>
+                <Button
+                    Background="{StaticResource TransparentRedBrush}"
+                    CommandParameter="{StaticResource TransparentRedColor}"
+                    Content="T"
+                    ToolTip="Transparent Red"/>
+                <Button
+                    Background="{StaticResource TransparentGreenBrush}"
+                    CommandParameter="{StaticResource TransparentGreenColor}"
+                    Content="T"
+                    ToolTip="Transparent Green"/>
+                <Button
+                    Background="{StaticResource TransparentBlueBrush}"
+                    CommandParameter="{StaticResource TransparentBlueColor}"
+                    Content="T"
+                    ToolTip="Transparent Blue"/>
+            </WrapPanel>
+
+            <!-- Feedback from ColorPicker -->
+            <TextBlock Text="Bound Color"/>
+
+            <Border Width="150" Height="32" HorizontalAlignment="Left">
+                <Border.Background>
+                    <SolidColorBrush Color="{Binding SelectedColor}"/>
+                </Border.Background>
+            </Border>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
