@@ -14,44 +14,48 @@ namespace Restless.Toolkit.Controls
         /// Creates a <see cref="MessageWindow"/> of type <see cref="MessageWindowType.YesNo"/> and displays it.
         /// </summary>
         /// <param name="message">The message to display.</param>
-        /// /// <param name="owner">The window that owns the <see cref="MessageWindow"/>, or null for default</param>
+        /// <param name="owner">The window that owns the <see cref="MessageWindow"/>, or null for auto owner (if <paramref name="autoOwner"/> is true)</param>/// 
+        /// <param name="autoOwner">true (default) to set owner automatically if <paramref name="owner"/> is null</param>
         /// <returns>true if affirmative selected by user; otherwise, false.</returns>
-        public static bool ShowYesNo(string message, Window owner = null)
+        public static bool ShowYesNo(string message, Window owner = null, bool autoOwner = true)
         {
-            return Show(MessageWindowType.YesNo, message, owner);
+            return Show(MessageWindowType.YesNo, message, owner, autoOwner);
         }
 
         /// <summary>
         /// Creates a <see cref="MessageWindow"/> of type <see cref="MessageWindowType.ContinueCancel"/> and displays it.
         /// </summary>
         /// <param name="message">The message to display.</param>
-        /// <param name="owner">The window that owns the <see cref="MessageWindow"/>, or null for default</param>
+        /// <param name="owner">The window that owns the <see cref="MessageWindow"/>, or null for auto owner (if <paramref name="autoOwner"/> is true)</param>
+        /// <param name="autoOwner">true (default) to set owner automatically if <paramref name="owner"/> is null</param>
         /// <returns>true if affirmative selected by user; otherwise, false.</returns>
-        public static bool ShowContinueCancel(string message, Window owner = null)
+        public static bool ShowContinueCancel(string message, Window owner = null, bool autoOwner = true)
         {
-            return Show(MessageWindowType.ContinueCancel, message, owner);
+            return Show(MessageWindowType.ContinueCancel, message, owner, autoOwner);
         }
 
         /// <summary>
         /// Creates a <see cref="MessageWindow"/> of type <see cref="MessageWindowType.Okay"/> and displays it.
         /// </summary>
         /// <param name="message">The message to display.</param>
-        /// <param name="owner">The window that owns the <see cref="MessageWindow"/>, or null for default</param>
+        /// <param name="owner">The window that owns the <see cref="MessageWindow"/>, or null for auto owner (if <paramref name="autoOwner"/> is true)</param>
+        /// <param name="autoOwner">true (default) to set owner automatically if <paramref name="owner"/> is null</param> 
         /// <returns>always returns false.</returns>
-        public static bool ShowOkay(string message, Window owner = null)
+        public static bool ShowOkay(string message, Window owner = null, bool autoOwner = true)
         {
-            return Show(MessageWindowType.Okay, message, owner);
+            return Show(MessageWindowType.Okay, message, owner, autoOwner);
         }
 
         /// <summary>
         /// Creates a <see cref="MessageWindow"/> of type <see cref="MessageWindowType.Error"/> and displays it.
         /// </summary>
         /// <param name="message">The message to display.</param>
-        /// <param name="owner">The window that owns the <see cref="MessageWindow"/>, or null for default</param>
+        /// <param name="owner">The window that owns the <see cref="MessageWindow"/>, or null for auto owner (if <paramref name="autoOwner"/> is true)</param>
+        /// <param name="autoOwner">true (default) to set owner automatically if <paramref name="owner"/> is null</param> 
         /// <returns>always returns false.</returns>
-        public static bool ShowError(string message, Window owner = null)
+        public static bool ShowError(string message, Window owner = null, bool autoOwner = true)
         {
-            return Show(MessageWindowType.Error, message, owner);
+            return Show(MessageWindowType.Error, message, owner, autoOwner);
         }
 
         /// <summary>
@@ -59,11 +63,12 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         /// <param name="type">The type of message window.</param>
         /// <param name="message">The message to display</param>
-        /// <param name="owner">The window that owns the <see cref="MessageWindow"/>, or null for default</param>
+        /// <param name="owner">The window that owns the <see cref="MessageWindow"/>, or null for auto owner (if <paramref name="autoOwner"/> is true)</param>
+        /// <param name="autoOwner">true (default) to set owner automatically if <paramref name="owner"/> is null</param> 
         /// <returns>true if affirmative selected by user; otherwise, false.</returns>
-        private static bool Show(MessageWindowType type, string message, Window owner)
+        private static bool Show(MessageWindowType type, string message, Window owner, bool autoOwner = true)
         {
-            var modal = new MessageWindow(type, message, owner);
+            var modal = new MessageWindow(type, message, owner, autoOwner);
             modal.ShowDialog();
             return modal.DialogResult == true;
         }
@@ -71,16 +76,20 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageWindow"/> class
         /// </summary>
-        private MessageWindow(MessageWindowType type, string message, Window owner)
+        private MessageWindow(MessageWindowType type, string message, Window owner, bool autoOwner)
         {
             MessageWindowType = type;
             MinHeight = 220.0;
             MinWidth = Width = 480.0;
             ResizeMode = ResizeMode.NoResize;
             SizeToContent = SizeToContent.Height;
-            WindowStartupLocation = WindowStartupLocation.CenterOwner;
             Topmost = true;
-            Owner = owner ?? Application.Current.MainWindow;
+            Owner = owner;
+            if (owner == null && autoOwner)
+            {
+                Owner = Application.Current.MainWindow;
+            }
+            WindowStartupLocation = Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
             Message = message;
             ButtonYesCommand = RelayCommand.Create((p) => Close(true));
             ButtonNoCommand = RelayCommand.Create((p) => Close(false));
@@ -229,10 +238,14 @@ namespace Restless.Toolkit.Controls
         public static readonly DependencyProperty ButtonNoCommandProperty = ButtonNoCommandPropertyKey.DependencyProperty;
         #endregion
 
+        /************************************************************************/
+
+        #region Private methods
         private void Close(bool result)
         {
             DialogResult = result;
             Close();
         }
+        #endregion
     }
 }
