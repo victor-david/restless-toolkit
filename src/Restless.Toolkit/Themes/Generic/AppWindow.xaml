@@ -5,7 +5,7 @@
     xmlns:con="clr-namespace:Restless.Toolkit.Controls"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <sys:Double x:Key="DefaultTitleBarHeight">29</sys:Double>
+    <sys:Double x:Key="DefaultTitleBarHeight">30</sys:Double>
     
     <Style x:Key="TitleBarButtonStyle" TargetType="Button">
         <Setter Property="Padding" Value="0"/>
@@ -172,7 +172,7 @@
 
                 <Style.Resources>
                     <Style TargetType="MenuItem">
-                        <Setter Property="Height" Value="28"/>
+                        <Setter Property="Height" Value="{StaticResource DefaultTitleBarHeight}"/>
                         <Setter Property="Padding" Value="6,2"/>
                         <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="BorderThickness" Value="0"/>
@@ -243,10 +243,13 @@
             Name="MainBorder"
             BorderBrush="{TemplateBinding BorderBrush}"
             BorderThickness="{TemplateBinding BorderThickness}"
-            Background="Transparent">
-            <Grid core:Property.RowHeights="29,*">
+            Background="{TemplateBinding Background}"
+            SnapsToDevicePixels="True">
+            
+            <Grid core:Property.RowHeights="Auto,*">
                 <!-- Title bar -->
-                <Border 
+                <Border
+                    Height="{StaticResource DefaultTitleBarHeight}"
                     Background="{TemplateBinding TitleBarBackground}" 
                     BorderBrush="{TemplateBinding TitleBarBorderBrush}"
                     BorderThickness="0,0,0,1">
@@ -279,7 +282,6 @@
                             Style="{StaticResource TitleBarTextBlockStyle}"
                             Text="{TemplateBinding Title}"/>
 
-
                         <!-- Minimize -->
                         <Button Name="ButtonMinimize" Grid.Column="4" Style="{StaticResource TitleBarButtonStyle}" Command="{TemplateBinding MinimizeCommand}">
                             <Path Data="M 0,5 10,5"/>
@@ -301,13 +303,24 @@
                         </Button>
                     </Grid>
                 </Border>
-
+                <!-- End title bar -->
+                
                 <!-- Client area -->
-                <Border Grid.Row="1" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                    <ContentPresenter/>
-                </Border>
+                <AdornerDecorator Grid.Row="1">
+                    <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                </AdornerDecorator>
+              
+                <ResizeGrip
+                    x:Name="WindowResizeGrip"
+                    WindowChrome.ResizeGripDirection="BottomRight"
+                    Grid.Row="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    IsTabStop="False"
+                    Visibility="Collapsed" />
             </Grid>
         </Border>
+        
         <ControlTemplate.Triggers>
             <Trigger Property="WindowState" Value="Maximized">
                 <Setter Property="BorderThickness" Value="7"/>
@@ -328,11 +341,26 @@
             <Trigger Property="IsBackButtonVisible" Value="False">
                 <Setter TargetName="ButtonBack" Property="Visibility" Value="Collapsed"/>
             </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
+                    <Condition Property="WindowState" Value="Normal"/>
+                </MultiTrigger.Conditions>
+                <Setter TargetName="WindowResizeGrip" Property="Visibility" Value="Visible" />
+            </MultiTrigger>
+
         </ControlTemplate.Triggers>
     </ControlTemplate>
+    
+    <WindowChrome
+        x:Key="DefaultWindowChrome"
+        x:Shared="False"
+        CaptionHeight="{StaticResource DefaultTitleBarHeight}"
+        CornerRadius="0"
+        GlassFrameThickness="0,1,0,0"
+        UseAeroCaptionButtons="False" />
 
     <Style TargetType="con:AppWindow">
-        <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="Background" Value="White"/>
         <Setter Property="BorderBrush" Value="#ff1f3c76"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -341,14 +369,7 @@
         <Setter Property="TitleBarForeground" Value="White"/>
         <Setter Property="TitleBarButtonBrush" Value="#ffa0a0a0"/>
         <Setter Property="MenuBackgroundBrush" Value="#FFF0F0F0"/>
-        <Setter Property="WindowChrome.WindowChrome">
-            <Setter.Value>
-                <WindowChrome
-                    CaptionHeight="25"
-                    CornerRadius="0"
-                    ResizeBorderThickness="4"/>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="WindowChrome.WindowChrome" Value="{StaticResource DefaultWindowChrome}"/>
         <Setter Property="Template" Value="{StaticResource AppWindowTemplate}"/>
     </Style>
 
@@ -357,10 +378,11 @@
             Name="MainBorder"
             BorderBrush="{TemplateBinding BorderBrush}"
             BorderThickness="{TemplateBinding BorderThickness}"
-            Background="Transparent">
-            <Grid core:Property.RowHeights="29,*">
+            Background="{TemplateBinding Background}">
+            <Grid core:Property.RowHeights="Auto,*">
                 <!-- Title bar -->
                 <Border 
+                    Height="{StaticResource DefaultTitleBarHeight}"
                     Background="{TemplateBinding TitleBarBackground}" 
                     BorderBrush="{TemplateBinding TitleBarBorderBrush}"
                     BorderThickness="0,0,0,1">
@@ -382,7 +404,7 @@
                 </Border>
 
                 <!-- Client area -->
-                <Border Grid.Row="1" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                <Border Grid.Row="1" Margin="{TemplateBinding Padding}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -430,6 +452,8 @@
 
     <Style TargetType="con:MessageWindow" BasedOn="{StaticResource {x:Type con:AppWindow}}">
         <Setter Property="Padding" Value="10"/>
+        <Setter Property="MinHeight" Value="180"/>
+        <Setter Property="MinWidth" Value="320"/>
         <Setter Property="Template" Value="{StaticResource MessageWindowTemplate}"/>
         <Setter Property="Title" Value="Confirmation"/>
         <Setter Property="ButtonYesText" Value="Yes"/>

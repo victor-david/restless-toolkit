@@ -79,8 +79,6 @@ namespace Restless.Toolkit.Controls
         private MessageWindow(MessageWindowType type, string message, Window owner, bool autoOwner)
         {
             MessageWindowType = type;
-            MinHeight = 220.0;
-            MinWidth = Width = 480.0;
             ResizeMode = ResizeMode.NoResize;
             SizeToContent = SizeToContent.Height;
             Topmost = true;

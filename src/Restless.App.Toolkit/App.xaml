@@ -30,6 +30,7 @@
             Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
 
         <Style TargetType="tk:MessageWindow">
+            <Setter Property="Width" Value="360"/>
             <Setter Property="PathIcon" Value="{StaticResource PathAppIcon}"/>
             <Setter Property="Foreground" Value="Blue"/>
             <Setter Property="TitleBarBackground" Value="LightBlue"/>
@@ -39,8 +40,18 @@
                     <Setter Property="Background" Value="LightBlue"/>
                     <Setter Property="TitleBarBackground" Value="Red"/>
                     <Setter Property="TitleBarForeground" Value="White"/>
+                    <Setter Property="TitleBarButtonBrush" Value="Black"/>
                     <Setter Property="Title" Value="We have an error"/>
                     <Setter Property="ButtonNoText" Value="Bummer"/>
+                </Trigger>
+                <Trigger Property="MessageWindowType" Value="Okay">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="TitleBarBackground" Value="White"/>
+                    <Setter Property="TitleBarBorderBrush" Value="White"/>
+                    <Setter Property="TitleBarButtonBrush" Value="Black"/>
+                    <Setter Property="MinWidth" Value="300"/>
+                    <Setter Property="Width" Value="300"/>
+                    <Setter Property="MinHeight" Value="120"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
