@@ -6,9 +6,47 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
-        <TextBlock Style="{StaticResource TextBlockExplain}">
-            Namespace <Bold>Restless.Toolkit.Mvvm</Bold> contains simple classes to help implement the MVVM pattern.
-        </TextBlock>
-    </StackPanel>
+    <FlowDocumentScrollViewer>
+        <FlowDocument>
+            <Paragraph>
+                Namespace <Bold>Restless.Toolkit.Mvvm</Bold> contains simple classes to help implement the MVVM pattern.
+            </Paragraph>
+            <List>
+                <ListItem>
+                    <Paragraph>
+                        <Bold>ObservableObject</Bold> - Derives from
+                        <Italic>DispatcherObject</Italic> , and implements
+                        <Italic>INotifyPropertyChanged</Italic> . Implements a
+                        <Italic>SetProperty</Italic> method that provides automatic property changed notification.
+                        This is the lowest level MVVM class.
+                    </Paragraph>
+                </ListItem>
+                <ListItem>
+                    <Paragraph>
+                        <Bold>ViewModelBase</Bold> - Extends
+                        <Italic>ObservableObject</Italic> and implements
+                        <Italic>IDisposable</Italic>. Provides low level properties and methods such as
+                        <Italic>DisplayName</Italic>,
+                        <Italic>Activate()</Italic>,
+                        <Italic>OnActivated()</Italic>,
+                        <Italic>Deactivate()</Italic>,
+                        <Italic>OnDeactived()</Italic>,
+                        <Italic>SignalClosing()</Italic>, and
+                        <Italic>OnClosing()</Italic>.
+                    </Paragraph>
+                </ListItem>
+                <ListItem>
+                    <Paragraph>
+                        <Bold>RelayCommand</Bold> - Provides a simple means for creating
+                        <Italic>ICommand</Italic> objects.
+                    </Paragraph>
+                </ListItem>
+                <ListItem>
+                    <Paragraph>
+                        More...
+                    </Paragraph>
+                </ListItem>
+            </List>
+        </FlowDocument>
+    </FlowDocumentScrollViewer>
 </UserControl>
