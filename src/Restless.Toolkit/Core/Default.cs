@@ -41,36 +41,5 @@ namespace Restless.Toolkit.Core
             /// </summary>
             public static string PopupCalendarDate = "MMM dd, yyyy";
         }
-
-        /// <summary>
-        /// Provides static default names for styles
-        /// </summary>
-        public static class Style
-        {
-            /// <summary>
-            /// Defines the name of a style that may be applied to DataGridColumnHeader in order to center it.
-            /// </summary>
-            public static string DataGridHeader = "DataGridHeaderDefault";
-
-            /// <summary>
-            /// Defines the name of a style that may be applied to DataGridColumnHeader in order to center it.
-            /// </summary>
-            public static string DataGridHeaderCenter = "DataGridHeaderCenter";
-
-            /// <summary>
-            /// Defines the name of a style that may be applied to TextBlock in order to center it.
-            /// </summary>
-            public static string TextBlockCenter = "TextBlockCenter";
-
-            /// <summary>
-            /// Defines the name of a style that may be applied to DataGridColumnHeader in order to right align it.
-            /// </summary>
-            public static string DataGridHeaderRight = "DataGridHeaderRight";
-
-            /// <summary>
-            /// Defines the name of a style that may be applied to TextBlock in order to right align it.
-            /// </summary>
-            public static string TextBlockRight = "TextBlockRight";
-        }
     }
 }
