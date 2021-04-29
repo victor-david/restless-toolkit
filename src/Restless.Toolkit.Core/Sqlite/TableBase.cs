@@ -268,8 +268,18 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <param name="name">The name of the relation</param>
         /// <param name="parentColumnName">The parent column name, i.e. name of column in this table</param>
         /// <param name="childColumnName">The child column name, i.e. name of column in child table T</param>
-        /// <param name="childRule">The accept/reject rule to apply to child rows</param>
-        protected void CreateParentChildRelation<T>(string name, string parentColumnName, string childColumnName, AcceptRejectRule childRule = AcceptRejectRule.None) where T: TableBase
+        /// <param name="acceptRejectRule">The accept/reject rule to apply to child rows</param>
+        /// <param name="deleteRule">The delete rule to apply to child rows</param>
+        /// <param name="childColumnDefaultValue">Default value for child column. Needed when <paramref name="deleteRule"/> is Rule.SetDefault</param>
+        protected void CreateParentChildRelation<T>
+            (
+                string name,
+                string parentColumnName,
+                string childColumnName,
+                AcceptRejectRule acceptRejectRule = AcceptRejectRule.None,
+                Rule deleteRule = Rule.Cascade,
+                object childColumnDefaultValue = null
+            ) where T: TableBase
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             if (string.IsNullOrEmpty(parentColumnName)) throw new ArgumentNullException(nameof(parentColumnName));
@@ -278,7 +288,9 @@ namespace Restless.Toolkit.Core.Database.SQLite
             var child = Controller.GetTable<T>();
             DataRelation r = new DataRelation(name, Columns[parentColumnName], child.Columns[childColumnName]);
             ChildRelations.Add(r);
-            r.ChildKeyConstraint.AcceptRejectRule = childRule;
+            r.ChildKeyConstraint.AcceptRejectRule = acceptRejectRule;
+            r.ChildKeyConstraint.DeleteRule = deleteRule;
+            child.Columns[childColumnName].DefaultValue = childColumnDefaultValue;
         }
 
         /// <summary>
