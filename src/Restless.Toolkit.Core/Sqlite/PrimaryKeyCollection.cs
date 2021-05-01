@@ -9,7 +9,10 @@ namespace Restless.Toolkit.Core.Database.SQLite
     public class PrimaryKeyCollection : List<string>
     {
         #region Constructor
-        internal PrimaryKeyCollection()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrimaryKeyCollection"/> class.
+        /// </summary>
+        public PrimaryKeyCollection()
         {
         }
         #endregion
