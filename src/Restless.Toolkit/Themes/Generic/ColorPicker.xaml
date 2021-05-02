@@ -146,12 +146,13 @@
                                 <con:MainPicker x:Name="PART_MainPicker" Margin="0" BorderBrush="LightGray">
                                     <con:MainPicker.InjectionElement>
                                         <!-- Selected color and hex code display -->
-                                        <Grid core:Property.ColumnWidths="Auto,*">
+                                        <Grid core:Property.ColumnWidths="Auto,Auto">
                                             <!-- Selected color -->
                                             <Border
                                                 HorizontalAlignment="Left"
                                                 Width="{TemplateBinding DemoCanvasWidth}"
                                                 Height="{TemplateBinding DemoCanvasHeight}"
+                                                core:Property.IsVisible="{TemplateBinding DisplayDemoCanvas}"
                                                 Background="{StaticResource TransparentCheckeredBrush}">
 
                                                 <Border Background="{TemplateBinding SelectedColorBrush}"/>
@@ -167,6 +168,7 @@
                                                 IsReadOnlyCaretVisible="True"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Center"
+                                                core:Property.IsVisible="{TemplateBinding DisplayDemoHex}"
                                                 Text="{Binding ColorHexCode, RelativeSource={RelativeSource AncestorType=con:ColorPicker}}"/>
                                         </Grid>
 

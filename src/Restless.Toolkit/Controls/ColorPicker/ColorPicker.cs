@@ -278,6 +278,84 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
+        #region Properties (demo canvas)
+        /// <summary>
+        /// Gets or sets the configuration of the color picker demo components.
+        /// </summary>
+        public ColorDemoConfig Demo
+        {
+            get => (ColorDemoConfig)GetValue(DemoProperty);
+            set => SetValue(DemoProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Demo"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DemoProperty = DependencyProperty.Register
+            (
+                nameof(Demo), typeof(ColorDemoConfig), typeof(ColorPicker), new PropertyMetadata()
+                {
+                    DefaultValue = ColorDemoConfig.Default,
+                    PropertyChangedCallback = OnDemoPropertyChanged
+                }
+            );
+
+        private static void OnDemoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ColorPicker control)
+            {
+                control.DisplayDemoCanvas = control.Demo.HasFlag(ColorDemoConfig.Canvas);
+                control.DisplayDemoHex = control.Demo.HasFlag(ColorDemoConfig.HexCode);
+            }
+        }
+
+        /// <summary>
+        /// Gets a boolean value that determines if the demo canvas is displayed.
+        /// </summary>
+        public bool DisplayDemoCanvas
+        {
+            get => (bool)GetValue(DisplayDemoCanvasProperty);
+            private set => SetValue(DisplayDemoCanvasPropertyKey, value);
+        }
+
+        private static readonly DependencyPropertyKey DisplayDemoCanvasPropertyKey = DependencyProperty.RegisterReadOnly
+            (
+                nameof(DisplayDemoCanvas), typeof(bool), typeof(ColorPicker), new PropertyMetadata()
+                {
+                    DefaultValue = true
+                }
+            );
+
+        /// <summary>
+        /// Identifies the <see cref="DisplayDemoCanvas"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DisplayDemoCanvasProperty = DisplayDemoCanvasPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets a boolean value that determines if the demo hex code is displayed.
+        /// </summary>
+        public bool DisplayDemoHex
+        {
+            get => (bool)GetValue(DisplayDemoHexProperty);
+            private set => SetValue(DisplayDemoHexPropertyKey, value);
+        }
+
+        private static readonly DependencyPropertyKey DisplayDemoHexPropertyKey = DependencyProperty.RegisterReadOnly
+            (
+                nameof(DisplayDemoHex), typeof(bool), typeof(ColorPicker), new PropertyMetadata()
+                {
+                    DefaultValue = true
+                }
+            );
+
+        /// <summary>
+        /// Identifies the <see cref="DisplayDemoHex"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DisplayDemoHexProperty = DisplayDemoHexPropertyKey.DependencyProperty;
+        #endregion
+
+        /************************************************************************/
+
         #region Properties (color components)
         /// <summary>
         /// From this assembly, gets or sets the alpha value.

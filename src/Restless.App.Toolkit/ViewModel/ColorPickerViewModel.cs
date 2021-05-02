@@ -11,6 +11,9 @@ namespace Restless.App.Toolkit
         private ColorSliderConfig sliderConfig;
         private bool displayRgbSliders;
         private bool displayAlphaSlider;
+        private ColorDemoConfig demoConfig;
+        private bool displayDemoCanvas;
+        private bool displayDemoHex;
         private Color selectedColor;
 
         public ColorPickerViewModel()
@@ -20,8 +23,12 @@ namespace Restless.App.Toolkit
             CanvasWidth = ColorPicker.DefaultCanvasWidth;
             SliderSize = ColorSlider.DefaultSliderSize;
             SelectedColor = ColorValues.DefaultColor;
+            SliderConfig = ColorSliderConfig.Default;
             DisplayRgbSliders = true;
             DisplayAlphaSlider = true;
+            DemoConfig = ColorDemoConfig.Default;
+            DisplayDemoCanvas = true;
+            DisplayDemoHex = true;
         }
 
         /// <summary>
@@ -78,6 +85,41 @@ namespace Restless.App.Toolkit
         }
 
         /// <summary>
+        /// Gets the value that configures the demo components for the color picker control.
+        /// </summary>
+        public ColorDemoConfig DemoConfig
+        {
+            get => demoConfig;
+            private set => SetProperty(ref demoConfig, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a boolean value that determines if the demo canvas is displayed.
+        /// </summary>
+        public bool DisplayDemoCanvas
+        {
+            get => displayDemoCanvas;
+            set
+            {
+                SetProperty(ref displayDemoCanvas, value);
+                UpdateDemoConfig();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a boolean value that determines if the demo hex code is displayed.
+        /// </summary>
+        public bool DisplayDemoHex
+        {
+            get => displayDemoHex;
+            set
+            {
+                SetProperty(ref displayDemoHex, value);
+                UpdateDemoConfig();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the color for the view.
         /// </summary>
         public Color SelectedColor
@@ -92,6 +134,14 @@ namespace Restless.App.Toolkit
             if (DisplayRgbSliders) value |= ColorSliderConfig.Rgb;
             if (DisplayAlphaSlider) value |= ColorSliderConfig.Alpha;
             SliderConfig = value;
+        }
+
+        private void UpdateDemoConfig()
+        {
+            ColorDemoConfig value = ColorDemoConfig.None;
+            if (DisplayDemoCanvas) value |= ColorDemoConfig.Canvas;
+            if (DisplayDemoHex) value |= ColorDemoConfig.HexCode;
+            DemoConfig = value;
         }
 
         private void RunSetColorCommand(object parm)

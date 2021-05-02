@@ -36,6 +36,7 @@
 
         <tk:ColorPicker
             Sliders="{Binding SliderConfig}"
+            Demo="{Binding DemoConfig}"
             CanvasWidth="{Binding CanvasWidth}"
             SliderSize="{Binding SliderSize}"
             SelectedColor="{Binding SelectedColor}"/>
@@ -70,6 +71,8 @@
                     <TextBlock Text="Other options"/>
                     <CheckBox IsChecked="{Binding DisplayRgbSliders}" Content="Display RGB slider"/>
                     <CheckBox IsChecked="{Binding DisplayAlphaSlider}" Content="Display alpha slider"/>
+                    <CheckBox IsChecked="{Binding DisplayDemoCanvas}" Content="Display demo canvas"/>
+                    <CheckBox IsChecked="{Binding DisplayDemoHex}" Content="Display demo hex code"/>
                 </StackPanel>
             </Grid>
 
