@@ -541,6 +541,7 @@ namespace Restless.Toolkit.Controls
 
         private void UpdateSelectedColorBrush()
         {
+            InitializeSelectedColorBrush();
             SelectedColorBrush.Color = SelectedColor;
         }
 
@@ -592,7 +593,7 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
-        /// Initializes the <see cref="SelectedColorBrush"/> property.
+        /// Initializes the <see cref="SelectedColorBrush"/> property if it is null.
         /// </summary>
         /// <remarks>
         /// This method is called from <see cref="OnApplyTemplate"/> to set the initial
@@ -602,7 +603,10 @@ namespace Restless.Toolkit.Controls
         /// </remarks>
         private void InitializeSelectedColorBrush()
         {
-            SelectedColorBrush = new SolidColorBrush(ColorValues.DefaultColor);
+            if (SelectedColorBrush == null)
+            {
+                SelectedColorBrush = new SolidColorBrush(ColorValues.DefaultColor);
+            }
         }
 
         /// <summary>
