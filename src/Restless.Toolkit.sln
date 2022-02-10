@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restless.App.Toolkit", "Res
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restless.Toolkit", "Restless.Toolkit\Restless.Toolkit.csproj", "{8FED2EF9-12CA-4888-B9EE-A7EF09B72EEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restless.Toolkit.Core", "Restless.Toolkit.Core\Restless.Toolkit.Core.csproj", "{C1A54EB9-E994-4832-AA6B-5FD5EBDA7F70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restless.Toolkit.Core", "Restless.Toolkit.Core\Restless.Toolkit.Core.csproj", "{C1A54EB9-E994-4832-AA6B-5FD5EBDA7F70}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DA5E067E-38A6-40DB-95CA-8427451BAF5F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
