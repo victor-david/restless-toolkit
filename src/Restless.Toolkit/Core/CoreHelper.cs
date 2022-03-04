@@ -44,7 +44,7 @@ namespace Restless.Toolkit.Core
         /// <returns>The first child of <paramref name="parent"/> that is of type <typeparamref name="T"/>, or null if none.</returns>
         public static T GetVisualChild<T>(Visual parent) where T : Visual
         {
-            T child = default(T);
+            T child = default;
 
             int numvisuals = VisualTreeHelper.GetChildrenCount(parent);
             for (int i = 0; i < numvisuals; ++i)

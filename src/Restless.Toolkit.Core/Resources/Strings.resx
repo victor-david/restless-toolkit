@@ -136,6 +136,16 @@
   <data name="InvalidOperationEmptyDdl" xml:space="preserve">
     <value>The table returned an empty string for ddl creation</value>
   </data>
+  <data name="InvalidOperationFileDoesNotExist" xml:space="preserve">
+    <value>The specified file does not exist</value>
+  </data>
+  <data name="InvalidOperationFileNameNotSet" xml:space="preserve">
+    <value>Filename property must be set before calling this method</value>
+  </data>
+  <data name="InvalidOperationOpenXmlReader" xml:space="preserve">
+    <value>Cannot read the specified file. The file is not is the Open XML format.</value>
+    <comment>Used with the OpenXML reader</comment>
+  </data>
   <data name="InvalidOperationTableIsReadOnly" xml:space="preserve">
     <value>Table is read only</value>
     <comment>Used when attempting an operation on a read only table</comment>

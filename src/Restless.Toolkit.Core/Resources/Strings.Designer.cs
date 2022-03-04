@@ -115,6 +115,33 @@ namespace Restless.Toolkit.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The specified file does not exist.
+        /// </summary>
+        internal static string InvalidOperationFileDoesNotExist {
+            get {
+                return ResourceManager.GetString("InvalidOperationFileDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filename property must be set before calling this method.
+        /// </summary>
+        internal static string InvalidOperationFileNameNotSet {
+            get {
+                return ResourceManager.GetString("InvalidOperationFileNameNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot read the specified file. The file is not is the Open XML format..
+        /// </summary>
+        internal static string InvalidOperationOpenXmlReader {
+            get {
+                return ResourceManager.GetString("InvalidOperationOpenXmlReader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Table is read only.
         /// </summary>
         internal static string InvalidOperationTableIsReadOnly {

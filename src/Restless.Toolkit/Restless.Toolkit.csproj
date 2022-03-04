@@ -12,11 +12,11 @@
     <Authors>Restless Animal Development</Authors>
     <Company>Restless Animal Development</Company>
     <LangVersion>8</LangVersion>
-    <Version>2.5.12</Version>
+    <Version>2.5.13</Version>
     <Product>Restless Toolkit</Product>
     <Title>Restless.Toolkit</Title>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <Copyright>Copyright © 2021</Copyright>
+    <Copyright>Copyright © 2022 Restless Animal Development</Copyright>
     <PackageTags>wpf controls wpf-controls mvvm</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
@@ -24,7 +24,7 @@
     <DocumentationFile>Restless.Toolkit.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WpfScreenHelper" Version="1.0.0" />
+    <PackageReference Include="WpfScreenHelper" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Strings.Designer.cs">

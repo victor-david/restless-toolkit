@@ -162,8 +162,10 @@ namespace Restless.Toolkit.Core.Utility
                 case AssemblyInfoType.Executing:
                     assembly = Assembly.GetExecutingAssembly();
                     break;
-                default:
+                case AssemblyInfoType.Entry:
                     assembly = Assembly.GetEntryAssembly();
+                    break;
+                default:
                     break;
             }
         }
