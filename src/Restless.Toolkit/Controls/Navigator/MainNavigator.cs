@@ -11,8 +11,7 @@ namespace Restless.Toolkit.Controls
     public class MainNavigator : System.Windows.Controls.ListBox
     {
         #region Private
-        private const double DefaultLeftMargin = 10;
-        private const double ItemIndent = 22;
+        private const double DefaultItemIndent = 16;
         private Thickness navItemMargin;
         #endregion
 
@@ -24,7 +23,7 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public MainNavigator()
         {
-            navItemMargin = new Thickness(DefaultLeftMargin + ItemIndent, 0, 0, 0);
+            navItemMargin = new Thickness(DefaultItemIndent, 0, 0, 0);
         }
 
         static MainNavigator()
@@ -130,6 +129,34 @@ namespace Restless.Toolkit.Controls
         {
             (d as MainNavigator)?.EvaluateVisibility();
         }
+
+
+        /// <summary>
+        /// Gets or sets the amount to indent the navigator items
+        /// </summary>
+        public double ItemIndent
+        {
+            get => (double)GetValue(ItemIndentProperty);
+            set => SetValue(ItemIndentProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ItemIndent"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ItemIndentProperty = DependencyProperty.Register
+            (
+                nameof(ItemIndent), typeof(double), typeof(MainNavigator), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DefaultItemIndent,
+                    PropertyChangedCallback = OnItemIndentChanged,
+                }
+            );
+
+        private static void OnItemIndentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as MainNavigator)?.AdjustItemMargin();
+        }
+
         #endregion
 
         /************************************************************************/
@@ -145,7 +172,7 @@ namespace Restless.Toolkit.Controls
                 navItem.InternalGridMargin = navItemMargin;
             }
 
-            if (element is ListBoxItem listBoxItem)
+            if (element is System.Windows.Controls.ListBoxItem listBoxItem)
             {
                 listBoxItem.Margin = new Thickness(-Margin.Left, 0, 0, 0);
             }
@@ -172,7 +199,7 @@ namespace Restless.Toolkit.Controls
 
         private void AdjustItemMargin()
         {
-            // TODO
+            navItemMargin = new Thickness(ItemIndent, 0, 0, 0);
         }
         #endregion
     }

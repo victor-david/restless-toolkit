@@ -61,7 +61,7 @@
     </ControlTemplate>
 
     <Style x:Key="DefaultMainNavigatorStyle" TargetType="con:MainNavigator">
-        <Setter Property="Margin" Value="10,0,0,0"/>
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="Template" Value="{StaticResource MainNavigatorControlTemplate}"/>
     </Style>
 
