@@ -30,6 +30,7 @@ namespace Restless.Toolkit.Core.Utility
                 else
                 {
                     process.StartInfo.FileName = url;
+                    process.StartInfo.UseShellExecute = true;
                 }
                 process.Start();
             }
@@ -50,8 +51,17 @@ namespace Restless.Toolkit.Core.Utility
         {
             try
             {
-                if (string.IsNullOrEmpty(fileName)) throw new ArgumentNullException(nameof(fileName));
-                var process = Process.Start(fileName, args);
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    throw new ArgumentNullException(nameof(fileName));
+                }
+
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = fileName,
+                    UseShellExecute = true,
+                    Arguments = args
+                });
             }
 
             catch (Win32Exception ex)

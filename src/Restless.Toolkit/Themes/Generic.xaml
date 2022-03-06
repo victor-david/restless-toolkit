@@ -11,6 +11,7 @@
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ColorSlider.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ColorPicker.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/WaitPanel.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/Navigator.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>
