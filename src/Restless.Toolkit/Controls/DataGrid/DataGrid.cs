@@ -109,7 +109,7 @@ namespace Restless.Toolkit.Controls
         {
             if (sender is DataGridRow element)
             {
-                var cmd = GetDoubleClickCommand(element);
+                ICommand cmd = GetDoubleClickCommand(element);
                 if (cmd.CanExecute(element.Item))
                 {
                     cmd.Execute(element.Item);
