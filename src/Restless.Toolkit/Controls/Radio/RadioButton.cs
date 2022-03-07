@@ -48,55 +48,78 @@ namespace Restless.Toolkit.Controls
 
         #region TemplateStyle
         /// <summary>
-        /// Gets or sets the template style
+        /// Gets the template style
         /// </summary>
         public RadioButtonTemplateStyle TemplateStyle
         {
             get => (RadioButtonTemplateStyle)GetValue(TemplateStyleProperty);
-            set => SetValue(TemplateStyleProperty, value);
+            internal set => SetValue(TemplateStylePropertyKey, value);
         }
 
-        /// <summary>
-        /// Identifies the <see cref="TemplateStyle"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty TemplateStyleProperty = DependencyProperty.Register
+        private static readonly DependencyPropertyKey TemplateStylePropertyKey = DependencyProperty.RegisterReadOnly
             (
                 nameof(TemplateStyle), typeof(RadioButtonTemplateStyle), typeof(RadioButton), new FrameworkPropertyMetadata()
                 {
                     DefaultValue = RadioButtonTemplateStyle.Default
                 }
             );
+
+        /// <summary>
+        /// Identifies the <see cref="TemplateStyle"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TemplateStyleProperty = TemplateStylePropertyKey.DependencyProperty;
         #endregion
 
+        /************************************************************************/
+
+        #region ButtonRadius
+        /// <summary>
+        /// Gets the corner radius to use when <see cref="TemplateStyle"/> is button.
+        /// </summary>
+        public CornerRadius ButtonRadius
+        {
+            get => (CornerRadius)GetValue(ButtonRadiusProperty);
+            internal set => SetValue(ButtonRadiusPropertyKey, value);
+        }
+
+        private static readonly DependencyPropertyKey ButtonRadiusPropertyKey = DependencyProperty.RegisterReadOnly
+            (
+                nameof(ButtonRadius), typeof(CornerRadius), typeof(RadioButton), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = new CornerRadius(RadioButtonPanel.DefaultCornerRadius)
+                }
+            );
+
+        /// <summary>
+        /// Identifies the <see cref="ButtonRadius"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ButtonRadiusProperty = ButtonRadiusPropertyKey.DependencyProperty;
+        #endregion
 
         /************************************************************************/
 
         #region UnderlineHeight
         /// <summary>
-        /// Gets or sets a value that determines the height of the underline when <see cref="TemplateStyle"/> is underline.
+        /// Gets the height of the underline when <see cref="TemplateStyle"/> is underline.
         /// </summary>
         public double UnderlineHeight
         {
             get => (double)GetValue(UnderlineHeightProperty);
-            set => SetValue(UnderlineHeightProperty, value);
+            internal set => SetValue(UnderlineHeightPropertyKey, value);
         }
+
+        private static readonly DependencyPropertyKey UnderlineHeightPropertyKey = DependencyProperty.RegisterReadOnly
+            (
+                nameof(UnderlineHeight), typeof(double), typeof(RadioButton), new PropertyMetadata()
+                {
+                    DefaultValue = RadioButtonPanel.DefaultUnderlineHeight,
+                }
+            );
 
         /// <summary>
         /// Identifies the <see cref="UnderlineHeight"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty UnderlineHeightProperty = DependencyProperty.Register
-            (
-                nameof(UnderlineHeight), typeof(double), typeof(RadioButton), new FrameworkPropertyMetadata()
-                {
-                    DefaultValue = 2.0,
-                    CoerceValueCallback = OnCoerceUnderlineHeight
-                }
-            );
-
-        private static object OnCoerceUnderlineHeight(DependencyObject d, object baseValue)
-        {
-            return baseValue is double doubleValue ? Math.Max(Math.Min(16, doubleValue), 1.0) : baseValue;
-        }
+        public static readonly DependencyProperty UnderlineHeightProperty = UnderlineHeightPropertyKey.DependencyProperty;
         #endregion
 
         /************************************************************************/

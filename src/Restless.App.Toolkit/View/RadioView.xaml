@@ -8,7 +8,7 @@
     xmlns:toolkit="clr-namespace:Restless.App.Toolkit" d:DataContext="{d:DesignInstance Type=toolkit:RadioViewModel}"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800">
-    <Grid tk:Property.ColumnWidths="*,*,*" tk:Property.RowHeights="Auto,*">
+    <Grid tk:Property.ColumnWidths="*,*" tk:Property.RowHeights="Auto,*">
 
         <FlowDocumentScrollViewer Grid.ColumnSpan="3">
             <FlowDocument>
@@ -16,7 +16,7 @@
                     <ListItem>
                         <Paragraph>
                             <Bold>RadioButtonPanel</Bold> - Derives from
-                            <Italic>Grid</Italic> , and enables you to bind 
+                            <Italic>Grid</Italic> and enables you to bind 
                             to a single value among the included radio buttons.
                         </Paragraph>
                     </ListItem>
@@ -33,7 +33,16 @@
             </FlowDocument>
         </FlowDocumentScrollViewer>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1" Margin="5,0">
+            <StackPanel.Resources>
+                <Style TargetType="tk:RadioButton">
+                    <Setter Property="Width" Value="80"/>
+                    <Setter Property="Margin" Value="5,0"/>
+                    <Setter Property="Padding" Value="4"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="SeaGreen"/>
+                </Style>
+            </StackPanel.Resources>            
             <TextBlock Text="Radio Button Panel (Button style)"/>
             <tk:RadioButtonPanel
                 tk:Property.ColumnWidths="Auto,Auto,Auto,*"
@@ -50,20 +59,20 @@
             </TextBlock>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1">
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5,0">
             <StackPanel.Resources>
                 <Style TargetType="tk:RadioButton">
-                    <Setter Property="TemplateStyle" Value="Underline"/>
                     <Setter Property="Width" Value="80"/>
                     <Setter Property="Padding" Value="4"/>
                     <Setter Property="Background" Value="DarkBlue"/>
-                    <Setter Property="UnderlineHeight" Value="3"/>
                 </Style>
             </StackPanel.Resources>
             <TextBlock Text="Radio Button Panel (Underline style)"/>
             <tk:RadioButtonPanel
                 tk:Property.ColumnWidths="Auto,Auto,Auto,*"
                 Margin="0,5"
+                TemplateStyle="Underline"
+                UnderlineHeight="4"
                 SelectedValue="{Binding SelectedValue2}">
                 <tk:RadioButton Value="1" Content="Test 1"/>
                 <tk:RadioButton Value="2" Grid.Column="1" Content="Test 2"/>

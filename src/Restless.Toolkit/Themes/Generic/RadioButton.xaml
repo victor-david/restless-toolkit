@@ -12,7 +12,7 @@
             Padding="{TemplateBinding Padding}"
             BorderThickness="{TemplateBinding BorderThickness}"
             BorderBrush="{TemplateBinding BorderBrush}"
-            CornerRadius="2"
+            CornerRadius="{TemplateBinding ButtonRadius}"
             Opacity="0.40"
             Width="{TemplateBinding Width}"
             Background="{TemplateBinding Background}">
