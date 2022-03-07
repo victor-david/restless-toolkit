@@ -1,0 +1,80 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls">
+
+    <!-- ################################# -->
+    <!-- BoxRadioButton Templates / Styles -->
+    <!-- ################################# -->
+    <ControlTemplate x:Key="RadioButtonControlTemplate1" TargetType="con:RadioButton">
+        <Border
+            Name="ContentBorder"
+            Padding="{TemplateBinding Padding}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            CornerRadius="{TemplateBinding ButtonRadius}"
+            Opacity="0.40"
+            Width="{TemplateBinding Width}"
+            Background="{TemplateBinding Background}">
+
+            <ContentPresenter
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                TextElement.Foreground="{TemplateBinding Foreground}"
+                Content="{TemplateBinding Content}"/>
+
+        </Border>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="ContentBorder" Property="Opacity" Value="1"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="RadioButtonControlTemplate2" TargetType="con:RadioButton">
+        <Grid Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ContentPresenter
+                Margin="{TemplateBinding Padding}"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                TextElement.Foreground="{TemplateBinding Foreground}"
+                Content="{TemplateBinding Content}"/>
+
+            <Border
+                Name="UnderlineBorder"
+                Grid.Row="1"
+                Opacity="0"
+                Background="{TemplateBinding Background}"
+                Height="{TemplateBinding UnderlineHeight}"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="UnderlineBorder" Property="Opacity" Value="1"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
+    
+    <Style TargetType="con:RadioButton">
+        <Setter Property="Template" Value="{StaticResource RadioButtonControlTemplate1}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="1,0"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Background" Value="SkyBlue"/>
+        <Setter Property="Foreground" Value="DarkBlue"/>
+        <Style.Triggers>
+            <Trigger Property="TemplateStyle" Value="Underline">
+                <Setter Property="Template" Value="{StaticResource RadioButtonControlTemplate2}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

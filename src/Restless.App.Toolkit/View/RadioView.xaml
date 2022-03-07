@@ -1,0 +1,88 @@
+﻿<UserControl 
+    x:Class="Restless.App.Toolkit.RadioView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:tk="http://schemas.restless.toolkit.com/2021"
+    xmlns:toolkit="clr-namespace:Restless.App.Toolkit" d:DataContext="{d:DesignInstance Type=toolkit:RadioViewModel}"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800">
+    <Grid tk:Property.ColumnWidths="*,*" tk:Property.RowHeights="Auto,*">
+
+        <FlowDocumentScrollViewer Grid.ColumnSpan="3">
+            <FlowDocument>
+                <List>
+                    <ListItem>
+                        <Paragraph>
+                            <Bold>RadioButtonPanel</Bold> - Derives from
+                            <Italic>Grid</Italic> and enables you to bind 
+                            to a single value among the included radio buttons.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Bold>RadioButton</Bold> - Derives from
+                            <Italic>System.Windows.Controls.RadioButton</Italic> 
+                            and allows you to set an integer value that is
+                            surfaced via the parent
+                            <Italic>RadioButtonPanel</Italic>
+                        </Paragraph>
+                    </ListItem>
+                </List>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+
+        <StackPanel Grid.Row="1" Margin="5,0">
+            <StackPanel.Resources>
+                <Style TargetType="tk:RadioButton">
+                    <Setter Property="Width" Value="80"/>
+                    <Setter Property="Margin" Value="5,0"/>
+                    <Setter Property="Padding" Value="4"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="SeaGreen"/>
+                </Style>
+            </StackPanel.Resources>            
+            <TextBlock Text="Radio Button Panel (Button style)"/>
+            <tk:RadioButtonPanel
+                tk:Property.ColumnWidths="Auto,Auto,Auto,*"
+                Margin="0,5"
+                SelectedValue="{Binding SelectedValue1}">
+                <tk:RadioButton Value="1" Content="Test 1"/>
+                <tk:RadioButton Value="2" Grid.Column="1" Content="Test 2"/>
+                <tk:RadioButton Value="3" Grid.Column="2" Content="Test 3"/>
+            </tk:RadioButtonPanel>
+
+            <TextBlock Margin="0,12">
+                <Run Text="Selected value :"/>
+                <Run Foreground="Red" Text="{Binding SelectedValue1, Mode=OneWay}"/>
+            </TextBlock>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5,0">
+            <StackPanel.Resources>
+                <Style TargetType="tk:RadioButton">
+                    <Setter Property="Width" Value="80"/>
+                    <Setter Property="Padding" Value="4"/>
+                    <Setter Property="Background" Value="DarkBlue"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Text="Radio Button Panel (Underline style)"/>
+            <tk:RadioButtonPanel
+                tk:Property.ColumnWidths="Auto,Auto,Auto,*"
+                Margin="0,5"
+                TemplateStyle="Underline"
+                UnderlineHeight="4"
+                SelectedValue="{Binding SelectedValue2}">
+                <tk:RadioButton Value="1" Content="Test 1"/>
+                <tk:RadioButton Value="2" Grid.Column="1" Content="Test 2"/>
+                <tk:RadioButton Value="3" Grid.Column="2" Content="Test 3"/>
+            </tk:RadioButtonPanel>
+
+            <TextBlock Margin="0,12">
+                <Run Text="Selected value :"/>
+                <Run Foreground="Red" Text="{Binding SelectedValue2, Mode=OneWay}"/>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

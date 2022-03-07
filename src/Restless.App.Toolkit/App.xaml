@@ -208,6 +208,10 @@
             <l:ColorPickerView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type l:RadioViewModel}">
+            <l:RadioView/>
+        </DataTemplate>
+
         <DataTemplate x:Key="TabItemTemplate">
             <ContentPresenter Content="{Binding DisplayName}"/>
         </DataTemplate>
