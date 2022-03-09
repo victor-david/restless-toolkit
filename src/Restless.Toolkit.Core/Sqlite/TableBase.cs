@@ -145,7 +145,6 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// </summary>
         public abstract void Load();
 
-
         /// <summary>
         /// Saves the data that has changed.
         /// </summary>
@@ -174,7 +173,10 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>The newly created data row</returns>
         public DataRow AddDefaultRow()
         {
-            if (IsReadOnly) throw new InvalidOperationException(Strings.InvalidOperationTableIsReadOnly);
+            if (IsReadOnly)
+            {
+                throw new InvalidOperationException(Strings.InvalidOperationTableIsReadOnly);
+            }
             DataRow row = NewRow();
             PopulateDefaultRow(row);
             Rows.Add(row);
@@ -190,7 +192,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
         {
             if (!IsReadOnly)
             {
-                var status = new UpdateStatus(this);
+                UpdateStatus status = new UpdateStatus(this);
                 return status.HaveAny;
             }
             return false;

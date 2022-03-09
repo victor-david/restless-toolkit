@@ -193,11 +193,35 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// </summary>
         /// <param name="rows">The rows. Throws if length greater than one.</param>
         /// <returns>The DataRow, or null if length of <paramref name="rows"/> is zero.</returns>
+        /// <exception cref="InvalidOperationException"><paramref name="rows"/> contains more than one row</exception>
         protected DataRow GetUniqueRow(DataRow[] rows)
         {
-            if (rows == null) throw new ArgumentNullException(nameof(rows));
-            if (rows.Length > 1) throw new InvalidOperationException("Row count greater than one");
+            if (rows == null)
+            {
+                throw new ArgumentNullException(nameof(rows));
+            }
+
+            if (rows.Length > 1)
+            {
+                throw new InvalidOperationException("Row count greater than one");
+            }
             return rows.Length == 1 ? rows[0] : null;
+        }
+
+        /// <summary>
+        /// Gets a single row from the specified condition, or null if no matching rows.
+        /// </summary>
+        /// <param name="condition">The select condition</param>
+        /// <returns>A data row, or null</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="condition"/> is null or empty</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="condition"/> produces more than one row</exception>
+        protected DataRow GetSingleRow(string condition)
+        {
+            if (string.IsNullOrEmpty(condition))
+            {
+                throw new ArgumentNullException(nameof(condition));
+            }
+            return GetUniqueRow(Select(condition));
         }
 
         /// <summary>
