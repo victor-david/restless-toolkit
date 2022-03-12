@@ -1,0 +1,135 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls">
+
+    <Style TargetType="con:ThreeWayButton">
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="con:ThreeWayButton">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Static con:ThreeWay.HeaderStyleKey}" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,2"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="{x:Static con:ThreeWay.OnOffStyleKey}" TargetType="TextBlock">
+        <Setter Property="Margin" Value="4,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    
+    <ControlTemplate x:Key="ThreeWayControlTemplate" TargetType="con:ThreeWay">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock 
+                Grid.ColumnSpan="3"
+                Text="{TemplateBinding Header}"
+                Style="{TemplateBinding HeaderStyle}"/>
+
+            <TextBlock 
+                Grid.Row="1"
+                Text="{TemplateBinding OffText}"
+                Style="{TemplateBinding OnOffStyle}"/>
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="2"
+                Text="{TemplateBinding OnText}"
+                Style="{TemplateBinding OnOffStyle}"/>
+            
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                MinWidth="{TemplateBinding MinSelectorAreaWidth}"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding SelectorAreaCornerRadius}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <con:ThreeWayButton
+                        x:Name="ButtonOff"
+                        Height="{TemplateBinding SelectorHeight}"
+                        CornerRadius="{TemplateBinding OffCornerRadius}"
+                        State="{x:Static con:ThreeWayState.Off}"/>
+
+                    <con:ThreeWayButton
+                        x:Name="ButtonNeutral"
+                        Grid.Column="1"
+                        Height="{TemplateBinding SelectorHeight}"
+                        State="{x:Static con:ThreeWayState.Neutral}"/>
+
+                    <con:ThreeWayButton
+                        x:Name="ButtonOn"
+                        Grid.Column="2"
+                        Height="{TemplateBinding SelectorHeight}"
+                        CornerRadius="{TemplateBinding OnCornerRadius}"
+                        State="{x:Static con:ThreeWayState.On}"/>
+
+                </Grid>
+            </Border>
+        </Grid>
+        
+        <ControlTemplate.Triggers>
+            <Trigger Property="State" Value="Off">
+                <Setter TargetName="ButtonOff" Property="Background" Value="{Binding OffBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+                <Setter TargetName="ButtonNeutral" Property="Background" Value="Transparent"/>
+                <Setter TargetName="ButtonOn" Property="Background" Value="Transparent"/>
+            </Trigger>
+
+            <Trigger Property="State" Value="Neutral">
+                <Setter TargetName="ButtonOff" Property="Background" Value="Transparent"/>
+                <Setter TargetName="ButtonNeutral" Property="Background" Value="{Binding NeutralBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+                <Setter TargetName="ButtonOn" Property="Background" Value="Transparent"/>
+            </Trigger>
+            
+            <Trigger Property="State" Value="On">
+                <Setter TargetName="ButtonOff" Property="Background" Value="Transparent"/>
+                <Setter TargetName="ButtonNeutral" Property="Background" Value="Transparent"/>
+                <Setter TargetName="ButtonOn" Property="Background" Value="{Binding OnBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
+
+    <Style TargetType="con:ThreeWay">
+        <Setter Property="Template" Value="{StaticResource ThreeWayControlTemplate}"/>
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderBrush" Value="LightGray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="NeutralBrush" Value="LightSteelBlue"/>
+        <Setter Property="OnBrush" Value="SeaGreen"/>
+        <Setter Property="OffBrush" Value="IndianRed"/>
+        <Setter Property="HeaderStyle" Value="{StaticResource {x:Static con:ThreeWay.HeaderStyleKey} }"/>
+        <Setter Property="OnOffStyle" Value="{StaticResource {x:Static con:ThreeWay.OnOffStyleKey}}"/>
+    </Style>
+
+</ResourceDictionary>
