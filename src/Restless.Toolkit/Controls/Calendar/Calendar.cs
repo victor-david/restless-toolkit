@@ -129,9 +129,9 @@ namespace Restless.Toolkit.Controls
         {
             if (d is Calendar control)
             {
-                if (e.NewValue is DateTime dt)
+                if (e.NewValue is DateTime date)
                 {
-                    DateTime dtLocal = control.ConvertIf(dt, toLocal: true);
+                    DateTime dtLocal = control.ConvertIf(date, toLocal: true);
                     control.SelectedDate = dtLocal;
                     if (!control.inSelectedDateChanged)
                     {
@@ -213,17 +213,13 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         /// <param name="date">The date to convert</param>
         /// <param name="toLocal">true to convert to local, false to convert to UTC</param>
-        /// <returns>The converted date if <see cref="IsUtcMode"/> is true; otherwise, <paramref name="date"/> unaltered</returns>
+        /// <returns>
+        /// The converted date if <see cref="IsUtcMode"/> is true;
+        /// otherwise, <paramref name="date"/> unaltered
+        /// </returns>
         private DateTime ConvertIf(DateTime date, bool toLocal)
         {
-            if (IsUtcMode)
-            {
-                if (toLocal)
-                    return date.ToLocalTime();
-                else
-                    return date.ToUniversalTime();
-            }
-            return date;
+            return IsUtcMode ? toLocal ? date.ToLocalTime() : date.ToUniversalTime() : date;
         }
         #endregion
     }
