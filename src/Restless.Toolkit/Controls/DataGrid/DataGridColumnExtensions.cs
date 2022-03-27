@@ -234,10 +234,10 @@ namespace Restless.Toolkit.Controls
 
 
         /// <summary>
-        /// Adds the specified tooltip text to the column's header
+        /// Adds the specified tooltip to the column's header
         /// </summary>
         /// <param name="col">The column</param>
-        /// <param name="toolTip">The text of the tool tip</param>
+        /// <param name="toolTip">The tool tip</param>
         /// <returns>The column</returns>
         /// <remarks>
         /// <para>
@@ -249,7 +249,7 @@ namespace Restless.Toolkit.Controls
         ///   Otherwise, it attempts to add the tooltip via the HeaderStyle property of the column.
         ///   If HeaderStyle is null, it first adds the DataGridHeaderDefault style. It then 
         ///   checks the Setters property of the style to see if a new Setter may be added. If so, it adds
-        ///   a ToolTipService.ToolTipProperty property setter with the specified text.
+        ///   a ToolTipService.ToolTipProperty property setter with the specified tooltip value.
         /// </para>
         /// <para>
         ///   If the HeaderStyle property has already been set (for instance, via a previous call to
@@ -257,9 +257,9 @@ namespace Restless.Toolkit.Controls
         ///   Under these conditions, this method does not set the tooltip text and no error is thrown.
         /// </para>
         /// </remarks>
-        public static DataGridColumn AddToolTip(this DataGridColumn col, string toolTip)
+        public static DataGridColumn AddToolTip(this DataGridColumn col, object toolTip)
         {
-            if (!string.IsNullOrEmpty(toolTip))
+            if (toolTip != null)
             {
                 if (col.Header is TextBlock textBlock)
                 {
