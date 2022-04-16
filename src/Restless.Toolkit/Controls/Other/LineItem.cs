@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -74,25 +73,8 @@ namespace Restless.Toolkit.Controls
                 nameof(Item), typeof(object), typeof(LineItem), new PropertyMetadata()
                 {
                     DefaultValue = null,
-                    PropertyChangedCallback = OnItemChanged,
                 }
             );
-
-        private static void OnItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is LineItem control)
-            {
-                if (e.NewValue is string text)
-                {
-                    control.Item = new TextBlock() 
-                    { 
-                        Text = text,
-                        Foreground = control.ItemForeground,
-                        FontSize = control.ItemFontSize,
-                    };
-                }
-            }
-        }
 
         /// <summary>
         /// Gets or sets the width of the display slot for <see cref="Item"/>.
@@ -126,11 +108,7 @@ namespace Restless.Toolkit.Controls
 
         private static object OnCoerceItemWidth(DependencyObject d, object baseValue)
         {
-            if (baseValue is double w)
-            {
-                return Math.Max(w, MinItemDisplayWidth);
-            }
-            return baseValue;
+            return baseValue is double w ? Math.Max(w, MinItemDisplayWidth) : baseValue;
         }
 
         /// <summary>
@@ -195,7 +173,6 @@ namespace Restless.Toolkit.Controls
                 nameof(ItemForeground), typeof(Brush), typeof(LineItem), new PropertyMetadata()
                 {
                     DefaultValue = Brushes.Black,
-                    PropertyChangedCallback = OnItemTextPropertyChanged,
                 }
             );
 
@@ -217,18 +194,8 @@ namespace Restless.Toolkit.Controls
                 nameof(ItemFontSize), typeof(double), typeof(LineItem), new PropertyMetadata()
                 {
                     DefaultValue = 11.0,
-                    PropertyChangedCallback = OnItemTextPropertyChanged
                 }
             );
-
-        private static void OnItemTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is LineItem control && control.Item is TextBlock text)
-            {
-                text.Foreground = control.ItemForeground;
-                text.FontSize = control.ItemFontSize;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the vertical alignment for <see cref="Item"/>
@@ -297,20 +264,7 @@ namespace Restless.Toolkit.Controls
 
         private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is LineItem control)
-            {
-                if (e.NewValue is string text)
-                {
-                    control.Value = new TextBlock() 
-                    { 
-                        Text = text, 
-                        Foreground = control.ValueForeground,
-                        FontSize = control.ValueFontSize,
-                    };
-                    return;
-                }
-                control.OnValueChanged(new RoutedEventArgs(ValueChangedEvent));
-            }
+            (d as LineItem)?.OnValueChanged(new RoutedEventArgs(ValueChangedEvent));
         }
 
         /// <summary>
@@ -331,7 +285,6 @@ namespace Restless.Toolkit.Controls
                 nameof(ValueForeground), typeof(Brush), typeof(LineItem), new PropertyMetadata()
                 {
                     DefaultValue = Brushes.Black,
-                    PropertyChangedCallback = OnValueTextPropertyChanged
                 }
             );
 
@@ -353,18 +306,8 @@ namespace Restless.Toolkit.Controls
                 nameof(ValueFontSize), typeof(double), typeof(LineItem), new PropertyMetadata()
                 {
                     DefaultValue = 11.0,
-                    PropertyChangedCallback = OnValueTextPropertyChanged
                 }
             );
-
-        private static void OnValueTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is LineItem control && control.Value is TextBlock text)
-            {
-                text.Foreground = control.ValueForeground;
-                text.FontSize = control.ValueFontSize;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the vertical alignment for the value
@@ -445,11 +388,7 @@ namespace Restless.Toolkit.Controls
 
         private static object OnCoerceIndentLevel(DependencyObject d, object baseValue)
         {
-            if (baseValue is int level)
-            {
-                return Math.Max(0, Math.Min(level, 4));
-            }
-            return baseValue;
+            return baseValue is int level ? Math.Max(0, Math.Min(level, 4)) : baseValue;
         }
 
         #endregion

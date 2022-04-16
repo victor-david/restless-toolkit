@@ -19,17 +19,37 @@
                         <ContentPresenter 
                             Content="{TemplateBinding Item}" 
                             Margin="{TemplateBinding ItemMargin}"
+                            TextElement.FontSize="{TemplateBinding ItemFontSize}"
                             TextElement.Foreground="{TemplateBinding ItemForeground}"
                             HorizontalAlignment="{TemplateBinding ItemHorizontalAlignment}"
-                            VerticalAlignment="{TemplateBinding ItemVerticalAlignment}"/>
+                            VerticalAlignment="{TemplateBinding ItemVerticalAlignment}">
+
+                            <ContentPresenter.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </ContentPresenter.Resources>
+                            
+                        </ContentPresenter>
 
                         <ContentPresenter
                             Grid.Column="1"
                             Content="{TemplateBinding Value}"
+                            TextElement.FontSize="{TemplateBinding ValueFontSize}"
                             TextElement.Foreground="{TemplateBinding ValueForeground}"
                             HorizontalAlignment="{TemplateBinding ValueHorizontalAlignment}"
-                            VerticalAlignment="{TemplateBinding ValueVerticalAlignment}"/>
+                            VerticalAlignment="{TemplateBinding ValueVerticalAlignment}">
+
+                            <ContentPresenter.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </ContentPresenter.Resources>
+                            
+                        </ContentPresenter>
+                        
                     </Grid>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
