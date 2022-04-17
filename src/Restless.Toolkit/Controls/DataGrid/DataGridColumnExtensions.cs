@@ -1,6 +1,7 @@
 ﻿using Restless.Toolkit.Converters;
 using Restless.Toolkit.Core;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -301,6 +302,52 @@ namespace Restless.Toolkit.Controls
         {
             col.SetValue(DataGrid.CustomSortProperty, new DataGridColumnSortSpec(column1, column2, behavior));
             return col;
+        }
+
+        /// <summary>
+        /// Adds a custom sort specification (alias of <see cref="AddSort(DataGridColumn, string, string, DataGridColumnSortBehavior)"/>
+        /// </summary>
+        /// <param name="col">The column</param>
+        /// <param name="column1">The name of the column to act as primary sort, or null to use the <paramref name="col"/></param>
+        /// <param name="column2">The name of the column to act as a secondary sort.</param>
+        /// <param name="behavior">The behavior of the secondary column when sorting.</param>
+        /// <returns>The column</returns> 
+        public static DataGridColumn AddCustomSort(this DataGridColumn col, string column1, string column2, DataGridColumnSortBehavior behavior)
+        {
+            return col.AddSort(column1, column2, behavior);
+        }
+
+        /// <summary>
+        /// Makes the column with have the specified initial sort
+        /// </summary>
+        /// <param name="column">The column</param>
+        /// <param name="direction">The sort direction</param>
+        /// <returns>The column</returns>
+        public static DataGridColumn MakeInitialSort(this DataGridColumn column, ListSortDirection direction)
+        {
+            column.SetValue(DataGridColumns.SortDirectionProperty, direction);
+            column.SortDirection = direction;
+            return column;
+        }
+
+        /// <summary>
+        /// Makes the column have an inital sort of ascending
+        /// </summary>
+        /// <param name="column">The column</param>
+        /// <returns>The column</returns>
+        public static DataGridColumn MakeInitialSortAscending(this DataGridColumn column)
+        {
+            return column.MakeInitialSort(ListSortDirection.Ascending);
+        }
+
+        /// <summary>
+        /// Makes the column have an inital sort of descending
+        /// </summary>
+        /// <param name="column">The column</param>
+        /// <returns>The column</returns>
+        public static DataGridColumn MakeInitialSortDescending(this DataGridColumn column)
+        {
+            return column.MakeInitialSort(ListSortDirection.Descending);
         }
     }
 }

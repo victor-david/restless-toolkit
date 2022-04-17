@@ -1,12 +1,10 @@
 ﻿using Restless.Toolkit.Core;
-using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace Restless.Toolkit.Controls
@@ -37,14 +35,14 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region CustomSort (attached property)
-        private const string CustomSortPropertyName = "CustomSort";
+        private const string CustomSort = nameof(CustomSort);
         /// <summary>
         /// Defines an attached dependency property that is used to provide custom sorting
         /// on a DataGridColumn by adding a secondary sort on another column.
         /// </summary>
         public static readonly DependencyProperty CustomSortProperty = DependencyProperty.RegisterAttached
             (
-                CustomSortPropertyName, typeof(DataGridColumnSortSpec), typeof(DataGrid), new PropertyMetadata()
+                CustomSort, typeof(DataGridColumnSortSpec), typeof(DataGrid), new PropertyMetadata()
             );
 
         /// <summary>
@@ -71,7 +69,7 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region DoubleClick (attached property)
-        private const string DoubleClickCommandPropertyName = "DoubleClickCommand";
+        private const string DoubleClickCommand = nameof(DoubleClickCommand);
         /// <summary>
         /// Defines an attached dependency property that enables binding the mouse double-click 
         /// on a data grid row to a command.
@@ -80,14 +78,13 @@ namespace Restless.Toolkit.Controls
         /// See:
         /// http://stackoverflow.com/questions/17419570/bind-doubleclick-command-from-datagrid-row-to-vm
         /// </remarks>
-        /// <AttachedPropertyComments>
-        /// <summary>
-        /// This attached property provides access to the command that is bound to the mouse double-click.
-        /// </summary>
-        /// </AttachedPropertyComments>
         public static DependencyProperty DoubleClickCommandProperty = DependencyProperty.RegisterAttached
            (
-                DoubleClickCommandPropertyName, typeof(ICommand), typeof(DataGrid), new PropertyMetadata(OnDoubleClickPropertyChanged)
+                DoubleClickCommand, typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null,
+                    PropertyChangedCallback = OnDoubleClickPropertyChanged
+                }
            );
 
         private static void OnDoubleClickPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -107,12 +104,11 @@ namespace Restless.Toolkit.Controls
 
         private static void DataGridMouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            if (sender is DataGridRow element)
+            if (sender is DataGridRow element && GetDoubleClickCommand(element) is ICommand command)
             {
-                ICommand cmd = GetDoubleClickCommand(element);
-                if (cmd.CanExecute(element.Item))
+                if (command.CanExecute(element.Item))
                 {
-                    cmd.Execute(element.Item);
+                    command.Execute(element.Item);
                 }
             }
         }
@@ -427,61 +423,94 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
+        /// Used by <see cref="DataGridColumns"/> to restore the sort
+        /// </summary>
+        /// <param name="column">The column. May be null</param>
+        internal void OnSorting(DataGridColumn column)
+        {
+            if (column != null)
+            {
+                OnSorting(new DataGridSortingEventArgs(column));
+            }
+        }
+
+        /// <summary>
         /// Occurs when the <see cref="DataGrid"/> is sorting, raises the Sorting event.
         /// </summary>
         /// <param name="e">The event arguments.</param>
         protected override void OnSorting(DataGridSortingEventArgs e)
         {
-            base.OnSorting(e);
-            var view = CollectionViewSource.GetDefaultView(ItemsSource);
-            // think this is unlikely
-            if (view == null) return;
-
-            // Get the custom sort.
-            var colSort = e.Column.GetValue(CustomSortProperty) as DataGridColumnSortSpec;
-
-            // If we have either a custom sort or a sorting command, clear the sort descriptions.
-            if (colSort != null || SortingCommand != null)
+            ICollectionView view = CollectionViewSource.GetDefaultView(ItemsSource);
+            if (view == null)
             {
-                view.SortDescriptions.Clear();
+                return;
             }
 
+            /* Priority 1: Sorting command */
             if (SortingCommand != null)
             {
+                view.SortDescriptions.Clear();
+                PrepareForSort(e.Column);
                 SortingCommand.Execute(e.Column);
                 e.Handled = view.SortDescriptions.Count > 0;
+                if (!e.Handled)
+                {
+                    /* If sort command didn't handle the sort, reverse the effects of PrepareForSort() */
+                    PrepareForSort(e.Column);
+                }
             }
-            
-            if (colSort != null)
+
+            /* Priority 2: Custom sort spec */
+            if (!e.Handled && e.Column.GetValue(CustomSortProperty) is DataGridColumnSortSpec sortSpec)
             {
-                ListSortDirection primaryDirection = (e.Column.SortDirection == ListSortDirection.Ascending) ? ListSortDirection.Ascending : ListSortDirection.Descending;
+                view.SortDescriptions.Clear();
+                PrepareForSort(e.Column);
 
-                string primaryPath = e.Column.SortMemberPath;
-                if (!string.IsNullOrEmpty(colSort.Column1))
-                {
-                    primaryPath = colSort.Column1;
-                }
-                view.SortDescriptions.Add(new SortDescription(primaryPath, primaryDirection));
+                string primaryPath = !string.IsNullOrEmpty(sortSpec.Column1) ?  sortSpec.Column1 :  e.Column.SortMemberPath;
+                view.SortDescriptions.Add(new SortDescription(primaryPath, e.Column.SortDirection.Value));
 
-                ListSortDirection secondaryDirection = primaryDirection;
-                switch (colSort.Behavior)
+                ListSortDirection secondaryDirection = sortSpec.Behavior switch
                 {
-                    case DataGridColumnSortBehavior.AlwaysAscending:
-                        secondaryDirection = ListSortDirection.Ascending;
-                        break;
-                    case DataGridColumnSortBehavior.AlwaysDescending:
-                        secondaryDirection = ListSortDirection.Descending;
-                        break;
-                    case DataGridColumnSortBehavior.ReverseFollowPrimary:
-                        secondaryDirection = (primaryDirection == ListSortDirection.Ascending) ? ListSortDirection.Descending : ListSortDirection.Ascending;
-                        break;
-                    default:
-                        secondaryDirection = primaryDirection;
-                        break;
-                }
-                view.SortDescriptions.Add(new SortDescription(colSort.Column2, secondaryDirection));
+                    DataGridColumnSortBehavior.AlwaysAscending => ListSortDirection.Ascending,
+                    DataGridColumnSortBehavior.AlwaysDescending => ListSortDirection.Descending,
+                    DataGridColumnSortBehavior.ReverseFollowPrimary => (e.Column.SortDirection == ListSortDirection.Ascending) ? ListSortDirection.Descending : ListSortDirection.Ascending,
+                    _ => e.Column.SortDirection.Value,
+                };
+                view.SortDescriptions.Add(new SortDescription(sortSpec.Column2, secondaryDirection));
                 e.Handled = true;
             }
+
+            /* Priority 3: Standard sort */
+            if (!e.Handled)
+            {
+                base.OnSorting(e);
+            }
+
+            SetAttachedSortDirection(e.Column);
+        }
+
+        private void PrepareForSort(DataGridColumn column)
+        {
+            ListSortDirection? direction = column.SortDirection;
+
+            foreach (DataGridColumn col in Columns)
+            {
+                col.SortDirection = null;
+            }
+            
+            column.SortDirection = 
+                (direction.HasValue && direction.Value == ListSortDirection.Ascending) ?
+                ListSortDirection.Descending :
+                ListSortDirection.Ascending;
+        }
+
+        private void SetAttachedSortDirection(DataGridColumn column)
+        {
+            foreach (DataGridColumn col in Columns)
+            {
+                DataGridColumns.SetSortDirection(col, null);
+            }
+            DataGridColumns.SetSortDirection(column, column.SortDirection);
         }
 
         /// <summary>
@@ -495,10 +524,10 @@ namespace Restless.Toolkit.Controls
         protected override void OnContextMenuOpening(ContextMenuEventArgs e)
         {
             base.OnContextMenuOpening(e);
-            ICommand cmd = ContextMenuOpeningCommand;
-            if (cmd != null && cmd.CanExecute(e))
+
+            if (ContextMenuOpeningCommand?.CanExecute(e) ?? false)
             {
-                cmd.Execute(e);
+                ContextMenuOpeningCommand.Execute(e);
             }
         }
 
@@ -509,10 +538,9 @@ namespace Restless.Toolkit.Controls
         protected override void OnBeginningEdit(DataGridBeginningEditEventArgs e)
         {
             base.OnBeginningEdit(e);
-            ICommand cmd = OnBeginningEditCommand;
-            if (cmd != null && cmd.CanExecute(e))
+            if (OnBeginningEditCommand?.CanExecute(e) ?? false)
             {
-                cmd.Execute(e);
+                OnBeginningEditCommand.Execute(e);
             }
         }
 
@@ -523,10 +551,9 @@ namespace Restless.Toolkit.Controls
         protected override void OnCellEditEnding(DataGridCellEditEndingEventArgs e)
         {
             base.OnCellEditEnding(e);
-            ICommand cmd = OnCellEditEndingCommand;
-            if (cmd != null && cmd.CanExecute(e))
+            if (OnCellEditEndingCommand?.CanExecute(e) ?? false)
             {
-                cmd.Execute(e);
+                OnCellEditEndingCommand.Execute(e);
             }
         }
         #endregion
@@ -534,7 +561,6 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Private methods
-
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             scrollViewer = CoreHelper.GetVisualChild<ScrollViewer>(this);

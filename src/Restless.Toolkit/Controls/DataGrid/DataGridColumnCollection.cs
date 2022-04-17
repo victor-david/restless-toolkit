@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using SysDataGrid = System.Windows.Controls.DataGrid;
 
 namespace Restless.Toolkit.Controls
 {
@@ -12,9 +13,19 @@ namespace Restless.Toolkit.Controls
     /// </summary>
     public class DataGridColumnCollection : ObservableCollection<DataGridColumn>
     {
-        #region Private Vars
+        #region Private
         private DataGridColumn defaultSortColumn;
-        private ListSortDirection? defaultSortDirection;
+        private ListSortDirection defaultSortDirection;
+        #endregion
+
+        /************************************************************************/
+
+        #region Internal
+        internal SysDataGrid DataGridOwner
+        {
+            get;
+            set;
+        }
         #endregion
 
         /************************************************************************/
@@ -29,8 +40,15 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly created column</returns>
         public DataGridBoundColumn Create(string header, string bindingName, string targetNullValue = "--")
         {
-            if (string.IsNullOrEmpty(header)) throw new ArgumentNullException(nameof(header));
-            if (string.IsNullOrEmpty(bindingName)) throw new ArgumentNullException(nameof(bindingName));
+            if (string.IsNullOrEmpty(header))
+            {
+                throw new ArgumentNullException(nameof(header));
+            }
+
+            if (string.IsNullOrWhiteSpace(bindingName))
+            {
+                throw new ArgumentNullException(nameof(bindingName));
+            }
 
             DataGridTextColumn col = new DataGridTextColumn
             {
@@ -54,8 +72,15 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly created column.</returns>
         public DataGridBoundColumn Create<T>(string header, string bindingName, string targetNullValue = "--") where T: IValueConverter, new()
         {
-            if (string.IsNullOrEmpty(header)) throw new ArgumentNullException(nameof(header));
-            if (string.IsNullOrEmpty(bindingName)) throw new ArgumentNullException(nameof(bindingName));
+            if (string.IsNullOrEmpty(header))
+            {
+                throw new ArgumentNullException(nameof(header));
+            }
+
+            if (string.IsNullOrWhiteSpace(bindingName))
+            {
+                throw new ArgumentNullException(nameof(bindingName));
+            }
 
             DataGridTextColumn col = new DataGridTextColumn
             {
@@ -170,10 +195,11 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         /// <param name="col">The column</param>
         /// <param name="sortDirection">The sort direction</param>
+        [Obsolete("Use DataGridColumnExtensions.MakeInitialSort() instead")]
         public void SetDefaultSort(DataGridColumn col, ListSortDirection? sortDirection)
         {
             defaultSortColumn = col;
-            defaultSortDirection = sortDirection;
+            defaultSortDirection = sortDirection ?? ListSortDirection.Ascending;
             if (defaultSortColumn != null)
             {
                 ClearColumnSortDirections();
@@ -182,8 +208,9 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
-        /// Restores the default sort. Must have called SetDefaultSortColumn() prior
+        /// Restores the default sort established by <see cref="SetDefaultSort(DataGridColumn, ListSortDirection?)"/>
         /// </summary>
+        [Obsolete("Use DataGridColumnExtensions.MakeInitialSort() instead")]
         public void RestoreDefaultSort()
         {
             if (defaultSortColumn != null)
@@ -197,7 +224,6 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Private Methods
-
         private TextBlock MakeTextBlockHeader(string text)
         {
             return new TextBlock()
@@ -208,12 +234,11 @@ namespace Restless.Toolkit.Controls
 
         private void ClearColumnSortDirections()
         {
-            foreach (var c in this)
+            foreach (DataGridColumn column in this)
             {
-                c.SortDirection = null;
+                column.SortDirection = null;
             }
         }
-
         #endregion
     }
 }
