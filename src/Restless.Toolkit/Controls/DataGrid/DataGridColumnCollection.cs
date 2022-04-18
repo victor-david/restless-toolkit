@@ -191,11 +191,86 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to the specified direction
+        /// </summary>
+        /// <param name="column">The column to set</param>
+        /// <param name="direction">The direction</param>
+        /// <exception cref="ArgumentNullException"><paramref name="column"/> is null</exception>
+        public void SetInitialSort(DataGridColumn column, ListSortDirection direction)
+        {
+            if (column == null)
+            {
+                throw new ArgumentNullException(nameof(column));
+            }
+
+            ClearColumnSortDirections();
+            column.SetValue(DataGridColumns.SortDirectionProperty, direction);
+            column.SortDirection = direction;
+        }
+
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to ascending
+        /// </summary>
+        /// <param name="column">The column to set</param>
+        /// <exception cref="ArgumentNullException"><paramref name="column"/> is null</exception>
+        public void SetInitialSortAscending(DataGridColumn column)
+        {
+            SetInitialSort(column, ListSortDirection.Ascending);
+        }
+
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to descending
+        /// </summary>
+        /// <param name="column">The column to set</param>
+        /// <exception cref="ArgumentNullException"><paramref name="column"/> is null</exception>
+        public void SetInitialSortDescending(DataGridColumn column)
+        {
+            SetInitialSort(column, ListSortDirection.Descending);
+        }
+
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to the specified direction
+        /// </summary>
+        /// <param name="columnIndex">The index of the column to set</param>
+        /// <param name="direction">The direction</param>
+        /// <exception cref="IndexOutOfRangeException"><paramref name="columnIndex"/> is out of range</exception>
+        public void SetInitialSort(int columnIndex, ListSortDirection direction)
+        {
+            SetInitialSort(this[columnIndex], direction);
+        }
+
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to ascending
+        /// </summary>
+        /// <param name="columnIndex">The index of the column to set</param>
+        /// <exception cref="IndexOutOfRangeException"><paramref name="columnIndex"/> is out of range</exception>
+        public void SetInitialSortAscending(int columnIndex)
+        {
+            SetInitialSort(this[columnIndex], ListSortDirection.Ascending);
+        }
+
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to descending
+        /// </summary>
+        /// <param name="columnIndex">The index of the column to set</param>
+        /// <exception cref="IndexOutOfRangeException"><paramref name="columnIndex"/> is out of range</exception>
+        public void SetInitialSortDescending(int columnIndex)
+        {
+            SetInitialSort(this[columnIndex], ListSortDirection.Descending);
+        }
+
+        /// <summary>
         /// Sets the default sort column
         /// </summary>
         /// <param name="col">The column</param>
         /// <param name="sortDirection">The sort direction</param>
-        [Obsolete("Use DataGridColumnExtensions.MakeInitialSort() instead")]
+        [Obsolete("Use DataGridColumnExtensions.MakeInitialSort() or SetInitialSort() instead")]
         public void SetDefaultSort(DataGridColumn col, ListSortDirection? sortDirection)
         {
             defaultSortColumn = col;
@@ -210,13 +285,55 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Restores the default sort established by <see cref="SetDefaultSort(DataGridColumn, ListSortDirection?)"/>
         /// </summary>
-        [Obsolete("Use DataGridColumnExtensions.MakeInitialSort() instead")]
+        [Obsolete("Use DataGridColumnExtensions.MakeInitialSort() or SetInitialSort() instead")]
         public void RestoreDefaultSort()
         {
             if (defaultSortColumn != null)
             {
                 ClearColumnSortDirections();
                 defaultSortColumn.SortDirection = defaultSortDirection;
+            }
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region Internal methods
+        /// <summary>
+        /// Saves the current values of display index in the attached property
+        /// </summary>
+        internal void SaveDisplayIndex()
+        {
+            foreach (DataGridColumn column in this)
+            {
+                DataGridColumns.SetDisplayIndex(column, column.DisplayIndex);
+            }
+        }
+
+        /// <summary>
+        /// Restores the values of display index from the attached property
+        /// </summary>
+        internal void RestoreDisplayIndex()
+        {
+            foreach (DataGridColumn column in this)
+            {
+                int displayIndex = DataGridColumns.GetDisplayIndex(column);
+                if (displayIndex != -1)
+                {
+                    column.DisplayIndex = displayIndex;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sequences the display index of columns in the collection
+        /// </summary>
+        internal void SequenceDisplayIndex()
+        {
+            int displayIdx = 0;
+            foreach (DataGridColumn column in this)
+            {
+                column.DisplayIndex = displayIdx++;
             }
         }
         #endregion
@@ -236,6 +353,7 @@ namespace Restless.Toolkit.Controls
         {
             foreach (DataGridColumn column in this)
             {
+                column.SetValue(DataGridColumns.SortDirectionProperty, null);
                 column.SortDirection = null;
             }
         }

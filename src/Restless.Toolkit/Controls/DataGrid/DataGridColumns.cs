@@ -12,10 +12,6 @@ namespace Restless.Toolkit.Controls
     /// <summary>
     /// Provides attached properties that augment the use of <see cref="DataGridColumnCollection"/>
     /// </summary>
-    /// <remarks>
-    /// See:
-    /// http://stackoverflow.com/questions/3065758/wpf-mvvm-datagrid-dynamic-columns
-    /// </remarks>
     public static class DataGridColumns
     {
         #region Columns (attached property)
@@ -57,22 +53,38 @@ namespace Restless.Toolkit.Controls
             obj.SetValue(ColumnsProperty, value);
         }
 
+        private static readonly PropertyInfo OwnerProperty = typeof(DataGridColumn).GetProperty("DataGridOwner", BindingFlags.Instance | BindingFlags.NonPublic);
+
         private static void OnColumnsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is SysDataGrid dataGrid && e.NewValue is DataGridColumnCollection columns)
             {
                 columns.DataGridOwner = dataGrid;
 
-                PropertyInfo prop = typeof(DataGridColumn).GetProperty("DataGridOwner", BindingFlags.Instance | BindingFlags.NonPublic);
-
                 dataGrid.Columns.Clear();
                 DataGridColumn sortColumn = null;
-                // DataGridColumn defaultSortColumn = null;
+
+                /* DisplayIndex. If the user cannot reorder the columns in the datagrid,
+                 * no special action is required to handle the column.DisplayIndex property.
+                 * 
+                 * However, if the user reorders the columns, leaves the view model that is
+                 * attaching columns, and then returns, the columns will be reattached.
+                 * 
+                 * In this scenario, DisplayIndex must be sequenced or WPF will encounter
+                 * a DisplayIndex that is incorrect and throw.
+                 * 
+                 * To keep the same column order that the user sets, first we save the display
+                 * index of each column in its corresponding attached property, sequence,
+                 * add all the columns, and then use the attached property to restore.
+                 */
+
+                columns.SaveDisplayIndex();
+                columns.SequenceDisplayIndex();
 
                 foreach (DataGridColumn col in columns)
                 {
                     /* Must set internal DataGridOwner to null or WPF throws (it sets it) */
-                    prop?.SetValue(col, null);
+                    OwnerProperty?.SetValue(col, null);
                     col.SetValue(AttachedOwnerProperty, dataGrid);
                     dataGrid.Columns.Add(col);
 
@@ -82,6 +94,8 @@ namespace Restless.Toolkit.Controls
                         sortColumn.SortDirection = ReversedDirection(direction);
                     }
                 }
+
+                columns.RestoreDisplayIndex();
 
                 /* Perform the sort as needed. If sortColumn is null, the method does nothing */
                 (dataGrid as DataGrid)?.OnSorting(sortColumn);
@@ -116,30 +130,6 @@ namespace Restless.Toolkit.Controls
                 }
             }
         }
-        #endregion
-
-        /************************************************************************/
-
-        #region DefaultSort (internal)
-        //private const string DefaultSort = nameof(DefaultSort);
-
-        //internal static readonly DependencyProperty DefaultSortProperty = DependencyProperty.RegisterAttached
-        //    (
-        //        DefaultSort, typeof(ListSortDirection?), typeof(DataGridColumns), new FrameworkPropertyMetadata()
-        //        {
-        //            DefaultValue = null,
-        //        }
-        //    );
-
-        //internal static ListSortDirection? GetDefaultSort(DependencyObject obj)
-        //{
-        //    return (ListSortDirection?)obj.GetValue(DefaultSortProperty);
-        //}
-
-        //internal static void SetDefaultSort(DependencyObject obj, ListSortDirection? value)
-        //{
-        //    obj.SetValue(DefaultSortProperty, value);
-        //}
         #endregion
 
         /************************************************************************/
@@ -187,6 +177,30 @@ namespace Restless.Toolkit.Controls
         internal static void SetAttachedOwner(DependencyObject obj, SysDataGrid value)
         {
             obj.SetValue(AttachedOwnerProperty, value);
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region DisplayIndex (internal)
+        private const string DisplayIndex = nameof(DisplayIndex);
+
+        internal static readonly DependencyProperty DisplayIndexProperty = DependencyProperty.RegisterAttached
+            (
+                DisplayIndex, typeof(int), typeof(DataGridColumns), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = -1
+                }
+            );
+
+        internal static int GetDisplayIndex(DependencyObject obj)
+        {
+            return (int)obj.GetValue(DisplayIndexProperty);
+        }
+
+        internal static void SetDisplayIndex(DependencyObject obj, int value)
+        {
+            obj.SetValue(DisplayIndexProperty, value);
         }
         #endregion
     }
