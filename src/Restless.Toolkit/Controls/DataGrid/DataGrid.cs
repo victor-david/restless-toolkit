@@ -16,7 +16,6 @@ namespace Restless.Toolkit.Controls
     public class DataGrid : System.Windows.Controls.DataGrid
     {
         #region Private
-        private ScrollViewer scrollViewer;
         private ScrollViewer outerScrollViewer;
         #endregion
 
@@ -626,14 +625,11 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Private methods
-        private void OnRightClick(object sender, RoutedEventArgs e)
-        {
-
-        }
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            scrollViewer = CoreHelper.GetVisualChild<ScrollViewer>(this);
 #if VERTOFFSET
+            scrollViewer = CoreHelper.GetVisualChild<ScrollViewer>(this);
+
             if (scrollViewer != null)
             {
                 scrollViewer.ScrollChanged += (s, e2) =>
@@ -729,6 +725,7 @@ namespace Restless.Toolkit.Controls
 
         #region Private helper class (ScrollInfo)
 #if VERTOFFSET
+        private ScrollViewer scrollViewer;
         private class ScrollInfo
         {
             public DataGrid Grid { get; private set; }
