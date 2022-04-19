@@ -3,6 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -136,6 +137,58 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
+        #region HeaderRightClickCommand
+        /// <summary>
+        /// Gets or sets a command to execute when the mouse is right clicked on a header.
+        /// </summary>
+        /// <remarks>
+        /// The parameter for this command is the <see cref="DataGridColumnHeader"/> that was clicked.
+        /// </remarks>
+        public ICommand HeaderRightClickCommand
+        {
+            get => (ICommand)GetValue(HeaderRightClickCommandProperty);
+            set => SetValue(HeaderRightClickCommandProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="HeaderRightClickCommand"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderRightClickCommandProperty = DependencyProperty.Register
+            (
+                nameof(HeaderRightClickCommand), typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null
+                }
+            );
+
+        /// <summary>
+        /// Gets or sets a value that determines whether the context menu can appear
+        /// when clicking on the header.
+        /// </summary>
+        /// <remarks>
+        /// The default value of this property is false. Usually, you should not set this property to true
+        /// if you are using <see cref="HeaderRightClickCommand"/>
+        /// </remarks>
+        public bool AllowHeaderContextMenu
+        {
+            get => (bool)GetValue(AllowHeaderContextMenuProperty);
+            set => SetValue(AllowHeaderContextMenuProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="AllowHeaderContextMenu"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty AllowHeaderContextMenuProperty = DependencyProperty.Register
+            (
+                nameof(AllowHeaderContextMenu), typeof(bool), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = false
+                }
+            );
+        #endregion
+
+        /************************************************************************/
+
         #region ContextMenuOpeningCommand
         /// <summary>
         /// Gets or sets a command to be executed when a context menu associated with the data grid is opening.
@@ -151,7 +204,10 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static DependencyProperty ContextMenuOpeningCommandProperty = DependencyProperty.Register
              (
-                nameof(ContextMenuOpeningCommand), typeof(ICommand), typeof(DataGrid), new PropertyMetadata()
+                nameof(ContextMenuOpeningCommand), typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null
+                }
              );
         #endregion
 
@@ -172,7 +228,10 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static DependencyProperty SortingCommandProperty = DependencyProperty.Register
              (
-                nameof(SortingCommand), typeof(ICommand), typeof(DataGrid), new PropertyMetadata()
+                nameof(SortingCommand), typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null
+                }
              );
         #endregion
 
@@ -374,10 +433,7 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Protected methods
-        /// <summary>
-        /// Occurs when the mouse enters
-        /// </summary>
-        /// <param name="e">The event arguments</param>
+        /// <inheritdoc/>
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
@@ -390,24 +446,33 @@ namespace Restless.Toolkit.Controls
             }
         }
 
-        /// <summary>
-        /// Invoked when an unhandled System.Windows.Input.Mouse.PreviewMouseWheel attached
-        /// event reaches an element in its route that is derived from this class.
-        /// </summary>
-        /// <param name="e">The System.Windows.Input.MouseWheelEventArgs that contains the event data.</param>
-        /// <remarks>
-        /// This method is used to implement the behavior described by <see cref="UseOuterScrollViewer"/>.
-        /// </remarks>
+        /// <inheritdoc/>
         protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
         {
             base.OnPreviewMouseWheel(e);
             if (UseOuterScrollViewer)
             {
-                var sv = GetOuterScrollViewer();
-                if (sv != null)
+                if (GetOuterScrollViewer() is ScrollViewer scrollViewer)
                 {
-                    sv.ScrollToVerticalOffset(sv.VerticalOffset - e.Delta);
+                    scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
                     e.Handled = true;
+                }
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override void OnPreviewMouseRightButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseRightButtonUp(e);
+            if (e.OriginalSource is DependencyObject dp)
+            {
+                if (CoreHelper.GetVisualParent<DataGridColumnHeader>(dp) is DataGridColumnHeader header)
+                {
+                    if (HeaderRightClickCommand?.CanExecute(header) ?? false)
+                    {
+                        HeaderRightClickCommand.Execute(header);
+                    }
+                    e.Handled = !AllowHeaderContextMenu;
                 }
             }
         }
@@ -561,6 +626,10 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Private methods
+        private void OnRightClick(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             scrollViewer = CoreHelper.GetVisualChild<ScrollViewer>(this);
