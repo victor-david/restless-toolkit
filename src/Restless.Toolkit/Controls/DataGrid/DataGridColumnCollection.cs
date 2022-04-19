@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -30,7 +31,7 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
-        #region Public methods
+        #region Methods (column creation)
         /// <summary>
         /// Creates a text column and adds it to the collection
         /// </summary>
@@ -189,7 +190,11 @@ namespace Restless.Toolkit.Controls
             Add(col);
             return col;
         }
+        #endregion
 
+        /************************************************************************/
+
+        #region Methods (sorting)
         /// <summary>
         /// Clears all column sort directions (built in and attached)
         /// and sets the specified column to the specified direction
@@ -298,6 +303,84 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
+        #region Methods (column state)
+        /// <summary>
+        /// Gets a string that represents the state of the columns
+        /// </summary>
+        /// <returns>
+        /// A string that describes the state of this column collection
+        /// </returns>
+        public string GetColumnState()
+        {
+            StringBuilder builder = new StringBuilder();
+                
+            foreach (DataGridColumn column in this)
+            {
+                int isVisible = column.Visibility == Visibility.Visible ? 1 : 0;
+                ListSortDirection? direction = DataGridColumns.GetSortDirection(column);
+                int sort = direction.HasValue ? (int)direction.Value + 1 : 0;
+                builder.Append($"{column.DisplayIndex};{isVisible};{sort},");
+            }
+
+            if (builder.Length > 0)
+            {
+                /* remove last comma */
+                builder.Remove(builder.Length - 1, 1);
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Restores the column state using the specified string.
+        /// </summary>
+        /// <param name="state">The state string</param>
+        /// <remarks>
+        /// Use the string obtained by <see cref="GetColumnState"/> to restore
+        /// </remarks>
+        public void RestoreColumnState(string state)
+        {
+            if (!string.IsNullOrWhiteSpace(state))
+            {
+                string[] cols = state.Split(',');
+                for (int idx = 0; idx < cols.Length; idx++)
+                {
+                    if (idx < Count)
+                    {
+                        string[] parms = cols[idx].Split(';');
+                        if (parms.Length > 0)
+                        {
+                            if (int.TryParse(parms[0], out int displayIndex))
+                            {
+                                this[idx].DisplayIndex = displayIndex;
+                            }
+                        }
+
+                        if (parms.Length > 1)
+                        {
+                            if (int.TryParse(parms[1], out int isVisible))
+                            {
+                                this[idx].Visibility = isVisible == 0 ? Visibility.Collapsed : Visibility.Visible;
+                            }
+                        }
+
+                        if (parms.Length > 2)
+                        {
+                            /* direction is stored 1 greater than its value so zero can signify none */
+                            if (int.TryParse(parms[2], out int direction) && direction > 0)
+                            {
+                                ClearColumnSortDirections();
+                                DataGridColumns.SetSortDirection(this[idx], (ListSortDirection)(direction - 1));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+        /************************************************************************/
+
         #region Internal methods
         /// <summary>
         /// Saves the current values of display index in the attached property
@@ -336,6 +419,9 @@ namespace Restless.Toolkit.Controls
                 column.DisplayIndex = displayIdx++;
             }
         }
+
+
+
         #endregion
 
         /************************************************************************/
