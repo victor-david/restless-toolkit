@@ -36,9 +36,10 @@ namespace Restless.Toolkit.Mvvm
         /// Gets a boolean value that indicates if this VM is active.
         /// </summary>
         /// <remarks>
-        /// The VM can be signaled via this property. When this property is set to true,
-        /// the <see cref="OnActivated"/> method is called. When set to false, 
-        /// the <see cref="OnDeactivated"/> method is called.
+        /// The activation status of a view model is changed with 
+        /// the <see cref="Activate"/> and <see cref="Deactivate"/> methods.
+        /// When this property is set to true, the <see cref="OnActivated"/> method
+        /// is called. When false, the <see cref="OnDeactivated"/> method is called.
         /// </remarks>
         public bool IsActivated
         {
@@ -48,9 +49,13 @@ namespace Restless.Toolkit.Mvvm
                 if (SetProperty(ref isActivated, value))
                 {
                     if (isActivated)
+                    {
                         OnActivated();
+                    }
                     else
+                    {
                         OnDeactivated();
+                    }
                 }
             }
         }
@@ -110,9 +115,13 @@ namespace Restless.Toolkit.Mvvm
         public void ToggleActivation()
         {
             if (!IsActivated)
+            {
                 Activate();
+            }
             else
+            {
                 Deactivate();
+            }
         }
 
         /// <summary>
@@ -135,6 +144,14 @@ namespace Restless.Toolkit.Mvvm
         public void Update()
         {
             OnUpdate();
+        }
+
+        /// <summary>
+        /// Signal the view model to save any state it requires.
+        /// </summary>
+        public void SignalSave()
+        {
+            OnSave();
         }
 
         /// <summary>
@@ -194,6 +211,14 @@ namespace Restless.Toolkit.Mvvm
         protected T GetOwner<T>() where T : ViewModelBase
         {
             return Owner as T;
+        }
+
+        /// <summary>
+        /// Called when <see cref="SignalSave"/> is called.
+        /// Override in a derived class to perform any state save required.
+        /// </summary>
+        protected virtual void OnSave()
+        {
         }
 
         /// <summary>
