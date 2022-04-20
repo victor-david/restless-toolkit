@@ -349,5 +349,17 @@ namespace Restless.Toolkit.Controls
         {
             return column.MakeInitialSort(ListSortDirection.Descending);
         }
+
+        /// <summary>
+        /// Sets the selector name attached property for the column.
+        /// </summary>
+        /// <param name="column">The column</param>
+        /// <param name="value">The selector name</param>
+        /// <returns>The column</returns>
+        public static DataGridColumn SetSelectorName(this DataGridColumn column, string value)
+        {
+            column.SetValue(DataGridColumns.SelectorNameProperty, value);
+            return column;
+        }
     }
 }

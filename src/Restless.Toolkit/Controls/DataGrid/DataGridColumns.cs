@@ -23,6 +23,7 @@ namespace Restless.Toolkit.Controls
         /// <remarks>
         /// This attached property is loosely based on the article at:
         /// http://stackoverflow.com/questions/3065758/wpf-mvvm-datagrid-dynamic-columns
+        /// with several enhancements
         /// </remarks>
         public static readonly DependencyProperty ColumnsProperty = DependencyProperty.RegisterAttached
             (
@@ -201,6 +202,43 @@ namespace Restless.Toolkit.Controls
         internal static void SetDisplayIndex(DependencyObject obj, int value)
         {
             obj.SetValue(DisplayIndexProperty, value);
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region SelectorName
+        private const string SelectorName = nameof(SelectorName);
+
+        /// <summary>
+        /// Identifies the selector name attached property
+        /// </summary>
+        public static readonly DependencyProperty SelectorNameProperty = DependencyProperty.RegisterAttached
+            (
+                SelectorName, typeof(string), typeof(DataGridColumns), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null
+                }
+            );
+
+        /// <summary>
+        /// Gets the selector name attached property for the specified dependency object
+        /// </summary>
+        /// <param name="obj">The object</param>
+        /// <returns>The attached property value</returns>
+        public static string GetSelectorName(DependencyObject obj)
+        {
+            return (string)obj.GetValue(SelectorNameProperty);
+        }
+
+        /// <summary>
+        /// Sets the selector name attached property for the specified dependency object
+        /// </summary>
+        /// <param name="obj">The object</param>
+        /// <param name="value">The value to set</param>
+        public static void SetSelectorName(DependencyObject obj, string value)
+        {
+            obj.SetValue(SelectorNameProperty, value);
         }
         #endregion
     }
