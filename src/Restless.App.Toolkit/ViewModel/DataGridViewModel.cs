@@ -46,16 +46,13 @@ namespace Restless.App.Toolkit
             set => SetProperty(ref selectedItem, value);
         }
 
-        /// <summary>
-        /// Sets the selected data grid items. This property is bound to the view.
-        /// </summary>
         public IList SelectedDataGridItems
         {
             get => selectedDataGridItems;
             set
             {
                 SetProperty(ref selectedDataGridItems, value);
-                ActionMessage = $"{selectedDataGridItems.Count} items selected";
+                ActionMessage = $"{selectedDataGridItems?.Count ?? 0} items selected";
             }
         }
 
@@ -71,10 +68,10 @@ namespace Restless.App.Toolkit
             Columns.Create("Country", nameof(Person.Country));
 
             MenuItems = new MenuItemCollection();
-            MenuItems.AddItem("Open bio for this person", RelayCommand.Create(p => ActionMessage = "This command does nothing"));
-            MenuItems.AddItem("Send this person a coffee", RelayCommand.Create(RunThankYouCommand));
+            MenuItems.AddItem("Open bio for this person", RelayCommand.Create(p => ActionMessage = "Bio opened in some alternate universe"));
+            MenuItems.AddItem("Send this person a coffee", RelayCommand.Create(p => ActionMessage = "Thanks for the coffee"));
             MenuItems.AddSeparator();
-            MenuItems.AddItem("Give this person a cookie", RelayCommand.Create(RunThankYouCommand));
+            MenuItems.AddItem("Give this person a cookie", RelayCommand.Create(p => ActionMessage = "Yum. Cookie"));
 
             HeaderCommand = RelayCommand.Create(RunHeaderCommand);
 
@@ -92,11 +89,6 @@ namespace Restless.App.Toolkit
             };
 
             ListView = new ListCollectionView(storage);
-        }
-
-        private void RunThankYouCommand(object parm)
-        {
-            MessageWindow.ShowOkay("Thank you");
         }
 
         private void RunHeaderCommand(object parm)

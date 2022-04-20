@@ -49,8 +49,10 @@
                     </ListItem>
                     <ListItem>
                         <Paragraph>
-                            You can bind a command that will be executed when you right click
-                            a column header.
+                            Column header mode. When a header is right-clicked, you can display 
+                            a built in column selector popup that enables you to hide/show columns,
+                            execute a command to perform your own actions, or supress the context menu
+                            that may normally appear.
                         </Paragraph>
                     </ListItem>
                 </List>
@@ -59,7 +61,8 @@
 
         <tk:DataGrid
             Grid.Column="1"
-            HeaderRightClickCommand="{Binding HeaderCommand}"
+            HeaderMode="ColumnSelector"
+            HeaderCommand="{Binding HeaderCommand}"
             ItemsSource="{Binding ListView}"
             SelectedItem="{Binding SelectedItem}"
             SelectedItemsList="{Binding SelectedDataGridItems, Mode=OneWayToSource}"
