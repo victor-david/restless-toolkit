@@ -1,4 +1,5 @@
 ﻿using Restless.Toolkit.Core;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows;
@@ -6,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace Restless.Toolkit.Controls
@@ -16,6 +18,7 @@ namespace Restless.Toolkit.Controls
     public class DataGrid : System.Windows.Controls.DataGrid
     {
         #region Private
+        private readonly DataGridColumnSelector columnSelector;
         private ScrollViewer outerScrollViewer;
         #endregion
 
@@ -29,6 +32,7 @@ namespace Restless.Toolkit.Controls
         {
             DataContextChanged += OnDataContextChanged;
             AddHandler(LoadedEvent, new RoutedEventHandler(OnLoaded));
+            columnSelector = new DataGridColumnSelector();
         }
         #endregion
 
@@ -136,54 +140,216 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
-        #region HeaderRightClickCommand
+        #region Header
+        /// <summary>
+        /// Gets or sets the mode for the data grid headers
+        /// </summary>
+        public DataGridHeaderMode HeaderMode
+        {
+            get => (DataGridHeaderMode)GetValue(HeaderModeProperty);
+            set => SetValue(HeaderModeProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="HeaderMode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderModeProperty = DependencyProperty.Register
+            (
+                nameof(HeaderMode), typeof(DataGridHeaderMode), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridHeaderMode.None
+                }
+            );
+
         /// <summary>
         /// Gets or sets a command to execute when the mouse is right clicked on a header.
         /// </summary>
         /// <remarks>
-        /// The parameter for this command is the <see cref="DataGridColumnHeader"/> that was clicked.
+        /// <see cref="HeaderMode"/> must be <see cref="DataGridHeaderMode.Command"/> for this
+        /// command to execute. The parameter for this command is the <see cref="DataGridColumnHeader"/>
+        /// that was clicked.
         /// </remarks>
-        public ICommand HeaderRightClickCommand
+        public ICommand HeaderCommand
         {
-            get => (ICommand)GetValue(HeaderRightClickCommandProperty);
-            set => SetValue(HeaderRightClickCommandProperty, value);
+            get => (ICommand)GetValue(HeaderCommandProperty);
+            set => SetValue(HeaderCommandProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <see cref="HeaderRightClickCommand"/> dependency property.
+        /// Identifies the <see cref="HeaderCommand"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HeaderRightClickCommandProperty = DependencyProperty.Register
+        public static readonly DependencyProperty HeaderCommandProperty = DependencyProperty.Register
             (
-                nameof(HeaderRightClickCommand), typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
+                nameof(HeaderCommand), typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
                 {
-                    DefaultValue = null
+                    DefaultValue = null,
                 }
             );
 
         /// <summary>
-        /// Gets or sets a value that determines whether the context menu can appear
-        /// when clicking on the header.
+        /// Gets or sets the background for the column selector
         /// </summary>
-        /// <remarks>
-        /// The default value of this property is false. Usually, you should not set this property to true
-        /// if you are using <see cref="HeaderRightClickCommand"/>
-        /// </remarks>
-        public bool AllowHeaderContextMenu
+        public Brush ColumnSelectorBackground
         {
-            get => (bool)GetValue(AllowHeaderContextMenuProperty);
-            set => SetValue(AllowHeaderContextMenuProperty, value);
+            get => (Brush)GetValue(ColumnSelectorBackgroundProperty);
+            set => SetValue(ColumnSelectorBackgroundProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <see cref="AllowHeaderContextMenu"/> dependency property.
+        /// Identifies the <see cref="ColumnSelectorBackground"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty AllowHeaderContextMenuProperty = DependencyProperty.Register
+        public static readonly DependencyProperty ColumnSelectorBackgroundProperty = DependencyProperty.Register
             (
-                nameof(AllowHeaderContextMenu), typeof(bool), typeof(DataGrid), new FrameworkPropertyMetadata()
+                nameof(ColumnSelectorBackground), typeof(Brush), typeof(DataGrid), new FrameworkPropertyMetadata()
                 {
-                    DefaultValue = false
+                    DefaultValue = DataGridColumnSelector.DefaultBackground,
+                    PropertyChangedCallback = OnColumnSelectorBackgroundChanged
                 }
             );
+
+        private static void OnColumnSelectorBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.Background = (Brush)e.NewValue;
+        }
+
+        /// <summary>
+        /// Gets or sets the border brush for the column selector
+        /// </summary>
+        public Brush ColumnSelectorBorderBrush
+        {
+            get => (Brush)GetValue(ColumnSelectorBorderBrushProperty);
+            set => SetValue(ColumnSelectorBorderBrushProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorBorderBrush"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorBorderBrushProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorBorderBrush), typeof(Brush), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultBorderBrush,
+                    PropertyChangedCallback = OnColumnSelectorBorderBrushChanged
+                }
+            );
+
+        private static void OnColumnSelectorBorderBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.BorderBrush = (Brush)e.NewValue;
+        }
+
+        /// <summary>
+        /// Gets or sets the column selector border thickness
+        /// </summary>
+        public Thickness ColumnSelectorBorderThickness
+        {
+            get => (Thickness)GetValue(ColumnSelectorBorderThicknessProperty);
+            set => SetValue(ColumnSelectorBorderThicknessProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorBorderThickness"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorBorderThicknessProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorBorderThickness), typeof(Thickness), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultBorderThickness,
+                    PropertyChangedCallback = OnColumnSelectorBorderThicknessChanged
+                }
+            );
+
+        private static void OnColumnSelectorBorderThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.BorderThickness = (Thickness)e.NewValue;
+        }
+
+        /// <summary>
+        /// Gets or sets the column selector padding
+        /// </summary>
+        public Thickness ColumnSelectorPadding
+        {
+            get => (Thickness)GetValue(ColumnSelectorPaddingProperty);
+            set => SetValue(ColumnSelectorPaddingProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorPadding"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorPaddingProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorPadding), typeof(Thickness), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultPadding,
+                    PropertyChangedCallback = OnColumnSelectorPaddingChanged
+                }
+            );
+
+        private static void OnColumnSelectorPaddingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.Padding = (Thickness)e.NewValue;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the margin used for column selector check boxes
+        /// </summary>
+        public Thickness ColumnSelectorCheckBoxMargin
+        {
+            get => (Thickness)GetValue(ColumnSelectorCheckBoxMarginProperty);
+            set => SetValue(ColumnSelectorCheckBoxMarginProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorCheckBoxMargin"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorCheckBoxMarginProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorCheckBoxMargin), typeof(Thickness), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultCheckBoxMargin,
+                    PropertyChangedCallback = OnColumnSelectorCheckBoxMarginChanged
+                }
+            );
+
+        private static void OnColumnSelectorCheckBoxMarginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.CheckBoxMargin = (Thickness)e.NewValue;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the minimum number of columns that can remain visible when selecting
+        /// columns with the column selector
+        /// </summary>
+        public int ColumnSelectorMinimumVisible
+        {
+            get => (int)GetValue(ColumnSelectorMinimumVisibleProperty);
+            set => SetValue(ColumnSelectorMinimumVisibleProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorMinimumVisible"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorMinimumVisibleProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorMinimumVisible), typeof(int), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultMinimumVisible,
+                    CoerceValueCallback = OnCoerceColumnSelectorMinimum,
+                    PropertyChangedCallback = OnColumnSelectorMinimumChanged
+                }
+            );
+        
+        private static object OnCoerceColumnSelectorMinimum(DependencyObject d, object baseValue)
+        {
+            return Math.Max((int)baseValue, 1);
+        }
+
+        private static void OnColumnSelectorMinimumChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.MinimumVisible = (int)e.NewValue;
+        }
         #endregion
 
         /************************************************************************/
@@ -467,11 +633,25 @@ namespace Restless.Toolkit.Controls
             {
                 if (CoreHelper.GetVisualParent<DataGridColumnHeader>(dp) is DataGridColumnHeader header)
                 {
-                    if (HeaderRightClickCommand?.CanExecute(header) ?? false)
+                    switch (HeaderMode)
                     {
-                        HeaderRightClickCommand.Execute(header);
+                        case DataGridHeaderMode.Command:
+                            if (HeaderCommand?.CanExecute(header) ?? false)
+                            {
+                                HeaderCommand.Execute(header);
+                            }
+                            break;
+
+                        case DataGridHeaderMode.ColumnSelector:
+                            columnSelector.Show(header, Columns);
+                            break;
+
+                        case DataGridHeaderMode.None:
+                        case DataGridHeaderMode.ContextMenu:
+                            break;
+
                     }
-                    e.Handled = !AllowHeaderContextMenu;
+                    e.Handled = HeaderMode != DataGridHeaderMode.ContextMenu;
                 }
             }
         }

@@ -59,7 +59,7 @@ namespace Restless.Toolkit.Controls
                     TargetNullValue = targetNullValue
                 }
             };
-            Add(col);
+            Add(col.SetSelectorName(header));
             return col;
         }
 
@@ -92,7 +92,7 @@ namespace Restless.Toolkit.Controls
                     TargetNullValue = targetNullValue,
                 }
             };
-            Add(col);
+            Add(col.SetSelectorName(header));
             return col;
         }
 
@@ -120,7 +120,7 @@ namespace Restless.Toolkit.Controls
             }
             col.Binding = multiBinding;
             col.Binding.TargetNullValue = "--";
-            Add(col);
+            Add(col.SetSelectorName(header));
             return col;
         }
 
@@ -156,7 +156,7 @@ namespace Restless.Toolkit.Controls
             {
                 VisualTree = factory
             };
-            Add(col);
+            Add(col.SetSelectorName(header));
             return col;
         }
 
@@ -187,7 +187,7 @@ namespace Restless.Toolkit.Controls
             {
                 VisualTree = factory
             };
-            Add(col);
+            Add(col.SetSelectorName(header));
             return col;
         }
         #endregion
