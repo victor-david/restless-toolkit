@@ -1,0 +1,159 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls">
+
+    <SolidColorBrush x:Key="DefaultHeaderForegroundBrush" Color="#606060"/>
+    <SolidColorBrush x:Key="DefaultBorderBrush" Color="#a0a0a0"/>
+    <SolidColorBrush x:Key="DefaultBackgroundBrush" Color="#ffffff"/>
+    <SolidColorBrush x:Key="DarkForegroundBrush" Color="DimGray"/>
+    <SolidColorBrush x:Key="LightBackgroundBrush" Color="GhostWhite"/>
+    <SolidColorBrush x:Key="RolloverHeaderBrush" Color="#FFDAE8FF"/>
+
+    <Geometry x:Key="ChevronDownGeometryKey">M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z</Geometry>
+    <Geometry x:Key="ChevronUpGeometryKey">M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z</Geometry>
+
+    <Style x:Key="{x:Static con:DataGrid.SortIndicatorStyleKey}" TargetType="Path">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Fill" Value="DodgerBlue"/>
+        <Setter Property="Stretch" Value="Uniform"/>
+        <Setter Property="Height" Value="11"/>
+        <Setter Property="Width" Value="11"/>
+    </Style>
+
+    <Style x:Key="ColumnHeaderGripperStyle" TargetType="Thumb">
+        <Setter Property="Width" Value="6"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Cursor" Value="SizeWE"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{TemplateBinding Background}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Static con:DataGrid.ColumnHeaderStyleKey}" TargetType="DataGridColumnHeader">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Padding" Value="3,0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Foreground" Value="{StaticResource DefaultHeaderForegroundBrush}"/>
+        <Setter Property="Background" Value="{StaticResource LightBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DefaultBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1,0,0,1"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridColumnHeader">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ContentPresenter
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                            <Path
+                                x:Name="SortAscendingPath"
+                                Grid.Column="1"
+                                Margin="0,0,6,0"
+                                Style="{StaticResource {x:Static con:DataGrid.SortIndicatorStyleKey}}"
+                                Data="{StaticResource ChevronDownGeometryKey}"
+                                Visibility="Collapsed"/>
+
+                            <Path
+                                x:Name="SortDescendingPath"
+                                Grid.Column="1"
+                                Margin="0,0,6,0"
+                                Style="{StaticResource {x:Static con:DataGrid.SortIndicatorStyleKey}}"
+                                Data="{StaticResource ChevronUpGeometryKey}"
+                                Visibility="Collapsed"/>
+
+                            <Thumb
+                                x:Name="PART_LeftHeaderGripper"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource ColumnHeaderGripperStyle}"/>
+
+                            <Thumb
+                                Grid.Column="1"
+                                x:Name="PART_RightHeaderGripper"
+                                HorizontalAlignment="Right"
+                                Style="{StaticResource ColumnHeaderGripperStyle}"/>
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="SortDirection" Value="Ascending">
+                            <Setter TargetName="SortAscendingPath" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="SortDirection" Value="Descending">
+                            <Setter TargetName="SortDescendingPath" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="DisplayIndex" Value="0">
+                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource RolloverHeaderBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{x:Static con:DataGrid.DataGridCellStyleKey}" TargetType="DataGridCell">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="{x:Static con:DataGrid.DataGridStyleKey}" TargetType="DataGrid">
+        <Setter Property="AlternationCount" Value="2"/>
+        <Setter Property="AlternatingRowBackground" Value="{StaticResource RolloverHeaderBrush}"/>
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DefaultBorderBrush}" />
+        <Setter Property="CanUserResizeColumns" Value="True"/>
+        <Setter Property="CanUserReorderColumns" Value="False"/>
+        <Setter Property="CanUserSortColumns" Value="True"/>
+        <Setter Property="CanUserResizeRows" Value="False"/>
+        <Setter Property="CellStyle" Value="{StaticResource {x:Static con:DataGrid.DataGridCellStyleKey}}"/>
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource {x:Static con:DataGrid.ColumnHeaderStyleKey}}"/>
+        <Setter Property="ColumnWidth" Value="*"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{StaticResource DarkForegroundBrush}"/>
+        <Setter Property="GridLinesVisibility" Value="None"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="MinRowHeight" Value="24"/>
+        <Setter Property="RowHeight" Value="32"/>
+        <Setter Property="SelectionMode" Value="Extended"/>
+        <Setter Property="SelectionUnit" Value="FullRow"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+    </Style>
+
+</ResourceDictionary>

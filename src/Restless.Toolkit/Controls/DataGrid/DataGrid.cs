@@ -24,6 +24,30 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
+        #region Resource keys
+        /// <summary>
+        /// Identifies the resource key for data grid
+        /// </summary>
+        public static readonly ComponentResourceKey DataGridStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(DataGridStyleKey));
+
+        /// <summary>
+        /// Identifies the resource key for column header style
+        /// </summary>
+        public static readonly ComponentResourceKey ColumnHeaderStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(ColumnHeaderStyleKey));
+
+        /// <summary>
+        /// Identifies the resource key for data grid cell style
+        /// </summary>
+        public static readonly ComponentResourceKey DataGridCellStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(DataGridCellStyleKey));
+
+        /// <summary>
+        /// Identifies the resource key for the sort indicator
+        /// </summary>
+        public static readonly ComponentResourceKey SortIndicatorStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(SortIndicatorStyleKey));
+        #endregion
+
+        /************************************************************************/
+
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the <see cref="DataGrid"/> class.
