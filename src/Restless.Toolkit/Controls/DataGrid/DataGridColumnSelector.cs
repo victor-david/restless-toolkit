@@ -2,7 +2,6 @@
 using Restless.Toolkit.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +20,13 @@ namespace Restless.Toolkit.Controls
         private readonly Panel innerChild;
         private Thickness checkBoxMargin;
         private int minimumVisible;
+        private readonly Separator separator;
+        private readonly LinkedTextBlock linkedTextBlock;
+        private string resetText;
+
         #endregion
+
+        /************************************************************************/
 
         #region Fields / Properties
         /// <summary>
@@ -40,9 +45,19 @@ namespace Restless.Toolkit.Controls
         public static readonly Thickness DefaultBorderThickness = new Thickness(1);
 
         /// <summary>
-        /// Gets the default padding
+        /// Gets the minimum uniform padding
         /// </summary>
-        public static readonly Thickness DefaultPadding = new Thickness(5, 5, 15, 5);
+        public const double MinimumUniformPadding = 3;
+
+        /// <summary>
+        /// Gets the maximum uniform padding
+        /// </summary>
+        public const double MaximumUniformPadding = 12;
+
+        /// <summary>
+        /// Gets the default uniform padding
+        /// </summary>
+        public const double DefaultUniformPadding = 7;
 
         /// <summary>
         /// Gets the default check box margin
@@ -53,6 +68,11 @@ namespace Restless.Toolkit.Controls
         /// Gets the default minimum number of visible columns
         /// </summary>
         public const int DefaultMinimumVisible = 1;
+
+        /// <summary>
+        /// Gets the default text for the reset link
+        /// </summary>
+        public const string DefaultResetText = "Reset";
 
         /// <summary>
         /// Gets or sets the background
@@ -82,12 +102,12 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
-        /// Gets or sets the padding
+        /// Gets or sets the uniform padding
         /// </summary>
-        public Thickness Padding
+        public double UniformPadding
         {
-            get => (Child as Border).Padding;
-            set => (Child as Border).Padding = value;
+            get => (Child as Border).Padding.Left;
+            set => UpdateUniformPadding(value);
         }
 
         /// <summary>
@@ -107,7 +127,18 @@ namespace Restless.Toolkit.Controls
             get => minimumVisible;
             set => minimumVisible = Math.Max(value, 1);
         }
+
+        /// <summary>
+        /// Gets or sets the text used for the reset link
+        /// </summary>
+        public string ResetText
+        {
+            get => resetText;
+            set => UpdateResetText(value);
+        }
         #endregion
+
+        /************************************************************************/
 
         #region Constructor
         /// <summary>
@@ -124,16 +155,32 @@ namespace Restless.Toolkit.Controls
             MinimumVisible = DefaultMinimumVisible;
             innerChild = new StackPanel();
 
-            CheckBoxMargin = DefaultCheckBoxMargin;
-
             Child = new Border()
             {
                 Background = DefaultBackground,
                 BorderBrush = DefaultBorderBrush,
                 BorderThickness = DefaultBorderThickness,
-                Padding = DefaultPadding,
+                Padding = new Thickness(DefaultUniformPadding, DefaultUniformPadding, DefaultUniformPadding, 0),
                 Child = innerChild
             };
+
+            /* these get added when Show() gets called */
+            separator = new Separator()
+            {
+                Background = BorderBrush,
+                Margin = new Thickness(0 - DefaultUniformPadding, DefaultUniformPadding, 0 - DefaultUniformPadding, 4)
+            };
+
+            linkedTextBlock = new LinkedTextBlock()
+            {
+                Text = DefaultResetText,
+                Margin = new Thickness(0, 2, 0, 6),
+                Command = RelayCommand.Create(RunResetCommand)
+            };
+
+            /* defaults */
+            CheckBoxMargin = DefaultCheckBoxMargin;
+            ResetText = DefaultResetText;
         }
         #endregion
 
@@ -153,6 +200,7 @@ namespace Restless.Toolkit.Controls
             {
                 innerChild.Children.Clear();
                 CreateColumnSelections();
+                CreateResetLink();
             }
             IsOpen = true;
         }
@@ -168,6 +216,19 @@ namespace Restless.Toolkit.Controls
             {
                 checkBox.Margin = value;
             }
+        }
+
+        private void UpdateUniformPadding(double value)
+        {
+            value = Math.Min(Math.Max(value, MinimumUniformPadding), MaximumUniformPadding);
+            (Child as Border).Padding = new Thickness(value, value, value, 0);
+            separator.Margin = new Thickness(0 - value, value, 0 - value, 4);
+        }
+
+        private void UpdateResetText(string value)
+        {
+            resetText = string.IsNullOrWhiteSpace(value) ? DefaultResetText : value;
+            linkedTextBlock.Text = resetText;
         }
 
         private void CreateColumnSelections()
@@ -270,6 +331,27 @@ namespace Restless.Toolkit.Controls
                 }
             }
             return count;
+        }
+
+        private void CreateResetLink()
+        {
+            innerChild.Children.Add(separator);
+            innerChild.Children.Add(linkedTextBlock);
+        }
+
+        private void RunResetCommand(object parm)
+        {
+            int displayIndex = 0;
+            foreach (DataGridColumn column in columns)
+            {
+                column.Visibility = Visibility.Visible;
+                column.DisplayIndex = displayIndex++;
+            }
+
+            foreach (CheckBox checkBox in innerChild.Children.OfType<CheckBox>())
+            {
+                checkBox.IsChecked = true;
+            }
         }
         #endregion
     }

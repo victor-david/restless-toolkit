@@ -289,31 +289,36 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
-        /// Gets or sets the column selector padding
+        /// Gets or sets the column selector uniform padding
         /// </summary>
-        public Thickness ColumnSelectorPadding
+        public double ColumnSelectorUniformPadding
         {
-            get => (Thickness)GetValue(ColumnSelectorPaddingProperty);
-            set => SetValue(ColumnSelectorPaddingProperty, value);
+            get => (double)GetValue(ColumnSelectorUniformPaddingProperty);
+            set => SetValue(ColumnSelectorUniformPaddingProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <see cref="ColumnSelectorPadding"/> dependency property.
+        /// Identifies the <see cref="ColumnSelectorUniformPadding"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ColumnSelectorPaddingProperty = DependencyProperty.Register
+        public static readonly DependencyProperty ColumnSelectorUniformPaddingProperty = DependencyProperty.Register
             (
-                nameof(ColumnSelectorPadding), typeof(Thickness), typeof(DataGrid), new FrameworkPropertyMetadata()
+                nameof(ColumnSelectorUniformPadding), typeof(double), typeof(DataGrid), new FrameworkPropertyMetadata()
                 {
-                    DefaultValue = DataGridColumnSelector.DefaultPadding,
-                    PropertyChangedCallback = OnColumnSelectorPaddingChanged
+                    DefaultValue = DataGridColumnSelector.DefaultUniformPadding,
+                    CoerceValueCallback = OnCoerceColumnSelectorUniformPadding,
+                    PropertyChangedCallback = OnColumnSelectorUniformPaddingChanged
                 }
             );
 
-        private static void OnColumnSelectorPaddingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static object OnCoerceColumnSelectorUniformPadding(DependencyObject d, object baseValue)
         {
-            (d as DataGrid).columnSelector.Padding = (Thickness)e.NewValue;
+            return Math.Min(Math.Max((double)baseValue, DataGridColumnSelector.MinimumUniformPadding), DataGridColumnSelector.MaximumUniformPadding);
         }
 
+        private static void OnColumnSelectorUniformPaddingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.UniformPadding = (double)e.NewValue;
+        }
 
         /// <summary>
         /// Gets or sets the margin used for column selector check boxes
@@ -340,7 +345,6 @@ namespace Restless.Toolkit.Controls
         {
             (d as DataGrid).columnSelector.CheckBoxMargin = (Thickness)e.NewValue;
         }
-
 
         /// <summary>
         /// Gets or sets the minimum number of columns that can remain visible when selecting
@@ -374,6 +378,39 @@ namespace Restless.Toolkit.Controls
         {
             (d as DataGrid).columnSelector.MinimumVisible = (int)e.NewValue;
         }
+
+        /// <summary>
+        /// Gets or sets the text used for the reset link
+        /// </summary>
+        public string ColumnSelectorResetText
+        {
+            get => (string)GetValue(ColumnSelectorResetTextProperty);
+            set => SetValue(ColumnSelectorResetTextProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorResetText"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorResetTextProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorResetText), typeof(string), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultResetText,
+                    CoerceValueCallback = OnCoerceColumnSelectorResetText,
+                    PropertyChangedCallback = OnColumnSelectorResetTextChanged
+                }
+            );
+
+        private static object OnCoerceColumnSelectorResetText(DependencyObject d, object baseValue)
+        {
+            return string.IsNullOrWhiteSpace(baseValue as string) ? DataGridColumnSelector.DefaultResetText : baseValue;
+        }
+
+        private static void OnColumnSelectorResetTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.ResetText = (string)e.NewValue;
+        }
+
         #endregion
 
         /************************************************************************/
