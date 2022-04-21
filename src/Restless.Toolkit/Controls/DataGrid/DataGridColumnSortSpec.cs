@@ -17,7 +17,6 @@ namespace Restless.Toolkit.Controls
         #region Public properties
         /// <summary>
         /// Gets the name of the primary column for the sort.
-        /// If this property is null, the column that is in process of sorting is used as the primary column for the sort.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -58,12 +57,18 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Initializes a new instance of the <see cref="DataGridColumnSortSpec"/> class.
         /// </summary>
-        /// <param name="column1">The name of the column to use as the primary sort, or null to allow the column in the process of sorting to be the primary.</param>
+        /// <param name="column1">
+        /// The name of the column to use as the primary sort, or null to allow the column in the process of sorting to be the primary.
+        /// </param>
         /// <param name="column2">The name of the column to use as the secondary sort.</param>
         /// <param name="behavior">The column's behavior</param>
         public DataGridColumnSortSpec(string column1, string column2, DataGridColumnSortBehavior behavior)
         {
-            if (string.IsNullOrEmpty(column2)) throw new ArgumentNullException(nameof(column2));
+            if (string.IsNullOrEmpty(column2))
+            {
+                throw new ArgumentNullException(nameof(column2));
+            }
+
             Column1 = column1;
             Column2 = column2;
             Behavior = behavior;

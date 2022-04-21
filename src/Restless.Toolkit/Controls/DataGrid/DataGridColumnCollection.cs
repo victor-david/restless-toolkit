@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using SysDataGrid = System.Windows.Controls.DataGrid;
 
 namespace Restless.Toolkit.Controls
 {
@@ -12,14 +14,24 @@ namespace Restless.Toolkit.Controls
     /// </summary>
     public class DataGridColumnCollection : ObservableCollection<DataGridColumn>
     {
-        #region Private Vars
+        #region Private
         private DataGridColumn defaultSortColumn;
-        private ListSortDirection? defaultSortDirection;
+        private ListSortDirection defaultSortDirection;
         #endregion
 
         /************************************************************************/
 
-        #region Public methods
+        #region Internal
+        internal SysDataGrid DataGridOwner
+        {
+            get;
+            set;
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region Methods (column creation)
         /// <summary>
         /// Creates a text column and adds it to the collection
         /// </summary>
@@ -29,8 +41,15 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly created column</returns>
         public DataGridBoundColumn Create(string header, string bindingName, string targetNullValue = "--")
         {
-            if (string.IsNullOrEmpty(header)) throw new ArgumentNullException(nameof(header));
-            if (string.IsNullOrEmpty(bindingName)) throw new ArgumentNullException(nameof(bindingName));
+            if (string.IsNullOrEmpty(header))
+            {
+                throw new ArgumentNullException(nameof(header));
+            }
+
+            if (string.IsNullOrWhiteSpace(bindingName))
+            {
+                throw new ArgumentNullException(nameof(bindingName));
+            }
 
             DataGridTextColumn col = new DataGridTextColumn
             {
@@ -40,7 +59,7 @@ namespace Restless.Toolkit.Controls
                     TargetNullValue = targetNullValue
                 }
             };
-            Add(col);
+            Add(col.SetSelectorName(header));
             return col;
         }
 
@@ -54,8 +73,15 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly created column.</returns>
         public DataGridBoundColumn Create<T>(string header, string bindingName, string targetNullValue = "--") where T: IValueConverter, new()
         {
-            if (string.IsNullOrEmpty(header)) throw new ArgumentNullException(nameof(header));
-            if (string.IsNullOrEmpty(bindingName)) throw new ArgumentNullException(nameof(bindingName));
+            if (string.IsNullOrEmpty(header))
+            {
+                throw new ArgumentNullException(nameof(header));
+            }
+
+            if (string.IsNullOrWhiteSpace(bindingName))
+            {
+                throw new ArgumentNullException(nameof(bindingName));
+            }
 
             DataGridTextColumn col = new DataGridTextColumn
             {
@@ -66,7 +92,7 @@ namespace Restless.Toolkit.Controls
                     TargetNullValue = targetNullValue,
                 }
             };
-            Add(col);
+            Add(col.SetSelectorName(header));
             return col;
         }
 
@@ -94,7 +120,7 @@ namespace Restless.Toolkit.Controls
             }
             col.Binding = multiBinding;
             col.Binding.TargetNullValue = "--";
-            Add(col);
+            Add(col.SetSelectorName(header));
             return col;
         }
 
@@ -130,7 +156,7 @@ namespace Restless.Toolkit.Controls
             {
                 VisualTree = factory
             };
-            Add(col);
+            Add(col.SetSelectorName(header));
             return col;
         }
 
@@ -161,8 +187,87 @@ namespace Restless.Toolkit.Controls
             {
                 VisualTree = factory
             };
-            Add(col);
+            Add(col.SetSelectorName(header));
             return col;
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region Methods (sorting)
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to the specified direction
+        /// </summary>
+        /// <param name="column">The column to set</param>
+        /// <param name="direction">The direction</param>
+        /// <exception cref="ArgumentNullException"><paramref name="column"/> is null</exception>
+        public void SetInitialSort(DataGridColumn column, ListSortDirection direction)
+        {
+            if (column == null)
+            {
+                throw new ArgumentNullException(nameof(column));
+            }
+
+            ClearColumnSortDirections();
+            column.SetValue(DataGridColumns.SortDirectionProperty, direction);
+            column.SortDirection = direction;
+        }
+
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to ascending
+        /// </summary>
+        /// <param name="column">The column to set</param>
+        /// <exception cref="ArgumentNullException"><paramref name="column"/> is null</exception>
+        public void SetInitialSortAscending(DataGridColumn column)
+        {
+            SetInitialSort(column, ListSortDirection.Ascending);
+        }
+
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to descending
+        /// </summary>
+        /// <param name="column">The column to set</param>
+        /// <exception cref="ArgumentNullException"><paramref name="column"/> is null</exception>
+        public void SetInitialSortDescending(DataGridColumn column)
+        {
+            SetInitialSort(column, ListSortDirection.Descending);
+        }
+
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to the specified direction
+        /// </summary>
+        /// <param name="columnIndex">The index of the column to set</param>
+        /// <param name="direction">The direction</param>
+        /// <exception cref="IndexOutOfRangeException"><paramref name="columnIndex"/> is out of range</exception>
+        public void SetInitialSort(int columnIndex, ListSortDirection direction)
+        {
+            SetInitialSort(this[columnIndex], direction);
+        }
+
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to ascending
+        /// </summary>
+        /// <param name="columnIndex">The index of the column to set</param>
+        /// <exception cref="IndexOutOfRangeException"><paramref name="columnIndex"/> is out of range</exception>
+        public void SetInitialSortAscending(int columnIndex)
+        {
+            SetInitialSort(this[columnIndex], ListSortDirection.Ascending);
+        }
+
+        /// <summary>
+        /// Clears all column sort directions (built in and attached)
+        /// and sets the specified column to descending
+        /// </summary>
+        /// <param name="columnIndex">The index of the column to set</param>
+        /// <exception cref="IndexOutOfRangeException"><paramref name="columnIndex"/> is out of range</exception>
+        public void SetInitialSortDescending(int columnIndex)
+        {
+            SetInitialSort(this[columnIndex], ListSortDirection.Descending);
         }
 
         /// <summary>
@@ -170,10 +275,11 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         /// <param name="col">The column</param>
         /// <param name="sortDirection">The sort direction</param>
+        [Obsolete("Use DataGridColumnExtensions.MakeInitialSort() or SetInitialSort() instead")]
         public void SetDefaultSort(DataGridColumn col, ListSortDirection? sortDirection)
         {
             defaultSortColumn = col;
-            defaultSortDirection = sortDirection;
+            defaultSortDirection = sortDirection ?? ListSortDirection.Ascending;
             if (defaultSortColumn != null)
             {
                 ClearColumnSortDirections();
@@ -182,8 +288,9 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
-        /// Restores the default sort. Must have called SetDefaultSortColumn() prior
+        /// Restores the default sort established by <see cref="SetDefaultSort(DataGridColumn, ListSortDirection?)"/>
         /// </summary>
+        [Obsolete("Use DataGridColumnExtensions.MakeInitialSort() or SetInitialSort() instead")]
         public void RestoreDefaultSort()
         {
             if (defaultSortColumn != null)
@@ -196,8 +303,130 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
-        #region Private Methods
+        #region Methods (column state)
+        /// <summary>
+        /// Gets a string that represents the state of the columns
+        /// </summary>
+        /// <returns>
+        /// A string that describes the state of this column collection
+        /// </returns>
+        public string GetColumnState()
+        {
+            StringBuilder builder = new StringBuilder();
+                
+            foreach (DataGridColumn column in this)
+            {
+                int isVisible = column.Visibility == Visibility.Visible ? 1 : 0;
+                ListSortDirection? direction = DataGridColumns.GetSortDirection(column);
+                int sort = direction.HasValue ? (int)direction.Value + 1 : 0;
+                builder.Append($"{column.DisplayIndex};{isVisible};{sort},");
+            }
 
+            if (builder.Length > 0)
+            {
+                /* remove last comma */
+                builder.Remove(builder.Length - 1, 1);
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Restores the column state using the specified string.
+        /// </summary>
+        /// <param name="state">The state string</param>
+        /// <remarks>
+        /// Use the string obtained by <see cref="GetColumnState"/> to restore
+        /// </remarks>
+        public void RestoreColumnState(string state)
+        {
+            if (!string.IsNullOrWhiteSpace(state))
+            {
+                string[] cols = state.Split(',');
+                for (int idx = 0; idx < cols.Length; idx++)
+                {
+                    if (idx < Count)
+                    {
+                        string[] parms = cols[idx].Split(';');
+                        if (parms.Length > 0)
+                        {
+                            if (int.TryParse(parms[0], out int displayIndex))
+                            {
+                                this[idx].DisplayIndex = displayIndex;
+                            }
+                        }
+
+                        if (parms.Length > 1)
+                        {
+                            if (int.TryParse(parms[1], out int isVisible))
+                            {
+                                this[idx].Visibility = isVisible == 0 ? Visibility.Collapsed : Visibility.Visible;
+                            }
+                        }
+
+                        if (parms.Length > 2)
+                        {
+                            /* direction is stored 1 greater than its value so zero can signify none */
+                            if (int.TryParse(parms[2], out int direction) && direction > 0)
+                            {
+                                ClearColumnSortDirections();
+                                DataGridColumns.SetSortDirection(this[idx], (ListSortDirection)(direction - 1));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region Internal methods
+        /// <summary>
+        /// Saves the current values of display index in the attached property
+        /// </summary>
+        internal void SaveDisplayIndex()
+        {
+            foreach (DataGridColumn column in this)
+            {
+                DataGridColumns.SetDisplayIndex(column, column.DisplayIndex);
+            }
+        }
+
+        /// <summary>
+        /// Restores the values of display index from the attached property
+        /// </summary>
+        internal void RestoreDisplayIndex()
+        {
+            foreach (DataGridColumn column in this)
+            {
+                int displayIndex = DataGridColumns.GetDisplayIndex(column);
+                if (displayIndex != -1)
+                {
+                    column.DisplayIndex = displayIndex;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sequences the display index of columns in the collection
+        /// </summary>
+        internal void SequenceDisplayIndex()
+        {
+            int displayIdx = 0;
+            foreach (DataGridColumn column in this)
+            {
+                column.DisplayIndex = displayIdx++;
+            }
+        }
+
+
+
+        #endregion
+
+        /************************************************************************/
+
+        #region Private Methods
         private TextBlock MakeTextBlockHeader(string text)
         {
             return new TextBlock()
@@ -208,12 +437,12 @@ namespace Restless.Toolkit.Controls
 
         private void ClearColumnSortDirections()
         {
-            foreach (var c in this)
+            foreach (DataGridColumn column in this)
             {
-                c.SortDirection = null;
+                column.SetValue(DataGridColumns.SortDirectionProperty, null);
+                column.SortDirection = null;
             }
         }
-
         #endregion
     }
 }

@@ -5,11 +5,24 @@
     xmlns:tk="http://schemas.restless.toolkit.com/2021"
     xmlns:l="clr-namespace:Restless.App.Toolkit">
     <Application.Resources>
+
+        <SolidColorBrush x:Key="DefaultHeaderForegroundBrush" Color="#606060"/>
+        <SolidColorBrush x:Key="DefaultBorderBrush" Color="#a0a0a0"/>
+        <SolidColorBrush x:Key="DefaultBackgroundBrush" Color="#ffffff"/>
+        <SolidColorBrush x:Key="DarkForegroundBrush" Color="DimGray"/>
+        <SolidColorBrush x:Key="LightBackgroundBrush" Color="GhostWhite"/>
+        <SolidColorBrush x:Key="RolloverHeaderBrush" Color="#FFDAE8FF"/>
+
         <Style x:Key="DefaultPathStyle" TargetType="Path">
             <Setter Property="Fill" Value="DodgerBlue"/>
             <Setter Property="Stretch" Value="Uniform"/>
         </Style>
-        
+
+        <Style x:Key="SmallPathStyle" TargetType="Path" BasedOn="{StaticResource DefaultPathStyle}">
+            <Setter Property="Height" Value="10"/>
+            <Setter Property="Width" Value="10"/>
+        </Style>
+
         <Path
             x:Key="PathAppIcon"
             x:Shared="False"
@@ -28,6 +41,11 @@
             x:Shared="False"
             Style="{StaticResource DefaultPathStyle}"
             Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+
+        <Geometry x:Key="ChevronDownGeometryKey">M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z</Geometry>
+        <Geometry x:Key="ChevronLeftGeometryKey">M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z</Geometry>
+        <Geometry x:Key="ChevronRightGeometryKey">M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z</Geometry>
+        <Geometry x:Key="ChevronUpGeometryKey">M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z</Geometry>
 
         <Style TargetType="tk:MessageWindow">
             <Setter Property="Width" Value="360"/>
@@ -188,8 +206,28 @@
 
         <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}"/>
 
+        <Style TargetType="tk:DataGrid" BasedOn="{StaticResource {x:Static tk:DataGrid.DataGridStyleKey}}">
+            <Setter Property="CanUserReorderColumns" Value="True"/>
+        </Style>
+
         <DataTemplate DataType="{x:Type l:WelcomeViewModel}">
             <l:WelcomeView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type l:DataGridViewModel}">
+            <l:DataGridView/>
+        </DataTemplate>
+         
+        <DataTemplate DataType="{x:Type l:ColorPickerViewModel}">
+            <l:ColorPickerView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type l:RadioViewModel}">
+            <l:RadioView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type l:OtherViewModel}">
+            <l:OtherView/>
         </DataTemplate>
         
         <DataTemplate DataType="{x:Type l:MvvmViewModel}">
@@ -198,18 +236,6 @@
 
         <DataTemplate DataType="{x:Type l:DemoViewModel}">
             <l:DemoView/>
-        </DataTemplate>
-        
-        <DataTemplate DataType="{x:Type l:OtherViewModel}">
-            <l:OtherView/>
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type l:ColorPickerViewModel}">
-            <l:ColorPickerView/>
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type l:RadioViewModel}">
-            <l:RadioView/>
         </DataTemplate>
 
         <DataTemplate x:Key="TabItemTemplate">

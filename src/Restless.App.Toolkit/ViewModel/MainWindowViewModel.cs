@@ -100,11 +100,12 @@ namespace Restless.App.Toolkit
         private void InitializePages()
         {
             Create<WelcomeViewModel>();
-            Create<MvvmViewModel>();
-            Create<DemoViewModel>();
-            Create<OtherViewModel>();
+            Create<DataGridViewModel>();
             Create<ColorPickerViewModel>();
             Create<RadioViewModel>();
+            Create<OtherViewModel>();
+            Create<MvvmViewModel>();
+            Create<DemoViewModel>();
             SetActivePage(Pages[0]);
         }
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -17,8 +18,32 @@ namespace Restless.Toolkit.Controls
     public class DataGrid : System.Windows.Controls.DataGrid
     {
         #region Private
-        private ScrollViewer scrollViewer;
+        private readonly DataGridColumnSelector columnSelector;
         private ScrollViewer outerScrollViewer;
+        #endregion
+
+        /************************************************************************/
+
+        #region Resource keys
+        /// <summary>
+        /// Identifies the resource key for data grid
+        /// </summary>
+        public static readonly ComponentResourceKey DataGridStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(DataGridStyleKey));
+
+        /// <summary>
+        /// Identifies the resource key for column header style
+        /// </summary>
+        public static readonly ComponentResourceKey ColumnHeaderStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(ColumnHeaderStyleKey));
+
+        /// <summary>
+        /// Identifies the resource key for data grid cell style
+        /// </summary>
+        public static readonly ComponentResourceKey DataGridCellStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(DataGridCellStyleKey));
+
+        /// <summary>
+        /// Identifies the resource key for the sort indicator
+        /// </summary>
+        public static readonly ComponentResourceKey SortIndicatorStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(SortIndicatorStyleKey));
         #endregion
 
         /************************************************************************/
@@ -31,20 +56,21 @@ namespace Restless.Toolkit.Controls
         {
             DataContextChanged += OnDataContextChanged;
             AddHandler(LoadedEvent, new RoutedEventHandler(OnLoaded));
+            columnSelector = new DataGridColumnSelector();
         }
         #endregion
 
         /************************************************************************/
 
         #region CustomSort (attached property)
-        private const string CustomSortPropertyName = "CustomSort";
+        private const string CustomSort = nameof(CustomSort);
         /// <summary>
         /// Defines an attached dependency property that is used to provide custom sorting
         /// on a DataGridColumn by adding a secondary sort on another column.
         /// </summary>
         public static readonly DependencyProperty CustomSortProperty = DependencyProperty.RegisterAttached
             (
-                CustomSortPropertyName, typeof(DataGridColumnSortSpec), typeof(DataGrid), new PropertyMetadata()
+                CustomSort, typeof(DataGridColumnSortSpec), typeof(DataGrid), new PropertyMetadata()
             );
 
         /// <summary>
@@ -71,7 +97,7 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region DoubleClick (attached property)
-        private const string DoubleClickCommandPropertyName = "DoubleClickCommand";
+        private const string DoubleClickCommand = nameof(DoubleClickCommand);
         /// <summary>
         /// Defines an attached dependency property that enables binding the mouse double-click 
         /// on a data grid row to a command.
@@ -80,14 +106,13 @@ namespace Restless.Toolkit.Controls
         /// See:
         /// http://stackoverflow.com/questions/17419570/bind-doubleclick-command-from-datagrid-row-to-vm
         /// </remarks>
-        /// <AttachedPropertyComments>
-        /// <summary>
-        /// This attached property provides access to the command that is bound to the mouse double-click.
-        /// </summary>
-        /// </AttachedPropertyComments>
         public static DependencyProperty DoubleClickCommandProperty = DependencyProperty.RegisterAttached
            (
-                DoubleClickCommandPropertyName, typeof(ICommand), typeof(DataGrid), new PropertyMetadata(OnDoubleClickPropertyChanged)
+                DoubleClickCommand, typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null,
+                    PropertyChangedCallback = OnDoubleClickPropertyChanged
+                }
            );
 
         private static void OnDoubleClickPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -107,12 +132,11 @@ namespace Restless.Toolkit.Controls
 
         private static void DataGridMouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            if (sender is DataGridRow element)
+            if (sender is DataGridRow element && GetDoubleClickCommand(element) is ICommand command)
             {
-                ICommand cmd = GetDoubleClickCommand(element);
-                if (cmd.CanExecute(element.Item))
+                if (command.CanExecute(element.Item))
                 {
-                    cmd.Execute(element.Item);
+                    command.Execute(element.Item);
                 }
             }
         }
@@ -140,6 +164,257 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
+        #region Header
+        /// <summary>
+        /// Gets or sets the mode for the data grid headers
+        /// </summary>
+        public DataGridHeaderMode HeaderMode
+        {
+            get => (DataGridHeaderMode)GetValue(HeaderModeProperty);
+            set => SetValue(HeaderModeProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="HeaderMode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderModeProperty = DependencyProperty.Register
+            (
+                nameof(HeaderMode), typeof(DataGridHeaderMode), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridHeaderMode.None
+                }
+            );
+
+        /// <summary>
+        /// Gets or sets a command to execute when the mouse is right clicked on a header.
+        /// </summary>
+        /// <remarks>
+        /// <see cref="HeaderMode"/> must be <see cref="DataGridHeaderMode.Command"/> for this
+        /// command to execute. The parameter for this command is the <see cref="DataGridColumnHeader"/>
+        /// that was clicked.
+        /// </remarks>
+        public ICommand HeaderCommand
+        {
+            get => (ICommand)GetValue(HeaderCommandProperty);
+            set => SetValue(HeaderCommandProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="HeaderCommand"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderCommandProperty = DependencyProperty.Register
+            (
+                nameof(HeaderCommand), typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null,
+                }
+            );
+
+        /// <summary>
+        /// Gets or sets the background for the column selector
+        /// </summary>
+        public Brush ColumnSelectorBackground
+        {
+            get => (Brush)GetValue(ColumnSelectorBackgroundProperty);
+            set => SetValue(ColumnSelectorBackgroundProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorBackground"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorBackgroundProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorBackground), typeof(Brush), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultBackground,
+                    PropertyChangedCallback = OnColumnSelectorBackgroundChanged
+                }
+            );
+
+        private static void OnColumnSelectorBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.Background = (Brush)e.NewValue;
+        }
+
+        /// <summary>
+        /// Gets or sets the border brush for the column selector
+        /// </summary>
+        public Brush ColumnSelectorBorderBrush
+        {
+            get => (Brush)GetValue(ColumnSelectorBorderBrushProperty);
+            set => SetValue(ColumnSelectorBorderBrushProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorBorderBrush"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorBorderBrushProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorBorderBrush), typeof(Brush), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultBorderBrush,
+                    PropertyChangedCallback = OnColumnSelectorBorderBrushChanged
+                }
+            );
+
+        private static void OnColumnSelectorBorderBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.BorderBrush = (Brush)e.NewValue;
+        }
+
+        /// <summary>
+        /// Gets or sets the column selector border thickness
+        /// </summary>
+        public Thickness ColumnSelectorBorderThickness
+        {
+            get => (Thickness)GetValue(ColumnSelectorBorderThicknessProperty);
+            set => SetValue(ColumnSelectorBorderThicknessProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorBorderThickness"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorBorderThicknessProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorBorderThickness), typeof(Thickness), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultBorderThickness,
+                    PropertyChangedCallback = OnColumnSelectorBorderThicknessChanged
+                }
+            );
+
+        private static void OnColumnSelectorBorderThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.BorderThickness = (Thickness)e.NewValue;
+        }
+
+        /// <summary>
+        /// Gets or sets the column selector uniform padding
+        /// </summary>
+        public double ColumnSelectorUniformPadding
+        {
+            get => (double)GetValue(ColumnSelectorUniformPaddingProperty);
+            set => SetValue(ColumnSelectorUniformPaddingProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorUniformPadding"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorUniformPaddingProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorUniformPadding), typeof(double), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultUniformPadding,
+                    CoerceValueCallback = OnCoerceColumnSelectorUniformPadding,
+                    PropertyChangedCallback = OnColumnSelectorUniformPaddingChanged
+                }
+            );
+
+        private static object OnCoerceColumnSelectorUniformPadding(DependencyObject d, object baseValue)
+        {
+            return Math.Min(Math.Max((double)baseValue, DataGridColumnSelector.MinimumUniformPadding), DataGridColumnSelector.MaximumUniformPadding);
+        }
+
+        private static void OnColumnSelectorUniformPaddingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.UniformPadding = (double)e.NewValue;
+        }
+
+        /// <summary>
+        /// Gets or sets the margin used for column selector check boxes
+        /// </summary>
+        public Thickness ColumnSelectorCheckBoxMargin
+        {
+            get => (Thickness)GetValue(ColumnSelectorCheckBoxMarginProperty);
+            set => SetValue(ColumnSelectorCheckBoxMarginProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorCheckBoxMargin"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorCheckBoxMarginProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorCheckBoxMargin), typeof(Thickness), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultCheckBoxMargin,
+                    PropertyChangedCallback = OnColumnSelectorCheckBoxMarginChanged
+                }
+            );
+
+        private static void OnColumnSelectorCheckBoxMarginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.CheckBoxMargin = (Thickness)e.NewValue;
+        }
+
+        /// <summary>
+        /// Gets or sets the minimum number of columns that can remain visible when selecting
+        /// columns with the column selector
+        /// </summary>
+        public int ColumnSelectorMinimumVisible
+        {
+            get => (int)GetValue(ColumnSelectorMinimumVisibleProperty);
+            set => SetValue(ColumnSelectorMinimumVisibleProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorMinimumVisible"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorMinimumVisibleProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorMinimumVisible), typeof(int), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultMinimumVisible,
+                    CoerceValueCallback = OnCoerceColumnSelectorMinimum,
+                    PropertyChangedCallback = OnColumnSelectorMinimumChanged
+                }
+            );
+        
+        private static object OnCoerceColumnSelectorMinimum(DependencyObject d, object baseValue)
+        {
+            return Math.Max((int)baseValue, 1);
+        }
+
+        private static void OnColumnSelectorMinimumChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.MinimumVisible = (int)e.NewValue;
+        }
+
+        /// <summary>
+        /// Gets or sets the text used for the reset link
+        /// </summary>
+        public string ColumnSelectorResetText
+        {
+            get => (string)GetValue(ColumnSelectorResetTextProperty);
+            set => SetValue(ColumnSelectorResetTextProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSelectorResetText"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSelectorResetTextProperty = DependencyProperty.Register
+            (
+                nameof(ColumnSelectorResetText), typeof(string), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DataGridColumnSelector.DefaultResetText,
+                    CoerceValueCallback = OnCoerceColumnSelectorResetText,
+                    PropertyChangedCallback = OnColumnSelectorResetTextChanged
+                }
+            );
+
+        private static object OnCoerceColumnSelectorResetText(DependencyObject d, object baseValue)
+        {
+            return string.IsNullOrWhiteSpace(baseValue as string) ? DataGridColumnSelector.DefaultResetText : baseValue;
+        }
+
+        private static void OnColumnSelectorResetTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as DataGrid).columnSelector.ResetText = (string)e.NewValue;
+        }
+
+        #endregion
+
+        /************************************************************************/
+
         #region ContextMenuOpeningCommand
         /// <summary>
         /// Gets or sets a command to be executed when a context menu associated with the data grid is opening.
@@ -155,7 +430,10 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static DependencyProperty ContextMenuOpeningCommandProperty = DependencyProperty.Register
              (
-                nameof(ContextMenuOpeningCommand), typeof(ICommand), typeof(DataGrid), new PropertyMetadata()
+                nameof(ContextMenuOpeningCommand), typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null
+                }
              );
         #endregion
 
@@ -176,7 +454,10 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static DependencyProperty SortingCommandProperty = DependencyProperty.Register
              (
-                nameof(SortingCommand), typeof(ICommand), typeof(DataGrid), new PropertyMetadata()
+                nameof(SortingCommand), typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null
+                }
              );
         #endregion
 
@@ -378,10 +659,7 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Protected methods
-        /// <summary>
-        /// Occurs when the mouse enters
-        /// </summary>
-        /// <param name="e">The event arguments</param>
+        /// <inheritdoc/>
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
@@ -394,24 +672,47 @@ namespace Restless.Toolkit.Controls
             }
         }
 
-        /// <summary>
-        /// Invoked when an unhandled System.Windows.Input.Mouse.PreviewMouseWheel attached
-        /// event reaches an element in its route that is derived from this class.
-        /// </summary>
-        /// <param name="e">The System.Windows.Input.MouseWheelEventArgs that contains the event data.</param>
-        /// <remarks>
-        /// This method is used to implement the behavior described by <see cref="UseOuterScrollViewer"/>.
-        /// </remarks>
+        /// <inheritdoc/>
         protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
         {
             base.OnPreviewMouseWheel(e);
             if (UseOuterScrollViewer)
             {
-                var sv = GetOuterScrollViewer();
-                if (sv != null)
+                if (GetOuterScrollViewer() is ScrollViewer scrollViewer)
                 {
-                    sv.ScrollToVerticalOffset(sv.VerticalOffset - e.Delta);
+                    scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
                     e.Handled = true;
+                }
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override void OnPreviewMouseRightButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseRightButtonUp(e);
+            if (e.OriginalSource is DependencyObject dp)
+            {
+                if (CoreHelper.GetVisualParent<DataGridColumnHeader>(dp) is DataGridColumnHeader header)
+                {
+                    switch (HeaderMode)
+                    {
+                        case DataGridHeaderMode.Command:
+                            if (HeaderCommand?.CanExecute(header) ?? false)
+                            {
+                                HeaderCommand.Execute(header);
+                            }
+                            break;
+
+                        case DataGridHeaderMode.ColumnSelector:
+                            columnSelector.Show(header, Columns);
+                            break;
+
+                        case DataGridHeaderMode.None:
+                        case DataGridHeaderMode.ContextMenu:
+                            break;
+
+                    }
+                    e.Handled = HeaderMode != DataGridHeaderMode.ContextMenu;
                 }
             }
         }
@@ -427,61 +728,94 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
+        /// Used by <see cref="DataGridColumns"/> to restore the sort
+        /// </summary>
+        /// <param name="column">The column. May be null</param>
+        internal void OnSorting(DataGridColumn column)
+        {
+            if (column != null)
+            {
+                OnSorting(new DataGridSortingEventArgs(column));
+            }
+        }
+
+        /// <summary>
         /// Occurs when the <see cref="DataGrid"/> is sorting, raises the Sorting event.
         /// </summary>
         /// <param name="e">The event arguments.</param>
         protected override void OnSorting(DataGridSortingEventArgs e)
         {
-            base.OnSorting(e);
-            var view = CollectionViewSource.GetDefaultView(ItemsSource);
-            // think this is unlikely
-            if (view == null) return;
-
-            // Get the custom sort.
-            var colSort = e.Column.GetValue(CustomSortProperty) as DataGridColumnSortSpec;
-
-            // If we have either a custom sort or a sorting command, clear the sort descriptions.
-            if (colSort != null || SortingCommand != null)
+            ICollectionView view = CollectionViewSource.GetDefaultView(ItemsSource);
+            if (view == null)
             {
-                view.SortDescriptions.Clear();
+                return;
             }
 
+            /* Priority 1: Sorting command */
             if (SortingCommand != null)
             {
+                view.SortDescriptions.Clear();
+                PrepareForSort(e.Column);
                 SortingCommand.Execute(e.Column);
                 e.Handled = view.SortDescriptions.Count > 0;
+                if (!e.Handled)
+                {
+                    /* If sort command didn't handle the sort, reverse the effects of PrepareForSort() */
+                    PrepareForSort(e.Column);
+                }
             }
-            
-            if (colSort != null)
+
+            /* Priority 2: Custom sort spec */
+            if (!e.Handled && e.Column.GetValue(CustomSortProperty) is DataGridColumnSortSpec sortSpec)
             {
-                ListSortDirection primaryDirection = (e.Column.SortDirection == ListSortDirection.Ascending) ? ListSortDirection.Ascending : ListSortDirection.Descending;
+                view.SortDescriptions.Clear();
+                PrepareForSort(e.Column);
 
-                string primaryPath = e.Column.SortMemberPath;
-                if (!string.IsNullOrEmpty(colSort.Column1))
-                {
-                    primaryPath = colSort.Column1;
-                }
-                view.SortDescriptions.Add(new SortDescription(primaryPath, primaryDirection));
+                string primaryPath = !string.IsNullOrEmpty(sortSpec.Column1) ?  sortSpec.Column1 :  e.Column.SortMemberPath;
+                view.SortDescriptions.Add(new SortDescription(primaryPath, e.Column.SortDirection.Value));
 
-                ListSortDirection secondaryDirection = primaryDirection;
-                switch (colSort.Behavior)
+                ListSortDirection secondaryDirection = sortSpec.Behavior switch
                 {
-                    case DataGridColumnSortBehavior.AlwaysAscending:
-                        secondaryDirection = ListSortDirection.Ascending;
-                        break;
-                    case DataGridColumnSortBehavior.AlwaysDescending:
-                        secondaryDirection = ListSortDirection.Descending;
-                        break;
-                    case DataGridColumnSortBehavior.ReverseFollowPrimary:
-                        secondaryDirection = (primaryDirection == ListSortDirection.Ascending) ? ListSortDirection.Descending : ListSortDirection.Ascending;
-                        break;
-                    default:
-                        secondaryDirection = primaryDirection;
-                        break;
-                }
-                view.SortDescriptions.Add(new SortDescription(colSort.Column2, secondaryDirection));
+                    DataGridColumnSortBehavior.AlwaysAscending => ListSortDirection.Ascending,
+                    DataGridColumnSortBehavior.AlwaysDescending => ListSortDirection.Descending,
+                    DataGridColumnSortBehavior.ReverseFollowPrimary => (e.Column.SortDirection == ListSortDirection.Ascending) ? ListSortDirection.Descending : ListSortDirection.Ascending,
+                    _ => e.Column.SortDirection.Value,
+                };
+                view.SortDescriptions.Add(new SortDescription(sortSpec.Column2, secondaryDirection));
                 e.Handled = true;
             }
+
+            /* Priority 3: Standard sort */
+            if (!e.Handled)
+            {
+                base.OnSorting(e);
+            }
+
+            SetAttachedSortDirection(e.Column);
+        }
+
+        private void PrepareForSort(DataGridColumn column)
+        {
+            ListSortDirection? direction = column.SortDirection;
+
+            foreach (DataGridColumn col in Columns)
+            {
+                col.SortDirection = null;
+            }
+            
+            column.SortDirection = 
+                (direction.HasValue && direction.Value == ListSortDirection.Ascending) ?
+                ListSortDirection.Descending :
+                ListSortDirection.Ascending;
+        }
+
+        private void SetAttachedSortDirection(DataGridColumn column)
+        {
+            foreach (DataGridColumn col in Columns)
+            {
+                DataGridColumns.SetSortDirection(col, null);
+            }
+            DataGridColumns.SetSortDirection(column, column.SortDirection);
         }
 
         /// <summary>
@@ -495,10 +829,10 @@ namespace Restless.Toolkit.Controls
         protected override void OnContextMenuOpening(ContextMenuEventArgs e)
         {
             base.OnContextMenuOpening(e);
-            ICommand cmd = ContextMenuOpeningCommand;
-            if (cmd != null && cmd.CanExecute(e))
+
+            if (ContextMenuOpeningCommand?.CanExecute(e) ?? false)
             {
-                cmd.Execute(e);
+                ContextMenuOpeningCommand.Execute(e);
             }
         }
 
@@ -509,10 +843,9 @@ namespace Restless.Toolkit.Controls
         protected override void OnBeginningEdit(DataGridBeginningEditEventArgs e)
         {
             base.OnBeginningEdit(e);
-            ICommand cmd = OnBeginningEditCommand;
-            if (cmd != null && cmd.CanExecute(e))
+            if (OnBeginningEditCommand?.CanExecute(e) ?? false)
             {
-                cmd.Execute(e);
+                OnBeginningEditCommand.Execute(e);
             }
         }
 
@@ -523,10 +856,9 @@ namespace Restless.Toolkit.Controls
         protected override void OnCellEditEnding(DataGridCellEditEndingEventArgs e)
         {
             base.OnCellEditEnding(e);
-            ICommand cmd = OnCellEditEndingCommand;
-            if (cmd != null && cmd.CanExecute(e))
+            if (OnCellEditEndingCommand?.CanExecute(e) ?? false)
             {
-                cmd.Execute(e);
+                OnCellEditEndingCommand.Execute(e);
             }
         }
         #endregion
@@ -534,11 +866,11 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Private methods
-
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            scrollViewer = CoreHelper.GetVisualChild<ScrollViewer>(this);
 #if VERTOFFSET
+            scrollViewer = CoreHelper.GetVisualChild<ScrollViewer>(this);
+
             if (scrollViewer != null)
             {
                 scrollViewer.ScrollChanged += (s, e2) =>
@@ -634,6 +966,7 @@ namespace Restless.Toolkit.Controls
 
         #region Private helper class (ScrollInfo)
 #if VERTOFFSET
+        private ScrollViewer scrollViewer;
         private class ScrollInfo
         {
             public DataGrid Grid { get; private set; }

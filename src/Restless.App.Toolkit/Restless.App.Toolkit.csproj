@@ -22,4 +22,11 @@
     <ProjectReference Include="..\Restless.Toolkit\Restless.Toolkit.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="View\DataGridView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>
