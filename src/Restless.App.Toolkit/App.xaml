@@ -206,8 +206,19 @@
 
         <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}"/>
 
-
-
+        <Style x:Key="ColumnHeaderGripperStyle" TargetType="Thumb">
+            <Setter Property="Width" Value="6"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Cursor" Value="SizeWE"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border Background="{TemplateBinding Background}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         <Style x:Key="DefaultDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Height" Value="26"/>
@@ -223,16 +234,17 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="DataGridColumnHeader">
                         <Border
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-
+                                
                                 <ContentPresenter
+                                    Grid.Column="0"
                                     Margin="{TemplateBinding Padding}"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -252,6 +264,18 @@
                                     Style="{StaticResource SmallPathStyle}"
                                     Data="{StaticResource ChevronUpGeometryKey}"
                                     Visibility="Collapsed"/>
+                                
+                                <Thumb
+                                    x:Name="PART_LeftHeaderGripper"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource ColumnHeaderGripperStyle}"/>
+                                
+                                <Thumb
+                                    Grid.Column="1"
+                                    x:Name="PART_RightHeaderGripper"
+                                    HorizontalAlignment="Right"
+                                    Style="{StaticResource ColumnHeaderGripperStyle}"/>
+                                
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -289,8 +313,8 @@
                     <ControlTemplate TargetType="DataGridCell">
                         <Border Background="{TemplateBinding Background}">
                             <ContentPresenter
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -303,6 +327,7 @@
 
         <Style x:Key="DefaultDataGridStyle" TargetType="DataGrid">
             <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserResizeColumns" Value="True"/>
             <Setter Property="CanUserReorderColumns" Value="True"/>
             <Setter Property="CanUserResizeRows" Value="False"/>
             <Setter Property="Foreground" Value="{StaticResource DarkForegroundBrush}"/>
@@ -325,7 +350,6 @@
 
         <Style TargetType="DataGrid" BasedOn="{StaticResource DefaultDataGridStyle}"/>
         <Style TargetType="tk:DataGrid" BasedOn="{StaticResource DefaultDataGridStyle}"/>
-
 
         <DataTemplate DataType="{x:Type l:WelcomeViewModel}">
             <l:WelcomeView/>
