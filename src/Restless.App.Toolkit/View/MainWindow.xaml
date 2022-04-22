@@ -15,14 +15,16 @@
 
     <con:AppWindow.Menu>
         <Menu>
-            <MenuItem Header="Tabs">
-                <MenuItem Header="Welcome" Command="{Binding Commands[DisplayWelcome]}"/>
-                <MenuItem Header="Mvvm" Command="{Binding Commands[DisplayMvvm]}"/>
-                <MenuItem Header="Tab Controls" Command="{Binding Commands[DisplayTabControls]}"/>
-                <MenuItem Header="Unload / Keep" Command="{Binding DisplayUnloadTabCommand}"/>
-                <Separator/>
-                <MenuItem Header="Allow tabs to be reordered" IsChecked="{Binding AllowTabReorder}" Command="{Binding Commands[ToggleAllowTabReorder]}"/>
-                <MenuItem Header="Keep content on tab switch" IsChecked="{Binding KeepContentOnTabSwitch}" Command="{Binding Commands[ToggleKeepContentOnTabSwitch]}"/>
+            <MenuItem Header="Options">
+                <MenuItem
+                    Header="Allow tabs to be reordered"
+                    IsChecked="{Binding AllowTabReorder}"
+                    Command="{Binding Commands[ToggleAllowTabReorder]}"/>
+                
+                <MenuItem
+                    Header="Keep content on tab switch"
+                    IsChecked="{Binding KeepContentOnTabSwitch}"
+                    Command="{Binding Commands[ToggleKeepContentOnTabSwitch]}"/>
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Geneva" InputGestureText="F5"/>

@@ -1,4 +1,5 @@
 ﻿using Restless.Toolkit.Mvvm;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -30,14 +31,14 @@ namespace Restless.App.Toolkit
         {
             DisplayName = "Restless Toolkit Demo";
             Pages = new ObservableCollection<ViewModelBase>();
-            Commands.Add("DisplayWelcome", RelayCommand.Create((p) => Create<WelcomeViewModel>()));
-            Commands.Add("DisplayMvvm", RelayCommand.Create((p) => Create<MvvmViewModel>()));
-            Commands.Add("ToggleAllowTabReorder", RelayCommand.Create((p) => AllowTabReorder = !AllowTabReorder));
-            Commands.Add("ToggleKeepContentOnTabSwitch", RelayCommand.Create((p) => KeepContentOnTabSwitch = !KeepContentOnTabSwitch));
-            Commands.Add("ToggleSeattle", (p) => IsSeattleChecked = !IsSeattleChecked);
-            Commands.Add("ToggleNewYork", (p) => IsNewYorkChecked = !IsNewYorkChecked);
-            DisplayUnloadTabCommand = RelayCommand.Create((p) => Create<DemoViewModel>());
+
+            Commands.Add("ToggleAllowTabReorder", RelayCommand.Create(p => AllowTabReorder = !AllowTabReorder));
+            Commands.Add("ToggleKeepContentOnTabSwitch", RelayCommand.Create(p => KeepContentOnTabSwitch = !KeepContentOnTabSwitch));
+            Commands.Add("ToggleSeattle", p => IsSeattleChecked = !IsSeattleChecked);
+            Commands.Add("ToggleNewYork", p => IsNewYorkChecked = !IsNewYorkChecked);
+            DisplayUnloadTabCommand = RelayCommand.Create(p => Create<DemoViewModel>());
             ToggleBorderThicknessCommand = RelayCommand.Create(RunToggleBorderThicknessCommand);
+
             TabBorderThickness = new Thickness(1.0);
             AllowTabReorder = true;
             IsSeattleChecked = true;
@@ -123,12 +124,8 @@ namespace Restless.App.Toolkit
 
         private T GetPageOfType<T>() where T : ViewModelBase
         {
-            var iterator = Pages.OfType<T>();
-            if (iterator.Count() > 0)
-            {
-                return iterator.First();
-            }
-            return null;
+            IEnumerable<T> iterator = Pages.OfType<T>();
+            return iterator.Count() > 0 ? iterator.First() : null;
         }
 
         private void SetActivePage(ViewModelBase page)
