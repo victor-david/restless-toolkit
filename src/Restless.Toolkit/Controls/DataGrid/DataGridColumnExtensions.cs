@@ -233,56 +233,71 @@ namespace Restless.Toolkit.Controls
             return col;
         }
 
+        /// <summary>
+        /// Gets or sets a value that determines whether the
+        /// <see cref="AddToolTip(DataGridColumn, object)"/> method
+        /// sets a deferred tooltip.
+        /// </summary>
+        public static bool UseDeferredToolTip = false;
 
         /// <summary>
-        /// Adds the specified tooltip to the column's header
+        /// Adds the specified tooltip to the column header
         /// </summary>
         /// <param name="col">The column</param>
         /// <param name="toolTip">The tool tip</param>
         /// <returns>The column</returns>
         /// <remarks>
         /// <para>
-        ///   This method attempts to add a tool tip to the column header.
-        ///   If the column header is a TextBlock object, it sets the ToolTip property
-        ///   of the TextBlock to the specified text.
+        /// If <see cref="UseDeferredToolTip"/> is true, this method sets
+        /// the <see cref="ToolTipService.ToolTipProperty"/> attached property
+        /// which is processed after the data grid is loaded in order to establish
+        /// the tool tip on the corresponding <see cref="DataGridColumnHeader"/>.
+        /// You must use the toolkit <see cref="DataGrid"/> for this to work.
         /// </para>
         /// <para>
-        ///   Otherwise, it attempts to add the tooltip via the HeaderStyle property of the column.
-        ///   If HeaderStyle is null, it first adds the DataGridHeaderDefault style. It then 
-        ///   checks the Setters property of the style to see if a new Setter may be added. If so, it adds
-        ///   a ToolTipService.ToolTipProperty property setter with the specified tooltip value.
+        /// If <see cref="UseDeferredToolTip"/> is false (the default), this method
+        /// checks to see if the <see cref="DataGridColumn.Header"/> property is
+        /// a FrameworkElement; if so, it sets its ToolTip property.
         /// </para>
         /// <para>
-        ///   If the HeaderStyle property has already been set (for instance, via a previous call to
-        ///   <see cref="MakeCentered(DataGridColumn, object, object)"/>, the HeaderStyle.Setters collection is sealed.
-        ///   Under these conditions, this method does not set the tooltip text and no error is thrown.
+        /// If <see cref="UseDeferredToolTip"/> is false, you can still use the
+        /// <see cref="AddToolTipDeferred(DataGridColumn, object)"/> extension
+        /// method, with the same caveat that the data grid must be the toolkit
+        /// <see cref="DataGrid"/>
+        /// </para>
+        /// <para>
+        /// The advantage of setting the tool tip on <see cref="DataGridColumnHeader"/>
+        /// is that the tool tip appears in any part of the header; otherwise, it
+        /// only appears on the actual content of the header
         /// </para>
         /// </remarks>
         public static DataGridColumn AddToolTip(this DataGridColumn col, object toolTip)
         {
-            if (toolTip != null)
+            if (UseDeferredToolTip)
             {
-                if (col.Header is TextBlock textBlock)
-                {
-                    textBlock.ToolTip = toolTip;
-                }
-                else
-                {
-                    if (col.HeaderStyle == null)
-                    {
-                        col.HeaderStyle = new Style
-                            (
-                                typeof(DataGridColumnHeader),
-                                (Style)Application.Current.TryFindResource(DefaultDataGridColumnHeaderStyleKey ?? "a6398b9a-3fc4-4dc4-9d86-2ffa681ce514")
-                            );
-                    }
-
-                    if (col.HeaderStyle != null && !col.HeaderStyle.Setters.IsSealed)
-                    {
-                        col.HeaderStyle.Setters.Add(new Setter(ToolTipService.ToolTipProperty, toolTip));
-                    }
-                }
+                return col.AddToolTipDeferred(toolTip);
             }
+
+            if (col.Header is FrameworkElement element)
+            {
+                element.ToolTip = toolTip;
+            }
+            return col;
+        }
+
+        /// <summary>
+        /// Adds the specified tool tip to the column header using deferred
+        /// </summary>
+        /// <param name="col">The column</param>
+        /// <param name="toolTip">The tool tip</param>
+        /// <returns>The column</returns>
+        /// <remarks>
+        /// This method requires that the data grid is a toolkit <see cref="DataGrid"/>.
+        /// See <see cref="AddToolTip(DataGridColumn, object)"/> for more info.
+        /// </remarks>
+        public static DataGridColumn AddToolTipDeferred(this DataGridColumn col, object toolTip)
+        {
+            ToolTipService.SetToolTip(col, toolTip);
             return col;
         }
 

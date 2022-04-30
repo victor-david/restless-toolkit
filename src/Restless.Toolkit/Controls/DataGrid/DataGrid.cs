@@ -9,13 +9,14 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using SysDataGrid = System.Windows.Controls.DataGrid;
 
 namespace Restless.Toolkit.Controls
 {
     /// <summary>
     /// Extends <see cref="System.Windows.Controls.DataGrid"/> to provide custom functionality.
     /// </summary>
-    public class DataGrid : System.Windows.Controls.DataGrid
+    public class DataGrid : SysDataGrid
     {
         #region Private
         private readonly DataGridColumnSelector columnSelector;
@@ -868,6 +869,22 @@ namespace Restless.Toolkit.Controls
         #region Private methods
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            foreach (DataGridColumn column in Columns)
+            {
+                if (DataGridColumns.GetAttachedOwner(column) is SysDataGrid dataGrid)
+                {
+                    if (ToolTipService.GetToolTip(column) is object toolTip)
+                    {
+                        if (GetDataGridColumnHeader(column, dataGrid) is DataGridColumnHeader header)
+                        {
+                            ToolTipService.SetInitialShowDelay(header, 170);
+                            ToolTipService.SetShowDuration(header, 18000);
+                            header.ToolTip = toolTip;
+                        }
+                    }
+
+                }
+            }
 #if VERTOFFSET
             scrollViewer = CoreHelper.GetVisualChild<ScrollViewer>(this);
 
@@ -880,6 +897,26 @@ namespace Restless.Toolkit.Controls
             }
 #endif
             DispatcherRestoreState();
+        }
+
+        private DataGridColumnHeader GetDataGridColumnHeader(DataGridColumn column, DependencyObject reference)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(reference); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(reference, i);
+
+                if (child is DataGridColumnHeader header1 && header1.Column == column)
+                {
+                    return header1;
+                }
+
+                if (GetDataGridColumnHeader(column, child) is DataGridColumnHeader header2)
+                {
+                    return header2;
+                }
+            }
+
+            return null;
         }
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
