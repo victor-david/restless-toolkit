@@ -37,14 +37,44 @@ namespace Restless.Toolkit.Controls
         public static readonly ComponentResourceKey ColumnHeaderStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(ColumnHeaderStyleKey));
 
         /// <summary>
+        /// Identifies the resource key for column header (centered) style
+        /// </summary>
+        public static readonly ComponentResourceKey ColumnHeaderCenteredStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(ColumnHeaderCenteredStyleKey));
+
+        /// <summary>
+        /// Identifies the resource key for column header (right justified) style
+        /// </summary>
+        public static readonly ComponentResourceKey ColumnHeaderRightStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(ColumnHeaderRightStyleKey));
+
+        /// <summary>
         /// Identifies the resource key for data grid cell style
         /// </summary>
         public static readonly ComponentResourceKey DataGridCellStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(DataGridCellStyleKey));
 
         /// <summary>
+        /// Identifies the resource key for data grid cell (centered) style
+        /// </summary>
+        public static readonly ComponentResourceKey DataGridCellCenteredStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(DataGridCellCenteredStyleKey));
+
+        /// <summary>
+        /// Identifies the resource key for data grid cell (right justified) style
+        /// </summary>
+        public static readonly ComponentResourceKey DataGridCellRightStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(DataGridCellRightStyleKey));
+
+        /// <summary>
         /// Identifies the resource key for the sort indicator
         /// </summary>
         public static readonly ComponentResourceKey SortIndicatorStyleKey = new ComponentResourceKey(typeof(DataGrid), nameof(SortIndicatorStyleKey));
+
+        /// <summary>
+        /// Identifies the resource key for the geometry that indicates an ascending sort
+        /// </summary>
+        public static readonly ComponentResourceKey SortAscendingGeometryKey = new ComponentResourceKey(typeof(DataGrid), nameof(SortAscendingGeometryKey));
+
+        /// <summary>
+        /// Identifies the resource key for the geometry that indicates a descending sort
+        /// </summary>
+        public static readonly ComponentResourceKey SortDescendingGeometryKey = new ComponentResourceKey(typeof(DataGrid), nameof(SortDescendingGeometryKey));
         #endregion
 
         /************************************************************************/

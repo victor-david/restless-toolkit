@@ -10,8 +10,11 @@
     <SolidColorBrush x:Key="LightBackgroundBrush" Color="GhostWhite"/>
     <SolidColorBrush x:Key="RolloverHeaderBrush" Color="#FFDAE8FF"/>
 
-    <Geometry x:Key="ChevronDownGeometryKey">M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z</Geometry>
-    <Geometry x:Key="ChevronUpGeometryKey">M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z</Geometry>
+    <!-- Ascending (chevron down) -->
+    <Geometry x:Key="{x:Static con:DataGrid.SortAscendingGeometryKey}">M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z</Geometry>
+    
+    <!-- Descending (chevron up) -->
+    <Geometry x:Key="{x:Static con:DataGrid.SortDescendingGeometryKey}">M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z</Geometry>
 
     <Style x:Key="{x:Static con:DataGrid.SortIndicatorStyleKey}" TargetType="Path">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -67,16 +70,16 @@
                                 x:Name="SortAscendingPath"
                                 Grid.Column="1"
                                 Margin="0,0,6,0"
-                                Style="{StaticResource {x:Static con:DataGrid.SortIndicatorStyleKey}}"
-                                Data="{StaticResource ChevronDownGeometryKey}"
+                                Style="{DynamicResource {x:Static con:DataGrid.SortIndicatorStyleKey}}"
+                                Data="{DynamicResource {x:Static con:DataGrid.SortAscendingGeometryKey}}"
                                 Visibility="Collapsed"/>
 
                             <Path
                                 x:Name="SortDescendingPath"
                                 Grid.Column="1"
                                 Margin="0,0,6,0"
-                                Style="{StaticResource {x:Static con:DataGrid.SortIndicatorStyleKey}}"
-                                Data="{StaticResource ChevronUpGeometryKey}"
+                                Style="{DynamicResource {x:Static con:DataGrid.SortIndicatorStyleKey}}"
+                                Data="{DynamicResource {x:Static con:DataGrid.SortDescendingGeometryKey}}"
                                 Visibility="Collapsed"/>
 
                             <Thumb
@@ -92,6 +95,7 @@
 
                         </Grid>
                     </Border>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="SortDirection" Value="Ascending">
                             <Setter TargetName="SortAscendingPath" Property="Visibility" Value="Visible"/>
@@ -114,6 +118,24 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+   
+    <Style
+        x:Key="{x:Static con:DataGrid.ColumnHeaderCenteredStyleKey}"
+        TargetType="DataGridColumnHeader"
+        BasedOn="{StaticResource {x:Static con:DataGrid.ColumnHeaderStyleKey}}">
+
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
+    </Style>
+
+    <Style
+        x:Key="{x:Static con:DataGrid.ColumnHeaderRightStyleKey}"
+        TargetType="DataGridColumnHeader"
+        BasedOn="{StaticResource {x:Static con:DataGrid.ColumnHeaderStyleKey}}">
+
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+
+    </Style>
 
     <Style x:Key="{x:Static con:DataGrid.DataGridCellStyleKey}" TargetType="DataGridCell">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -130,6 +152,24 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style
+        x:Key="{x:Static con:DataGrid.DataGridCellCenteredStyleKey}"
+        TargetType="DataGridCell"
+        BasedOn="{StaticResource {x:Static con:DataGrid.DataGridCellStyleKey}}">
+        
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        
+    </Style>
+    
+    <Style
+        x:Key="{x:Static con:DataGrid.DataGridCellRightStyleKey}"
+        TargetType="DataGridCell"
+        BasedOn="{StaticResource {x:Static con:DataGrid.DataGridCellStyleKey}}">
+
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+
+    </Style>
     
     <Style x:Key="{x:Static con:DataGrid.DataGridStyleKey}" TargetType="DataGrid">
         <Setter Property="AlternationCount" Value="2"/>
@@ -141,8 +181,8 @@
         <Setter Property="CanUserReorderColumns" Value="False"/>
         <Setter Property="CanUserSortColumns" Value="True"/>
         <Setter Property="CanUserResizeRows" Value="False"/>
-        <Setter Property="CellStyle" Value="{StaticResource {x:Static con:DataGrid.DataGridCellStyleKey}}"/>
-        <Setter Property="ColumnHeaderStyle" Value="{StaticResource {x:Static con:DataGrid.ColumnHeaderStyleKey}}"/>
+        <Setter Property="CellStyle" Value="{DynamicResource {x:Static con:DataGrid.DataGridCellStyleKey}}"/>
+        <Setter Property="ColumnHeaderStyle" Value="{DynamicResource {x:Static con:DataGrid.ColumnHeaderStyleKey}}"/>
         <Setter Property="ColumnWidth" Value="*"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Foreground" Value="{StaticResource DarkForegroundBrush}"/>

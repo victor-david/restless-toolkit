@@ -18,40 +18,44 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Defines a default style key for a DataGridColumnHeader.
         /// </summary>
+        [Obsolete("Use DataGrid.ColumnHeaderStyleKey")]
         public static object DefaultDataGridColumnHeaderStyleKey = null;
 
         /// <summary>
         /// Defines a default style key for a DataGridColumnHeader in order to center-align it.
         /// </summary>
+        [Obsolete("Use DataGrid.ColumnHeaderCenteredStyleKey")]
         public static object CenterAlignedDataGridColumnHeaderStyleKey = null;
 
         /// <summary>
         /// Defines a default style key for a DataGridColumnHeader in order to right-align it.
         /// </summary>
+        [Obsolete("Use DataGrid.ColumnHeaderRightStyleKey")]
         public static object RightAlignedDataGridColumnHeaderStyleKey = null;
 
         /// <summary>
         /// Defines a default style key for a TextBlock in order to center-align it.
         /// </summary>
-        [Obsolete("Use CenterAlignedDataGridCellStyleKey")]
+        [Obsolete("Use DataGrid.ColumnHeaderCenteredStyleKey")]
         public static object CenterAlignedTextBlockStyleKey = null;
 
         /// <summary>
         /// Defines a default style key for a TextBlock in order to right-align it.
         /// </summary>
-        [Obsolete("Use RightAlignedDataGridCellStyleKey")]
+        [Obsolete("Use DataGrid.ColumnHeaderRightStyleKey")]
         public static object RightAlignedTextBlockStyleKey = null;
 
         /// <summary>
         /// Defines a default style key for a data grid cell in order to center align it.
         /// </summary>
+        [Obsolete("Use DataGrid.DataGridCellCenteredStyleKey")]
         public static object CenterAlignedDataGridCellStyleKey = null;
 
         /// <summary>
         /// Defines a default style key for a data grid cell in order to right align it.
         /// </summary>
+        [Obsolete("Use DataGrid.DataGridCellRightStyleKey")]
         public static object RightAlignedDataGridCellStyleKey = null;
-
 
         /// <summary>
         /// The default fixed width to be applied when using extension methods that accept an optional width parameter
@@ -90,11 +94,7 @@ namespace Restless.Toolkit.Controls
         /// <returns>The column</returns>
         public static DataGridBoundColumn MakeNumeric(this DataGridBoundColumn col, string numericFormat = null, int width = DefaultColumnWidth)
         {
-            if (string.IsNullOrEmpty(numericFormat))
-            {
-                numericFormat = "N0";
-            }
-            col.Binding.StringFormat = numericFormat;
+            col.Binding.StringFormat = string.IsNullOrWhiteSpace(numericFormat) ? "N0" : numericFormat;
             col.MakeFixedWidth(width);
             return col;
         }
@@ -134,21 +134,16 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         /// <param name="col">The column.</param>
         /// <param name="headerStyleKey">
-        /// The key of the style to apply to the header, or null to use <see cref="CenterAlignedDataGridColumnHeaderStyleKey"/>
+        /// The key of the style to apply to the header, or null to use <see cref="DataGrid.ColumnHeaderCenteredStyleKey"/>
         /// </param>
         /// <param name="cellStyleKey">
-        /// The key of the style to apply to the cells, or null to use <see cref="CenterAlignedTextBlockStyleKey"/>
+        /// The key of the style to apply to the cells, or null to use <see cref="DataGrid.DataGridCellCenteredStyleKey"/>
         /// </param>
         /// <returns>The column.</returns>
-        /// <remarks>
-        /// For this method to work, two styles must be available, you must pass <paramref name="headerStyleKey"/> and <paramref name="cellStyleKey"/>
-        /// or set <see cref="CenterAlignedDataGridColumnHeaderStyleKey"/>
-        /// and <see cref="CenterAlignedDataGridCellStyleKey"/> before calling this method.
-        /// </remarks>
         public static DataGridColumn MakeCentered(this DataGridColumn col, object headerStyleKey = null, object cellStyleKey = null)
         {
-            Style s1 = (Style)Application.Current.TryFindResource(headerStyleKey ?? CenterAlignedDataGridColumnHeaderStyleKey ?? "5090c02e-fd0d-4f5c-a084-73f9107c93a7"); 
-            Style s2 = (Style)Application.Current.TryFindResource(cellStyleKey ?? CenterAlignedDataGridCellStyleKey ?? "94220548-aee0-4740-810c-9fc5536b5e79");
+            Style s1 = (Style)Application.Current.TryFindResource(headerStyleKey ?? DataGrid.ColumnHeaderCenteredStyleKey); 
+            Style s2 = (Style)Application.Current.TryFindResource(cellStyleKey ?? DataGrid.DataGridCellCenteredStyleKey);
             return col.AddHeaderStyle(s1).AddCellStyle(s2);
         }
 
@@ -157,21 +152,16 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         /// <param name="col">The column.</param>
         /// <param name="headerStyleKey">
-        /// The key of the style to apply to the header, or null to use <see cref="RightAlignedDataGridColumnHeaderStyleKey"/>
+        /// The key of the style to apply to the header, or null to use <see cref="DataGrid.ColumnHeaderRightStyleKey"/>
         /// </param>
         /// <param name="cellStyleKey">
-        /// The key of the style to apply to the cells, or null to use <see cref="RightAlignedTextBlockStyleKey"/>
+        /// The key of the style to apply to the cells, or null to use <see cref="DataGrid.DataGridCellRightStyleKey"/>
         /// </param>
         /// <returns>The column.</returns>
-        /// <remarks>
-        /// For this method to work, two styles must be available, you must pass <paramref name="headerStyleKey"/> and <paramref name="cellStyleKey"/>
-        /// or set <see cref="RightAlignedDataGridColumnHeaderStyleKey"/>
-        /// and <see cref="RightAlignedDataGridCellStyleKey"/> before calling this method.
-        /// </remarks>
         public static DataGridColumn MakeRightAligned(this DataGridColumn col, object headerStyleKey = null, object cellStyleKey = null)
         {
-            Style s1 = (Style)Application.Current.TryFindResource(headerStyleKey ?? RightAlignedDataGridColumnHeaderStyleKey ?? "05b1bdba-1c8a-400b-9cce-4ceb5fae5feb");
-            Style s2 = (Style)Application.Current.TryFindResource(cellStyleKey ?? RightAlignedDataGridCellStyleKey ?? "dbace134-2a49-4898-bc89-3736ee6001c9");
+            Style s1 = (Style)Application.Current.TryFindResource(headerStyleKey ?? DataGrid.ColumnHeaderRightStyleKey);
+            Style s2 = (Style)Application.Current.TryFindResource(cellStyleKey ?? DataGrid.DataGridCellRightStyleKey);
             return col.AddHeaderStyle(s1).AddCellStyle(s2);
         }
 
