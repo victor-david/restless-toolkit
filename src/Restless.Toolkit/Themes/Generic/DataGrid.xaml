@@ -191,7 +191,7 @@
         <Setter Property="IsReadOnly" Value="True"/>
         <Setter Property="MinRowHeight" Value="24"/>
         <Setter Property="RowHeight" Value="32"/>
-        <Setter Property="SelectionMode" Value="Extended"/>
+        <Setter Property="SelectionMode" Value="Single"/>
         <Setter Property="SelectionUnit" Value="FullRow"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
     </Style>
