@@ -103,7 +103,7 @@ namespace Restless.Toolkit.Controls
         /// Sets the column's CellStyle property to the specified style.
         /// </summary>
         /// <param name="col">The column.</param>
-        /// <param name="style">The style to set.</param>
+        /// <param name="style">The style to set; must have target type of <see cref="DataGridCell"/>.</param>
         /// <returns>The column</returns>
         public static DataGridColumn AddCellStyle(this DataGridColumn col, Style style)
         {
@@ -118,7 +118,7 @@ namespace Restless.Toolkit.Controls
         /// Sets the column's HeaderStyle property to the specified style.
         /// </summary>
         /// <param name="col">The column.</param>
-        /// <param name="style">The style to set.</param>
+        /// <param name="style">The style to set; must have target type of <see cref="DataGridColumnHeader"/>.</param>
         /// <returns>The column.</returns>
         public static DataGridColumn AddHeaderStyle(this DataGridColumn col, Style style)
         {
@@ -142,9 +142,9 @@ namespace Restless.Toolkit.Controls
         /// <returns>The column.</returns>
         public static DataGridColumn MakeCentered(this DataGridColumn col, object headerStyleKey = null, object cellStyleKey = null)
         {
-            Style s1 = (Style)Application.Current.TryFindResource(headerStyleKey ?? DataGrid.ColumnHeaderCenteredStyleKey); 
-            Style s2 = (Style)Application.Current.TryFindResource(cellStyleKey ?? DataGrid.DataGridCellCenteredStyleKey);
-            return col.AddHeaderStyle(s1).AddCellStyle(s2);
+            Style headerStyle = (Style)Application.Current.TryFindResource(headerStyleKey ?? DataGrid.ColumnHeaderCenteredStyleKey); 
+            Style cellStyle = (Style)Application.Current.TryFindResource(cellStyleKey ?? DataGrid.DataGridCellCenteredStyleKey);
+            return col.AddHeaderStyle(headerStyle).AddCellStyle(cellStyle);
         }
 
         /// <summary>
@@ -160,9 +160,65 @@ namespace Restless.Toolkit.Controls
         /// <returns>The column.</returns>
         public static DataGridColumn MakeRightAligned(this DataGridColumn col, object headerStyleKey = null, object cellStyleKey = null)
         {
-            Style s1 = (Style)Application.Current.TryFindResource(headerStyleKey ?? DataGrid.ColumnHeaderRightStyleKey);
-            Style s2 = (Style)Application.Current.TryFindResource(cellStyleKey ?? DataGrid.DataGridCellRightStyleKey);
-            return col.AddHeaderStyle(s1).AddCellStyle(s2);
+            Style headerStyle = (Style)Application.Current.TryFindResource(headerStyleKey ?? DataGrid.ColumnHeaderRightStyleKey);
+            Style cellStyle = (Style)Application.Current.TryFindResource(cellStyleKey ?? DataGrid.DataGridCellRightStyleKey);
+            return col.AddHeaderStyle(headerStyle).AddCellStyle(cellStyle);
+        }
+
+        /// <summary>
+        /// Makes the column header centered.
+        /// </summary>
+        /// <param name="col">The column.</param>
+        /// <param name="headerStyleKey">
+        /// The key of the style to apply to the header, or null to use <see cref="DataGrid.ColumnHeaderCenteredStyleKey"/>
+        /// </param>
+        /// <returns>The column.</returns>
+        public static DataGridColumn MakeHeaderCentered(this DataGridColumn col, object headerStyleKey = null)
+        {
+            Style headerStyle = (Style)Application.Current.TryFindResource(headerStyleKey ?? DataGrid.ColumnHeaderCenteredStyleKey);
+            return col.AddHeaderStyle(headerStyle);
+        }
+
+        /// <summary>
+        /// Makes the column header right aligned.
+        /// </summary>
+        /// <param name="col">The column.</param>
+        /// <param name="headerStyleKey">
+        /// The key of the style to apply to the header, or null to use <see cref="DataGrid.ColumnHeaderRightStyleKey"/>
+        /// </param>
+        /// <returns>The column.</returns>
+        public static DataGridColumn MakeHeaderRightAligned(this DataGridColumn col, object headerStyleKey = null)
+        {
+            Style headerStyle = (Style)Application.Current.TryFindResource(headerStyleKey ?? DataGrid.ColumnHeaderRightStyleKey);
+            return col.AddHeaderStyle(headerStyle);
+        }
+
+        /// <summary>
+        /// Makes the cell style centered.
+        /// </summary>
+        /// <param name="col">The column.</param>
+        /// <param name="cellStyleKey">
+        /// The key of the style to apply to the cells, or null to use <see cref="DataGrid.DataGridCellCenteredStyleKey"/>
+        /// </param>
+        /// <returns>The column.</returns>
+        public static DataGridColumn MakeCellCentered(this DataGridColumn col, object cellStyleKey = null)
+        {
+            Style cellStyle = (Style)Application.Current.TryFindResource(cellStyleKey ?? DataGrid.DataGridCellCenteredStyleKey);
+            return col.AddCellStyle(cellStyle);
+        }
+
+        /// <summary>
+        /// Makes the cell style right aligned.
+        /// </summary>
+        /// <param name="col">The column.</param>
+        /// <param name="cellStyleKey">
+        /// The key of the style to apply to the cells, or null to use <see cref="DataGrid.DataGridCellRightStyleKey"/>
+        /// </param>
+        /// <returns>The column.</returns>
+        public static DataGridColumn MakeCellRightAligned(this DataGridColumn col, object cellStyleKey = null)
+        {
+            Style cellStyle = (Style)Application.Current.TryFindResource(cellStyleKey ?? DataGrid.DataGridCellRightStyleKey);
+            return col.AddCellStyle(cellStyle);
         }
 
         /// <summary>
