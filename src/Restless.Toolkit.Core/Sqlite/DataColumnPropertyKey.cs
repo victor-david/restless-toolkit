@@ -19,5 +19,9 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// Indicates that the column will receive the newly inserted id during an insert operation
         /// </summary>
         ReceiveInsertedId,
+        /// <summary>
+        /// No operation
+        /// </summary>
+        NoOperation
     }
 }

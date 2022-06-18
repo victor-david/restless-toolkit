@@ -9,7 +9,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
     public class ExecuteObject
     {
         #region Private
-        private SQLiteConnection connection;
+        private readonly SQLiteConnection connection;
         #endregion
 
         /************************************************************************/

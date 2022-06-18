@@ -14,11 +14,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
     public abstract class TableBase : DataTable
     {
         #region Private
-        private readonly SQLiteDataAdapter adapter;
-        // SQLite automatically has a _rowid_ column for each table which uniquely identifies the row
-        private const string RowId = "_rowid_";
-        private const string RowIdAlias = "SYSROWID";
-        //private const string ColumnActionPropertyKey = "{6554ed42-bd9a-403b-856e-2545ae03d2d5}";
+
 
         // This provides a way to avoid updating the db uneccesarily due to calculated columns.
         // When an eligible column is changed, it's added to this list. Later, during update, we check
@@ -28,7 +24,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
 
         /************************************************************************/
 
-        #region Public fields and properties
+        #region Public fields / properties
         /// <summary>
         /// Gets a value that indicates whether or not this table is read only. When True, no update operations are allowed
         /// </summary>
@@ -63,8 +59,18 @@ namespace Restless.Toolkit.Core.Database.SQLite
         #endregion
 
         /************************************************************************/
-        
+
         #region Protected properties
+        /// <summary>
+        /// Column name that SQLite automatically provides which uniquely identifies the row
+        /// </summary>
+        protected const string RowId = "_rowid_";
+
+        /// <summary>
+        /// Alias of <see cref="RowId"/>
+        /// </summary>
+        protected const string RowIdAlias = "SYSROWID";
+
         /// <summary>
         /// Gets the database controller assigned to this table
         /// </summary>
@@ -72,6 +78,14 @@ namespace Restless.Toolkit.Core.Database.SQLite
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// Gets the adapter
+        /// </summary>
+        protected SQLiteDataAdapter Adapter
+        {
+            get;
         }
         #endregion
 
@@ -94,7 +108,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
             TableName = tableName;
             IsReadOnly = false;
             IsDeleteRestricted = false;
-            adapter = new SQLiteDataAdapter
+            Adapter = new SQLiteDataAdapter
             {
                 SelectCommand = new SQLiteCommand(controller.Connection),
                 InsertCommand = new SQLiteCommand(controller.Connection),
@@ -248,8 +262,8 @@ namespace Restless.Toolkit.Core.Database.SQLite
 
             Columns.Clear();
             Clear();
-            adapter.SelectCommand.CommandText = sql.ToString();
-            adapter.Fill(this);
+            Adapter.SelectCommand.CommandText = sql.ToString();
+            Adapter.Fill(this);
             SetColumnProperties();
         }
 
@@ -565,6 +579,43 @@ namespace Restless.Toolkit.Core.Database.SQLite
                 }
             }
         }
+
+        /// <summary>
+        /// Gets the corresponding database type from the specified .net type
+        /// </summary>
+        /// <param name="type">The .net type</param>
+        /// <returns>The corresponding database type</returns>
+        protected DbType NetTypeToDbType(Type type)
+        {
+            if (type == typeof(string)) return DbType.String;
+            if (type == typeof(int)) return DbType.Int32;
+            if (type == typeof(long)) return DbType.Int64;
+            if (type == typeof(DateTime)) return DbType.DateTime;
+            if (type == typeof(bool)) return DbType.Boolean;
+            return DbType.String;
+        }
+
+        /// <summary>
+        /// Gets a boolean value that determines if the specified column
+        /// is eligible for an operation according to its exclusion key
+        /// </summary>
+        /// <param name="col">The column</param>
+        /// <param name="exclusionKey">The exclusion key</param>
+        /// <returns>true if column is eligible; otherwise, false.</returns>
+        /// <remarks>
+        /// This method returns true if the column in not null, not read only,
+        /// is not an expression column, is not the <see cref="RowIdAlias"/> column,
+        /// and does contain the specified <paramref name="exclusionKey"/>.
+        /// </remarks>
+        protected bool IsColumnEligible(DataColumn col, DataColumnPropertyKey exclusionKey)
+        {
+            return
+                col != null &&
+                !col.ReadOnly &&
+                string.IsNullOrEmpty(col.Expression) &&
+                col.ColumnName != RowIdAlias &&
+                !col.ExtendedProperties.ContainsKey(exclusionKey);
+        }
         #endregion
 
         /************************************************************************/
@@ -673,7 +724,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
         private void Insert(UpdateStatus status, IDbTransaction transaction)
         {
             if (!status.HaveInsert) return;
-            adapter.InsertCommand.Transaction = transaction as SQLiteTransaction;
+            Adapter.InsertCommand.Transaction = transaction as SQLiteTransaction;
             StringBuilder colList = new StringBuilder(512);
             StringBuilder sql = new StringBuilder(512);
 
@@ -689,7 +740,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
             
             foreach (DataRow row in status.Insert)
             {
-                adapter.InsertCommand.Parameters.Clear();
+                Adapter.InsertCommand.Parameters.Clear();
                 sql.Clear();
                 sql.Append($"INSERT INTO {Namespace}.{TableName} ({colList}) VALUES(");
 
@@ -698,7 +749,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
                     if (IsColumnEligible(col, DataColumnPropertyKey.ExcludeFromInsert))
                     {
                         sql.Append($":{col.ColumnName},");
-                        adapter.InsertCommand.Parameters.Add(col.ColumnName, TypeToDbType(col.DataType)).Value = row[col];
+                        Adapter.InsertCommand.Parameters.Add(col.ColumnName, NetTypeToDbType(col.DataType)).Value = row[col];
                     }
                 }
 
@@ -708,8 +759,8 @@ namespace Restless.Toolkit.Core.Database.SQLite
                 // get rid of the last comma in the values list
                 sql.Remove(sql.Length - 1, 1);
                 sql.Append(")");
-                adapter.InsertCommand.CommandText = sql.ToString();
-                adapter.InsertCommand.ExecuteNonQuery();
+                Adapter.InsertCommand.CommandText = sql.ToString();
+                Adapter.InsertCommand.ExecuteNonQuery();
                 InsertLastInsertId(row);
             }
         }
@@ -717,12 +768,12 @@ namespace Restless.Toolkit.Core.Database.SQLite
         private void Update(UpdateStatus status, IDbTransaction transaction)
         {
             if (!status.HaveUpdate) return;
-            adapter.UpdateCommand.Transaction = transaction as SQLiteTransaction;
+            Adapter.UpdateCommand.Transaction = transaction as SQLiteTransaction;
 
             StringBuilder sql = new StringBuilder(512);
             foreach (DataRow row in status.Update)
             {
-                adapter.UpdateCommand.Parameters.Clear();
+                Adapter.UpdateCommand.Parameters.Clear();
                 sql.Clear();
                 sql.Append($"UPDATE {Namespace}.{TableName} SET ");
                 foreach (DataColumn col in Columns)
@@ -730,14 +781,14 @@ namespace Restless.Toolkit.Core.Database.SQLite
                     if (IsColumnEligible(col, DataColumnPropertyKey.ExcludeFromUpdate))
                     {
                         sql.Append(string.Format("{0}=:{0},", col.ColumnName));
-                        adapter.UpdateCommand.Parameters.Add(col.ColumnName, TypeToDbType(col.DataType)).Value = row[col];
+                        Adapter.UpdateCommand.Parameters.Add(col.ColumnName, NetTypeToDbType(col.DataType)).Value = row[col];
                     }
                 }
                 // get rid of the last comma
                 sql.Remove(sql.Length - 1, 1);
                 sql.Append($" WHERE {RowId}={row[RowIdAlias]}");
-                adapter.UpdateCommand.CommandText = sql.ToString();
-                adapter.UpdateCommand.ExecuteNonQuery();
+                Adapter.UpdateCommand.CommandText = sql.ToString();
+                Adapter.UpdateCommand.ExecuteNonQuery();
             }
         }
 
@@ -760,45 +811,23 @@ namespace Restless.Toolkit.Core.Database.SQLite
         private void Delete(UpdateStatus status, IDbTransaction transaction)
         {
             if (IsDeleteRestricted || !status.HaveDelete) return;
-            adapter.DeleteCommand.Transaction = transaction as SQLiteTransaction;
+            Adapter.DeleteCommand.Transaction = transaction as SQLiteTransaction;
             StringBuilder sql = new StringBuilder(512);
             foreach (DataRow row in status.Delete)
             {
-                adapter.DeleteCommand.Parameters.Clear();
+                Adapter.DeleteCommand.Parameters.Clear();
                 sql.Clear();
                 sql.Append($"DELETE FROM {Namespace}.{TableName} ");
                 sql.Append($"WHERE {RowId}={row[RowIdAlias, DataRowVersion.Original]}");
-                adapter.DeleteCommand.CommandText = sql.ToString();
-                adapter.DeleteCommand.ExecuteNonQuery();
+                Adapter.DeleteCommand.CommandText = sql.ToString();
+                Adapter.DeleteCommand.ExecuteNonQuery();
             }
-        }
-
-
-        private DbType TypeToDbType(Type type)
-        {
-            if (type == typeof(string)) return DbType.String;
-            if (type == typeof(int)) return DbType.Int32;
-            if (type == typeof(long)) return DbType.Int64;
-            if (type == typeof(DateTime)) return DbType.DateTime;
-            if (type == typeof(bool)) return DbType.Boolean;
-            return DbType.String;
-        }
-
-        private bool IsColumnEligible(DataColumn col, DataColumnPropertyKey exclusionKey)
-        {
-            return
-            (
-                !col.ReadOnly &&
-                string.IsNullOrEmpty(col.Expression) &&
-                col.ColumnName != RowIdAlias &&
-                !col.ExtendedProperties.ContainsKey(exclusionKey)
-            );
         }
 
         private void InsertLastInsertId(DataRow row)
         {
-            adapter.InsertCommand.CommandText = "SELECT last_insert_rowid()";
-            object id = adapter.InsertCommand.ExecuteScalar();
+            Adapter.InsertCommand.CommandText = "SELECT last_insert_rowid()";
+            object id = Adapter.InsertCommand.ExecuteScalar();
             row[RowIdAlias] = id; 
             foreach (DataColumn col in Columns)
             {
