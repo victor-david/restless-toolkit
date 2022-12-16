@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Linq;
 
 namespace Restless.Toolkit.Controls
 {
@@ -23,14 +22,22 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly added item.</returns>
         public MenuItem AddItem(string header, ICommand command)
         {
-            var item = new MenuItem
-            {
-                Header = header,
-                Command = command,
-                HorizontalContentAlignment = HorizontalAlignment.Left,
-                VerticalContentAlignment = VerticalAlignment.Center
-            };
+            MenuItem item = CreateItem(header, command);
             Add(item);
+            return item;
+        }
+
+        /// <summary>
+        /// Inserts a new menu item into the collection at the specified index.
+        /// </summary>
+        /// <param name="index">The index at which to insert the item</param>
+        /// <param name="header">The item header, that which is displayed in the UI</param>
+        /// <param name="command">The command associated with this item.</param>
+        /// <returns>The newly inserted item.</returns>
+        public MenuItem InsertItem(int index, string header, ICommand command)
+        {
+            MenuItem item = CreateItem(header, command);
+            Insert(index, item);
             return item;
         }
 
@@ -43,6 +50,15 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
+        /// Inserts a menu separator at the specified index.
+        /// </summary>
+        /// <param name="index">The index at which to insert the separator.</param>
+        public void InsertSeparator(int index)
+        {
+            Insert(index, new Separator());
+        }
+
+        /// <summary>
         /// Called when items are being cleared.
         /// </summary>
         protected override void ClearItems()
@@ -52,6 +68,17 @@ namespace Restless.Toolkit.Controls
                 item.Command = null;
             }
             base.ClearItems();
+        }
+
+        private MenuItem CreateItem(string header, ICommand command)
+        {
+            return new MenuItem
+            {
+                Header = header,
+                Command = command,
+                HorizontalContentAlignment = HorizontalAlignment.Left,
+                VerticalContentAlignment = VerticalAlignment.Center
+            };
         }
     }
 }
