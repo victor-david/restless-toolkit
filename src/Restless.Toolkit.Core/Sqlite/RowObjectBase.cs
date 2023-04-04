@@ -183,16 +183,15 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>true if the column value was set; false if the column value was already the same as <paramref name="value"/>.</returns>
         protected bool SetValue(string colName, long? value)
         {
-            if (!Row[colName].Equals(value))
+            object rowValue = value;
+            if (value == null)
             {
-                if (value == null)
-                {
-                    Row[colName] = DBNull.Value;
-                }
-                else
-                {
-                    Row[colName] = value;
-                }
+                rowValue = DBNull.Value;
+            }
+
+            if (!Row[colName].Equals(rowValue))
+            {
+                Row[colName] = rowValue;
                 OnSetValue(colName, value);
                 return true;
             }
@@ -224,16 +223,15 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>true if the column value was set; false if the column value was already the same as <paramref name="value"/>.</returns>
         protected bool SetValue(string colName, decimal? value)
         {
-            if (!Row[colName].Equals(value))
+            object rowValue = value;
+            if (value == null)
             {
-                if (value == null)
-                {
-                    Row[colName] = DBNull.Value;
-                }
-                else
-                {
-                    Row[colName] = value;
-                }
+                rowValue = DBNull.Value;
+            }
+
+            if (!Row[colName].Equals(rowValue))
+            {
+                Row[colName] = rowValue;
                 OnSetValue(colName, value);
                 return true;
             }
@@ -248,16 +246,15 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>true if the column value was set; false if the column value was already the same as <paramref name="value"/>.</returns>
         protected bool SetValue(string colName, string value)
         {
-            if (!Row[colName].Equals(value))
+            object rowValue = value;
+            if (string.IsNullOrWhiteSpace(value))
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    Row[colName] = DBNull.Value;
-                }
-                else
-                {
-                    Row[colName] = value;
-                }
+                rowValue = DBNull.Value;
+            }
+
+            if (!Row[colName].Equals(rowValue))
+            {
+                Row[colName] = value;
                 OnSetValue(colName, value);
                 return true;
             }
@@ -289,16 +286,15 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>true if the column value was set; false if the column value was already the same as <paramref name="value"/>.</returns>
         protected bool SetValue(string colName, DateTime? value)
         {
-            if (!Row[colName].Equals(value))
+            object rowValue = value;
+            if (value == null)
             {
-                if (value == null)
-                {
-                    Row[colName] = DBNull.Value;
-                }
-                else
-                { 
-                    Row[colName] = value;
-                }
+                rowValue = DBNull.Value;
+            }
+
+            if (!Row[colName].Equals(rowValue))
+            {
+                Row[colName] = rowValue;
                 OnSetValue(colName, value);
                 return true;
             }
