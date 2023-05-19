@@ -73,14 +73,17 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>The Int64 value.</returns>
         protected long GetInt64(string colName)
         {
-            if (Row[colName] != DBNull.Value)
-            {
-                return (long)Row[colName];
-            }
-            else
-            {
-                return 0;
-            }
+            return Row[colName] != DBNull.Value ? (long)Row[colName] : 0;
+        }
+
+        /// <summary>
+        /// Gets a nullable Int64 value from the specified column.
+        /// </summary>
+        /// <param name="colName">The column name.</param>
+        /// <returns>The Int64 value, or null.</returns>
+        protected long? GetNullableInt64(string colName)
+        {
+            return Row[colName] is long value ? value : (long?)null;
         }
 
         /// <summary>
@@ -90,14 +93,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>The Decimal value.</returns>
         protected decimal GetDecimal(string colName)
         {
-            if (Row[colName] != DBNull.Value)
-            {
-                return (decimal)Row[colName];
-            }
-            else
-            {
-                return 0;
-            }
+            return Row[colName] != DBNull.Value ? (decimal)Row[colName] : 0;
         }
 
         /// <summary>
@@ -117,14 +113,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>The DateTime value.</returns>
         protected DateTime GetDateTime(string colName)
         {
-            if (Row[colName] != DBNull.Value)
-            {
-                return (DateTime)Row[colName];
-            }
-            else
-            {
-                return DateTime.MinValue;
-            }
+            return Row[colName] != DBNull.Value ? (DateTime)Row[colName] : DateTime.MinValue;
         }
 
         /// <summary>
@@ -134,13 +123,9 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>The DateTime value, or null.</returns>
         protected DateTime? GetNullableDateTime(string colName)
         {
-            if (Row[colName] is DateTime time)
-            {
-                return time;
-            }
-            return null;
+            return Row[colName] is DateTime time ? (DateTime?)time : null;
         }
-        
+
         /// <summary>
         /// Gets a Boolean value from the specified column.
         /// </summary>
@@ -148,14 +133,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>The Boolean value.</returns>
         protected bool GetBoolean(string colName)
         {
-            if (Row[colName] != DBNull.Value)
-            {
-                return (bool)Row[colName];
-            }
-            else
-            {
-                return false;
-            }
+            return Row[colName] != DBNull.Value ? (bool)Row[colName] : false;
         }
 
         /// <summary>
