@@ -17,6 +17,7 @@ namespace Restless.Toolkit.Controls
         #region Private
         private DataGridColumn defaultSortColumn;
         private ListSortDirection defaultSortDirection;
+        private SysDataGrid dataGridOwner;
         #endregion
 
         /************************************************************************/
@@ -24,8 +25,21 @@ namespace Restless.Toolkit.Controls
         #region Internal
         internal SysDataGrid DataGridOwner
         {
-            get;
-            set;
+            get => dataGridOwner;
+            set
+            {
+                dataGridOwner = value;
+                if (dataGridOwner is DataGrid tkDataGrid)
+                {
+                    tkDataGrid.ColumnStateChanged -= DataGridColumnStateChanged;
+                    tkDataGrid.ColumnStateChanged += DataGridColumnStateChanged;
+                }
+            }
+        }
+
+        private void DataGridColumnStateChanged(object sender, EventArgs e)
+        {
+            OnColumnStateChanged(new ColumnStateChangedEventArgs(GetColumnState()));
         }
         #endregion
 
@@ -380,6 +394,24 @@ namespace Restless.Toolkit.Controls
         #endregion
 
         /************************************************************************/
+        
+        #region Events
+        /// <summary>
+        /// Occurs when the state of the columns has changed, display index, visibility
+        /// </summary>
+        public event EventHandler<ColumnStateChangedEventArgs> ColumnStateChanged;
+        #endregion
+
+        /************************************************************************/
+
+        /// <summary>
+        /// Occurs when the column states has changed. Raises the <see cref="ColumnStateChanged"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments</param>
+        protected virtual void OnColumnStateChanged(ColumnStateChangedEventArgs e)
+        {
+            ColumnStateChanged?.Invoke(this, e);
+        }
 
         #region Internal methods
         /// <summary>

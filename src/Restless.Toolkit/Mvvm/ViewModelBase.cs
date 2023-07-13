@@ -216,6 +216,7 @@ namespace Restless.Toolkit.Mvvm
         /// <summary>
         /// Called when <see cref="SignalSave"/> is called.
         /// Override in a derived class to perform any state save required.
+        /// The base implementation does nothing.
         /// </summary>
         protected virtual void OnSave()
         {

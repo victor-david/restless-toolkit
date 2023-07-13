@@ -113,8 +113,13 @@ namespace Restless.Toolkit.Controls
 
         private static void ColumnsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            SysDataGrid dataGrid = (sender as DataGridColumnCollection)?.DataGridOwner ?? throw new ArgumentException("Invalid data grid owner");
+            DataGridColumnCollection collection = sender as DataGridColumnCollection;
+            SysDataGrid dataGrid = collection?.DataGridOwner ?? throw new ArgumentException("Invalid data grid owner");
 
+            if (e.Action == NotifyCollectionChangedAction.Reset && collection.Count == 0)
+            {
+                dataGrid.Columns.Clear();
+            }
             if (e.NewItems != null)
             {
                 foreach (DataGridColumn column in e.NewItems.OfType<DataGridColumn>())

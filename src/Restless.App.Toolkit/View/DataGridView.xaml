@@ -62,6 +62,7 @@
         <tk:DataGrid
             Grid.Column="1"
             HeaderMode="ColumnSelector"
+            SelectionMode="Extended"
             HeaderCommand="{Binding HeaderCommand}"
             ItemsSource="{Binding ListView}"
             SelectedItem="{Binding SelectedItem}"

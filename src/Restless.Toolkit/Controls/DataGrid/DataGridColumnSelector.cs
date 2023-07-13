@@ -206,6 +206,8 @@ namespace Restless.Toolkit.Controls
         }
         #endregion
 
+        internal event EventHandler SelectionChanged;
+
         /************************************************************************/
 
         #region Private methods
@@ -260,6 +262,7 @@ namespace Restless.Toolkit.Controls
                 if (checkBox.IsChecked ?? false)
                 {
                     column.Visibility = Visibility.Visible;
+                    SelectionChanged?.Invoke(this, EventArgs.Empty);
                 }
                 else
                 {
@@ -279,6 +282,7 @@ namespace Restless.Toolkit.Controls
                 {
                     PlacementTarget = GetFirstVisibleColumnHeader();
                 }
+                SelectionChanged?.Invoke(this, EventArgs.Empty);
             }
             else
             {
@@ -352,6 +356,7 @@ namespace Restless.Toolkit.Controls
             {
                 checkBox.IsChecked = true;
             }
+            SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
         #endregion
     }

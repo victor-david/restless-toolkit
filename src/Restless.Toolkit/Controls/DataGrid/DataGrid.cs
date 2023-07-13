@@ -88,6 +88,12 @@ namespace Restless.Toolkit.Controls
             DataContextChanged += OnDataContextChanged;
             AddHandler(LoadedEvent, new RoutedEventHandler(OnLoaded));
             columnSelector = new DataGridColumnSelector();
+            columnSelector.SelectionChanged += ColumnSelectorSelectionChanged;
+        }
+
+        private void ColumnSelectorSelectionChanged(object sender, EventArgs e)
+        {
+            OnColumnStateChanged(EventArgs.Empty);
         }
         #endregion
 
@@ -689,6 +695,15 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
+        #region Events
+        /// <summary>
+        /// Occurs when the state of the columns has changed, display index, visibility
+        /// </summary>
+        public event EventHandler ColumnStateChanged;
+        #endregion
+
+        /************************************************************************/
+
         #region Protected methods
         /// <inheritdoc/>
         protected override void OnMouseEnter(MouseEventArgs e)
@@ -759,6 +774,27 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
+        /// Occurs when column display index changes. 
+        /// Raises the  ColumnDisplayIndexChanged and <see cref="ColumnStateChanged"/> events.
+        /// </summary>
+        /// <param name="e">The event arguments</param>
+        protected override void OnColumnDisplayIndexChanged(DataGridColumnEventArgs e)
+        {
+            base.OnColumnDisplayIndexChanged(e);
+            OnColumnStateChanged(EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Occurs when the state of the columns has changed, display index, visibility.
+        /// Raises the <see cref="ColumnStateChanged"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments</param>
+        protected virtual void OnColumnStateChanged(EventArgs e)
+        {
+            ColumnStateChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
         /// Used by <see cref="DataGridColumns"/> to restore the sort
         /// </summary>
         /// <param name="column">The column. May be null</param>
@@ -823,6 +859,7 @@ namespace Restless.Toolkit.Controls
             }
 
             SetAttachedSortDirection(e.Column);
+            OnColumnStateChanged(EventArgs.Empty);
         }
 
         private void PrepareForSort(DataGridColumn column)

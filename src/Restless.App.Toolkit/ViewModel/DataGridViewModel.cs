@@ -89,6 +89,12 @@ namespace Restless.App.Toolkit
             };
 
             ListView = new ListCollectionView(storage);
+            Columns.ColumnStateChanged += ColumnsColumnStateChanged;
+        }
+
+        private void ColumnsColumnStateChanged(object sender, ColumnStateChangedEventArgs e)
+        {
+            ActionMessage = $"Column state changed: {e.State}";
         }
 
         private void RunHeaderCommand(object parm)
