@@ -65,6 +65,23 @@ namespace Restless.Toolkit.Core.Database.SQLite
 
         /************************************************************************/
 
+        #region Public methods
+        /// <summary>
+        /// Saves the table that is associated with this row object.
+        /// </summary>
+        /// <remarks>
+        /// Override this method if you need to perform other processing before the save.
+        /// Either call Table.Save() from the overridden method after custom processing, or
+        /// call the base method.
+        /// </remarks>
+        public virtual void Save()
+        {
+            Table.Save();
+        }
+        #endregion
+
+        /************************************************************************/
+
         #region Protected methods
         /// <summary>
         /// Gets an Int64 value from the specified column.
