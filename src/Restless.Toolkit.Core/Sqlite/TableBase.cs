@@ -668,7 +668,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
         private void SavePrivate(IDbTransaction transaction)
         {
             if (IsReadOnly) return;
-            var status = new UpdateStatus(this);
+            UpdateStatus status = new UpdateStatus(this);
             if (!status.HaveAny) return;
 
             if (transaction == null)
@@ -866,68 +866,44 @@ namespace Restless.Toolkit.Core.Database.SQLite
 
         #region Update Status (private class)
         /// <summary>
-        /// Creats and exposes information about rows that need to be updated.
+        /// Creates and exposes information about rows that need to be updated.
         /// </summary>
         private class UpdateStatus
         {
             /// <summary>
             /// Gets a list of DataRow objects to be inserted
             /// </summary>
-            public List<DataRow> Insert
-            {
-                get;
-                private set;
-            }
+            public List<DataRow> Insert { get; }
 
             /// <summary>
             /// Gets a list of DataRow objects that have been updated.
             /// </summary>
-            public List<DataRow> Update
-            {
-                get;
-                private set;
-            }
+            public List<DataRow> Update { get; }
 
             /// <summary>
             /// Gets a list of DataRow objects to be deleted.
             /// </summary>
-            public List<DataRow> Delete
-            {
-                get;
-                private set;
-            }
+            public List<DataRow> Delete { get; }
 
             /// <summary>
             /// Gets a boolean value that indicates if there are records that should be inserted.
             /// </summary>
-            public bool HaveInsert
-            {
-                get { return Insert.Count > 0; }
-            }
+            public bool HaveInsert => Insert.Count > 0;
 
             /// <summary>
             /// Gets a boolean value that indicates iof there are records that should be updated.
             /// </summary>
-            public bool HaveUpdate
-            {
-                get { return Update.Count > 0; }
-            }
+            public bool HaveUpdate => Update.Count > 0;
 
             /// <summary>
             /// Gets a bollean value that indicates if there are records that should be deleted
             /// </summary>
-            public bool HaveDelete
-            {
-                get { return Delete.Count > 0; }
-            }
+            public bool HaveDelete => Delete.Count > 0;
 
             /// <summary>
             /// Gets a boolean value that indicates if any row needs updating for any reason (insert, update, or delete); otherwise, false.
             /// </summary>
-            public bool HaveAny
-            {
-                get { return HaveInsert || HaveUpdate || HaveDelete; }
-            }
+            public bool HaveAny => HaveInsert || HaveUpdate || HaveDelete;
 
             public UpdateStatus(TableBase table)
             {
