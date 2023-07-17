@@ -78,6 +78,26 @@ namespace Restless.Toolkit.Core.Database.SQLite
         {
             Table.Save();
         }
+
+        /// <summary>
+        /// Accepts changes to the underlying row.
+        /// Override if you need to perform others operations.
+        /// Always call the base method,
+        /// </summary>
+        public virtual void AcceptChanges()
+        {
+            Row.AcceptChanges();
+        }
+
+        /// <summary>
+        /// Rejects changes to the underlying row.
+        /// Override if you need to perform others operations.
+        /// Always call the base method,
+        /// </summary>
+        public virtual void RejectChanges()
+        {
+            Row.RejectChanges();
+        }
         #endregion
 
         /************************************************************************/
