@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Restless.Toolkit.Core
@@ -509,6 +511,74 @@ namespace Restless.Toolkit.Core
             if (e.NewValue is Dock dock)
             {
                 d.SetValue(DockPanel.DockProperty, dock);
+            }
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region DoubleClickItemCommand
+        private const string DoubleClickItemCommandPropertyName = "DoubleClickItemCommand";
+
+        /// <summary>
+        /// Gets the DoubleClickItemCommand attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
+        public static ICommand GetDoubleClickItemCommand(DependencyObject obj)
+        {
+            return (ICommand)obj.GetValue(DoubleClickItemCommandProperty);
+        }
+
+        /// <summary>
+        /// Sets the DoubleClickItemCommand attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
+        public static void SetDoubleClickItemCommand(DependencyObject obj, ICommand value)
+        {
+            obj.SetValue(DoubleClickItemCommandProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the DoubleClickItemCommand attached dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DoubleClickItemCommandProperty = DependencyProperty.RegisterAttached
+            (
+                DoubleClickItemCommandPropertyName, typeof(ICommand), typeof(Property), new PropertyMetadata()
+                {
+                    DefaultValue = null,
+                    PropertyChangedCallback = OnDoubleClickItemCommandChanged
+                }
+            );
+
+        private static void OnDoubleClickItemCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Selector selector)
+            {
+                selector.MouseDoubleClick -= SelectorMouseDoubleClick;
+                if (e.NewValue is ICommand command)
+                {
+                    selector.MouseDoubleClick += SelectorMouseDoubleClick;
+                }
+            }
+        }
+
+        private static void SelectorMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Selector selector && selector.SelectedIndex != -1)
+            {
+                if (GetDoubleClickItemCommand(selector) is ICommand command)
+                {
+                    if (command is RoutedCommand routedCommand)
+                    {
+                        routedCommand.Execute(selector.SelectedItem, selector);
+                    }
+                    else
+                    {
+                        command.Execute(selector.SelectedItem);
+                    }
+                }
             }
         }
         #endregion
