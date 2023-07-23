@@ -366,7 +366,11 @@ namespace Restless.Toolkit.Controls
                         {
                             if (int.TryParse(parms[0], out int displayIndex))
                             {
-                                this[idx].DisplayIndex = displayIndex;
+                                /* make sure display index within bounds */
+                                if (displayIndex >= 0 && displayIndex < Count)
+                                {
+                                    this[idx].DisplayIndex = displayIndex;
+                                }
                             }
                         }
 

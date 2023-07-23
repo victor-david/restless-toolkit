@@ -13,7 +13,6 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public string State { get; }
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ColumnStateChangedEventArgs"/> class
         /// </summary>
