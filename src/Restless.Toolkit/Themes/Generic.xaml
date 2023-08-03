@@ -16,6 +16,7 @@
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/RadioButton.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ThreeWay.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/SplitterGrid.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/Button.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/CheckBox.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     

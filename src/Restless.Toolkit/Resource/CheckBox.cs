@@ -48,7 +48,7 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Gets the brush with resource key <see cref="BorderBrushKey"/>
         /// </summary>
-        public static Brush BorderBrush => ResourceHelper.Get<Brush>(CheckedBrushKey);
+        public static Brush BorderBrush => ResourceHelper.Get<Brush>(BorderBrushKey);
 
         /// <summary>
         /// Gets the brush with resource key <see cref="CheckedBrushKey"/>

@@ -1,0 +1,44 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:keys="clr-namespace:Restless.Toolkit.Resource"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <!-- Resource dictionary for default styles only -->
+    <!-- These do not have a corresponding custom control -->
+    
+    <sys:Double x:Key="MinButtonHeight">32</sys:Double>
+    <sys:Double x:Key="MinButtonWidth">94</sys:Double>
+    
+    <sys:Double x:Key="MinCompactButtonHeight">28</sys:Double>
+    <sys:Double x:Key="MinCompactButtonWidth">64</sys:Double>
+    
+    <SolidColorBrush x:Key="{x:Static keys:Button.BorderBrushKey}" Color="#a0a0a0"/>
+    <SolidColorBrush x:Key="{x:Static keys:Button.ForegroundBrushKey}" Color="MediumBlue"/>
+
+    <Style x:Key="{x:Static keys:Button.DefaultStyleKey}" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+        <Setter Property="MinHeight" Value="{StaticResource MinButtonHeight}"/>
+        <Setter Property="MinWidth" Value="{StaticResource MinButtonWidth}"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{x:Static keys:Button.BorderedStyleKey}" TargetType="Button" BasedOn="{StaticResource {x:Static keys:Button.DefaultStyleKey}}">
+        <Setter Property="Margin" Value="6"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static keys:Button.BorderBrushKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static keys:Button.ForegroundBrushKey}}"/>
+    </Style>
+
+    <Style x:Key="{x:Static keys:Button.CompactBorderedStyleKey}" TargetType="Button" BasedOn="{StaticResource {x:Static keys:Button.BorderedStyleKey}}">
+        <Setter Property="Margin" Value="3"/>
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="MinHeight" Value="{StaticResource MinCompactButtonHeight}"/>
+        <Setter Property="MinWidth" Value="{StaticResource MinCompactButtonWidth}"/>
+    </Style>
+
+</ResourceDictionary>

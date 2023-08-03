@@ -105,6 +105,7 @@ namespace Restless.App.Toolkit
             Create<ColorPickerViewModel>();
             Create<RadioViewModel>();
             Create<OtherViewModel>();
+            Create<StyleViewModel>();
             Create<MvvmViewModel>();
             Create<DemoViewModel>();
             SetActivePage(Pages[0]);

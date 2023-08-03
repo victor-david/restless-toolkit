@@ -80,6 +80,22 @@
             <Setter Property="FontSize" Value="12.5"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
+        
+        <Style TargetType="TextBlock" x:Key="TextBlockSelection">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="MinHeight" Value="32"/>
+            <Setter Property="Background" Value="LightYellow"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="IsReadOnlyCaretVisible" Value="True"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
 
         <Style TargetType="FlowDocumentScrollViewer">
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
@@ -97,13 +113,6 @@
             <Setter Property="Margin" Value="0,8"/>
         </Style>
 
-        <Style TargetType="TextBlock" x:Key="TextBlockSelection">
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="Red"/>
-            <Setter Property="FontSize" Value="16"/>
-        </Style>
-
         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Static tk:CheckBox.DefaultStyleKey}}"/>
 
         <Style x:Key="DisabledCheckBoxStyle" TargetType="CheckBox" BasedOn="{StaticResource {x:Static tk:CheckBox.DefaultStyleKey}}">
@@ -111,54 +120,7 @@
             <Setter Property="Margin" Value="0"/>
         </Style>
 
-        <Style x:Key="DefaultButtonStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Background" Value="LightBlue"/>
-            <Setter Property="Foreground" Value="DarkBlue"/>
-            <Setter Property="BorderBrush" Value="LightGray"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Margin" Value="0"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="FontWeight" Value="Normal" />
-            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border
-                            x:Name="Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}"
-                            CornerRadius="1"
-                            SnapsToDevicePixels="True">
-                            <ContentPresenter
-                                x:Name="ContentPresenter"
-                                Grid.Column="1"
-                                Margin="{TemplateBinding Padding}"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Focusable="False"
-                                RecognizesAccessKey="True"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </Border>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="BorderBrush" Value="Gray"/>
-                            </Trigger>
-                           </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}"/>
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Static tk:Button.DefaultStyleKey}}"/>
 
         <Style TargetType="tk:DataGrid" BasedOn="{StaticResource {x:Static tk:DataGrid.DataGridStyleKey}}">
             <Setter Property="CanUserReorderColumns" Value="True"/>
@@ -183,7 +145,11 @@
         <DataTemplate DataType="{x:Type l:OtherViewModel}">
             <l:OtherView/>
         </DataTemplate>
-        
+
+        <DataTemplate DataType="{x:Type l:StyleViewModel}">
+            <l:StyleView/>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type l:MvvmViewModel}">
             <l:MvvmView/>
         </DataTemplate>
