@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using DataBinding = System.Windows.Data.Binding;
 
 namespace Restless.Toolkit.Controls
@@ -125,6 +126,94 @@ namespace Restless.Toolkit.Controls
             if (style != null && style.TargetType == typeof(DataGridColumnHeader))
             {
                 col.HeaderStyle = style;
+            }
+            return col;
+        }
+
+        /// <summary>
+        /// Sets the column's ElementStyle property to the specified style.
+        /// </summary>
+        /// <param name="col">The column.</param>
+        /// <param name="style">
+        /// The style to set. If col is <see cref="DataGridTextColumn"/>, must have target type of <see cref="TextBox"/>.
+        /// If col is <see cref="DataGridCheckBoxColumn"/>, must have target type of <see cref="CheckBox"/>.
+        /// If col is <see cref="DataGridNullableTextColumn"/>, must have target type of <see cref="Label"/>.
+        /// </param>
+        /// <returns>The column</returns>
+        public static DataGridBoundColumn SetElementStyle(this DataGridBoundColumn col, Style style)
+        {
+            if (style != null)
+            {
+                if (col is DataGridTextColumn textCol && style.TargetType == typeof(TextBlock))
+                {
+                    textCol.ElementStyle = style;
+                }
+
+                if (col is DataGridNullableTextColumn nullableCol && style.TargetType == typeof(Label))
+                {
+                    nullableCol.ElementStyle = style;
+                }
+
+                if (col is DataGridCheckBoxColumn checkBox && style.TargetType == typeof(CheckBox))
+                {
+                    checkBox.ElementStyle = style;
+                }
+            }
+            return col;
+        }
+
+        /// <summary>
+        /// Sets the column's EditingElementStyle property to the specified style.
+        /// </summary>
+        /// <param name="col">The column.</param>
+        /// <param name="style">
+        /// The style to set. If col is <see cref="DataGridTextColumn"/>, must have target type of <see cref="TextBox"/>.
+        /// If col is <see cref="DataGridCheckBoxColumn"/>, must have target type of <see cref="CheckBox"/>.
+        /// </param>
+        /// <returns>The column</returns>
+        public static DataGridBoundColumn SetEditingElementStyle(this DataGridBoundColumn col, Style style)
+        {
+            if (style != null)
+            {
+                if (col is DataGridCheckBoxColumn checkBox && style.TargetType == typeof(CheckBox))
+                {
+                    checkBox.EditingElementStyle = style;
+                }
+
+                if (col is DataGridTextColumn textCol && style.TargetType == typeof(TextBox))
+                {
+                    textCol.EditingElementStyle = style;
+                }
+            }
+            return col;
+        }
+
+        /// <summary>
+        /// Sets the column's binding NotifyOnValidationError to the specified value.
+        /// </summary>
+        /// <param name="col">The column.</param>
+        /// <param name="value">The value to set; true or false. Default true</param>
+        /// <returns>The column</returns>
+        public static DataGridBoundColumn SetNotifyOnValidationError(this DataGridBoundColumn col, bool value = true)
+        {
+            if (col.Binding is DataBinding binding)
+            {
+                binding.NotifyOnValidationError = value;
+            }
+            return col;
+        }
+
+        /// <summary>
+        /// Sets the column's binding UpdateSourceTrigger to the specified value.
+        /// </summary>
+        /// <param name="col">The column.</param>
+        /// <param name="value">The value to set; true or false. Default true</param>
+        /// <returns>The column</returns>
+        public static DataGridBoundColumn SetUpdateSourceTrigger(this DataGridBoundColumn col, UpdateSourceTrigger value)
+        {
+            if (col.Binding is DataBinding binding)
+            {
+                binding.UpdateSourceTrigger = value;
             }
             return col;
         }

@@ -140,11 +140,13 @@
     <Style x:Key="{x:Static con:DataGrid.DataGridCellStyleKey}" TargetType="DataGridCell">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="3,0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="DataGridCell">
                     <Border Background="{TemplateBinding Background}">
                         <ContentPresenter
+                            Margin="{TemplateBinding Padding}"
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
                     </Border>
@@ -169,6 +171,51 @@
 
         <Setter Property="HorizontalContentAlignment" Value="Right"/>
 
+    </Style>
+
+    <Border
+        x:Key="{x:Static con: DataGridNullableTextColumn.NullIndicatorElementKey}"
+        x:Shared="False"
+        MinHeight="24"
+        MinWidth="48"
+        MaxWidth="48"
+        HorizontalAlignment="Left"
+
+        Background="MediumSeaGreen">
+
+        <TextBlock 
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Foreground="White"
+            Text="null"/>
+
+    </Border>
+
+    <Style x:Key="{x:Static con:DataGridNullableTextColumn.DefaultElementStyleKey}" TargetType="Label">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <Grid>
+                        <ContentControl 
+                            x:Name="NullIndicator"
+                            Visibility="Collapsed"
+                            Content="{DynamicResource {x:Static con:DataGridNullableTextColumn.NullIndicatorElementKey}}"/>
+                        
+                        <ContentPresenter 
+                            x:Name="Presenter"
+                            TextElement.Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=DataGridCell}}"/>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="Presenter" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="NullIndicator" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     
     <Style x:Key="{x:Static con:DataGrid.DataGridStyleKey}" TargetType="DataGrid">

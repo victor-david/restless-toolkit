@@ -130,12 +130,16 @@
                                     Background="#FF0080F0"
                                     Visibility="Collapsed"/>
                             </Border>
-                            <ContentPresenter 
+                            <ContentPresenter
+                                x:Name="Presenter"
                                 Margin="6,0"
                                 VerticalAlignment="Center"/>
                         </StackPanel>
 
                         <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="False">
+                                <Setter TargetName="Presenter" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="InnerBorder" Property="Visibility" Value="Visible"/>
                                 <Setter TargetName="OuterBorder" Property="BorderBrush" Value="#FF0080F0"/>
@@ -156,6 +160,11 @@
         </Style>
 
         <Style TargetType="CheckBox" BasedOn="{StaticResource DefaultCheckBoxStyle}"/>
+
+        <Style x:Key="DisabledCheckBoxStyle" TargetType="CheckBox" BasedOn="{StaticResource DefaultCheckBoxStyle}">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
 
         <Style x:Key="DefaultButtonStyle" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True" />

@@ -22,6 +22,15 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
+        #region Public
+        /// <summary>
+        /// Gets the default target null value
+        /// </summary>
+        public const string DefaultTargetNullValue = "--";
+        #endregion
+
+        /************************************************************************/
+
         #region Internal
         internal SysDataGrid DataGridOwner
         {
@@ -47,81 +56,90 @@ namespace Restless.Toolkit.Controls
 
         #region Methods (column creation)
         /// <summary>
-        /// Creates a text column and adds it to the collection
+        /// Creates a <see cref="DataGridTextColumn"/> and adds it to the collection.
         /// </summary>
-        /// <param name="header">The header for the column</param>
-        /// <param name="bindingName">The name that the column should bind to.</param>
-        /// <param name="targetNullValue">The value to use when the bound value is null</param>
-        /// <returns>The newly created column</returns>
-        public DataGridBoundColumn Create(string header, string bindingName, string targetNullValue = "--")
+        /// <param name="header">The header for the column.</param>
+        /// <param name="bindingName">The name that the column binds to.</param>
+        /// <param name="targetNullValue">The value to use when the bound value is null.</param>
+        /// <returns>The newly created column.</returns>
+        public DataGridTextColumn Create(object header, string bindingName, string targetNullValue = DefaultTargetNullValue)
         {
-            if (string.IsNullOrEmpty(header))
-            {
-                throw new ArgumentNullException(nameof(header));
-            }
-
-            if (string.IsNullOrWhiteSpace(bindingName))
-            {
-                throw new ArgumentNullException(nameof(bindingName));
-            }
+            ValidateBinding(bindingName);
 
             DataGridTextColumn col = new DataGridTextColumn
             {
-                Header = MakeTextBlockHeader(header),
+                Header = MakeHeaderControl(header),
                 Binding = new Binding(bindingName)
                 {
                     TargetNullValue = targetNullValue
                 }
             };
-            Add(col.SetSelectorName(header));
+            Add(col.SetSelectorName(GetHeaderText(col.Header)));
             return col;
         }
 
         /// <summary>
-        /// Creates a text column that uses a IValueConverter to get its values
+        /// Creates a <see cref="DataGridNullableTextColumn"/> if <paramref name="isNullable"/> is true,
+        /// or a <see cref="DataGridTextColumn"/> if <paramref name="isNullable"/> is false, and adds
+        /// the column to the collection.
+        /// </summary>
+        /// <param name="header">The header for the column.</param>
+        /// <param name="bindingName">The name that the column binds to.</param>
+        /// <param name="isNullable">true to create a <see cref="DataGridNullableTextColumn"/></param>
+        /// <param name="targetNullValue">
+        /// The value to use when the bound value is null. 
+        /// Ignored if <paramref name="isNullable"/> is true.
+        /// </param>
+        /// <returns>The newly created column.</returns>
+        public DataGridBoundColumn Create(object header, string bindingName, bool isNullable, string targetNullValue = DefaultTargetNullValue)
+        {
+            if (isNullable)
+            {
+                return CreateNullableText(header, bindingName);
+            }
+            return Create(header, bindingName, targetNullValue);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="DataGridTextColumn"/> that uses an <see cref="IValueConverter"/> to get its values,
+        /// amd adds it to the collection.
         /// </summary>
         /// <typeparam name="T">The converter type</typeparam>
-        /// <param name="header">The header for the column</param>
-        /// <param name="bindingName">The name that the column should bind to.</param>
+        /// <param name="header">The header for the column.</param>
+        /// <param name="bindingName">The name that the column binds to.</param>
         /// <param name="targetNullValue">The value to use when the bound value is null</param>
         /// <returns>The newly created column.</returns>
-        public DataGridBoundColumn Create<T>(string header, string bindingName, string targetNullValue = "--") where T: IValueConverter, new()
+        public DataGridTextColumn Create<T>(object header, string bindingName, string targetNullValue = null) where T: IValueConverter, new()
         {
-            if (string.IsNullOrEmpty(header))
-            {
-                throw new ArgumentNullException(nameof(header));
-            }
-
-            if (string.IsNullOrWhiteSpace(bindingName))
-            {
-                throw new ArgumentNullException(nameof(bindingName));
-            }
+            ValidateBinding(bindingName);
 
             DataGridTextColumn col = new DataGridTextColumn
             {
-                Header = MakeTextBlockHeader(header),
+                Header = MakeHeaderControl(header),
                 Binding = new Binding(bindingName)
                 {
                     Converter = new T(),
                     TargetNullValue = targetNullValue,
                 }
             };
-            Add(col.SetSelectorName(header));
+            Add(col.SetSelectorName(GetHeaderText(col.Header)));
             return col;
         }
 
         /// <summary>
-        /// Creates a text column that uses a IMultiValueConverter to get its values
+        /// Creates a <see cref="DataGridTextColumn"/> that uses a <see cref="IMultiValueConverter"/> to get its values,
+        /// and adds it to the collection.
         /// </summary>
         /// <typeparam name="T">The converter type</typeparam>
         /// <param name="header">The header for the column</param>
-        /// <param name="bindingNames">The names that the column should bind to.</param>
+        /// <param name="targetNullValue">The value to use when the bound value is null</param>
+        /// <param name="bindingNames">The names that the column binds to.</param>
         /// <returns>The newly created column.</returns>
-        public DataGridBoundColumn Create<T>(string header, params string[] bindingNames) where T: IMultiValueConverter, new()
+        public DataGridTextColumn Create<T>(object header, object targetNullValue, params string[] bindingNames) where T: IMultiValueConverter, new()
         {
             DataGridTextColumn col = new DataGridTextColumn
             {
-                Header = MakeTextBlockHeader(header)
+                Header = MakeHeaderControl(header)
             };
 
             MultiBinding multiBinding = new MultiBinding
@@ -133,13 +151,27 @@ namespace Restless.Toolkit.Controls
                 multiBinding.Bindings.Add(new Binding(name));
             }
             col.Binding = multiBinding;
-            col.Binding.TargetNullValue = "--";
-            Add(col.SetSelectorName(header));
+            col.Binding.TargetNullValue = targetNullValue;
+            Add(col.SetSelectorName(GetHeaderText(col.Header)));
             return col;
         }
 
         /// <summary>
-        /// Creates an image column that displays an image according to the specified converter.
+        /// Creates a <see cref="DataGridTextColumn"/>n that uses a <see cref="IMultiValueConverter"/> to get its values,
+        /// and adds it to the collection. This overload uses <see cref="DefaultTargetNullValue"/>.
+        /// </summary>
+        /// <typeparam name="T">The converter type</typeparam>
+        /// <param name="header">The header for the column</param>
+        /// <param name="bindingNames">The names that the column binds to.</param>
+        /// <returns>The newly created column.</returns>
+        public DataGridTextColumn Create<T>(string header, params string[] bindingNames) where T : IMultiValueConverter, new()
+        {
+            return Create<T>(header, DefaultTargetNullValue, bindingNames);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="DataGridTemplateColumn"/> that displays an image according to the specified converter,
+        /// and adds it to the collection.
         /// </summary>
         /// <typeparam name="T">The converter type.</typeparam>
         /// <param name="header">The column header string.</param>
@@ -147,11 +179,11 @@ namespace Restless.Toolkit.Controls
         /// <param name="parameter">A parameter to pass to the converter, ex: the name of the resource to use.</param>
         /// <param name="imageXY">The X and Y size of the image (default 12.0).</param>
         /// <returns>The newly created column.</returns>
-        public DataGridTemplateColumn CreateImage<T>(string header, string bindingName, object parameter = null, double imageXY = 12.0) where T : IValueConverter, new()
+        public DataGridTemplateColumn CreateImage<T>(object header, string bindingName, object parameter = null, double imageXY = 12.0) where T : IValueConverter, new()
         {
             DataGridTemplateColumn col = new DataGridTemplateColumn
             {
-                Header = MakeTextBlockHeader(header),
+                Header = MakeHeaderControl(header),
                 CanUserResize = false,
                 Width = new DataGridLength(imageXY * 1.55, DataGridLengthUnitType.Pixel)
             };
@@ -164,29 +196,32 @@ namespace Restless.Toolkit.Controls
                 ConverterParameter = parameter
             };
             factory.SetValue(Image.SourceProperty, binding);
-            factory.SetValue(Image.WidthProperty, imageXY);
-            factory.SetValue(Image.HeightProperty, imageXY);
+            factory.SetValue(FrameworkElement.WidthProperty, imageXY);
+            factory.SetValue(FrameworkElement.HeightProperty, imageXY);
             col.CellTemplate = new DataTemplate()
             {
                 VisualTree = factory
             };
-            Add(col.SetSelectorName(header));
+            Add(col.SetSelectorName(GetHeaderText(col.Header)));
             return col;
         }
 
         /// <summary>
-        /// Creates a content control column that displays the specified resource according to the specified converter.
+        /// Creates a <see cref="DataGridTemplateColumn"/> that displays the specified resource according to the specified converter,
+        /// and adds it to the collection.
         /// </summary>
         /// <typeparam name="T">The converter type.</typeparam>
         /// <param name="header">The column header string.</param>
         /// <param name="bindingName">The binding name, i.e the column name within the table.</param>
         /// <param name="parameter">A parameter to pass to the converter, ex: the name of the resource to use.</param>
         /// <returns>The newly created column.</returns>
-        public DataGridTemplateColumn CreateResource<T>(string header, string bindingName, object parameter) where T : IValueConverter, new()
+        public DataGridTemplateColumn CreateResource<T>(object header, string bindingName, object parameter) where T : IValueConverter, new()
         {
+            ValidateBinding(bindingName);
+
             DataGridTemplateColumn col = new DataGridTemplateColumn
             {
-                Header = MakeTextBlockHeader(header),
+                Header = MakeHeaderControl(header),
             };
 
             FrameworkElementFactory factory = new FrameworkElementFactory(typeof(ContentControl));
@@ -201,7 +236,82 @@ namespace Restless.Toolkit.Controls
             {
                 VisualTree = factory
             };
-            Add(col.SetSelectorName(header));
+            Add(col.SetSelectorName(GetHeaderText(col.Header)));
+            return col;
+        }
+
+        /// <summary>
+        /// Creates a <see cref="DataGridCheckBoxColumn"/>, and adds it to the collection.
+        /// </summary>
+        /// <param name="header">The header text</param>
+        /// <param name="bindingName">The binding name</param>
+        /// <param name="isThreeState">Whether the check box is three state</param>
+        /// <param name="bindingMode">The binding mode, default is <see cref="BindingMode.TwoWay"/></param>
+        /// <param name="elementStyle">The element style</param>
+        /// <param name="editingElementStyle">The editing element style</param>
+        /// <returns>The newly created <see cref="DataGridCheckBoxColumn"/></returns>
+        public DataGridCheckBoxColumn CreateCheckBox(
+            object header, 
+            string bindingName, 
+            bool isThreeState, 
+            BindingMode bindingMode = BindingMode.TwoWay,
+            Style elementStyle = null,
+            Style editingElementStyle = null)
+        {
+            ValidateBinding(bindingName);
+
+            DataGridCheckBoxColumn col = new DataGridCheckBoxColumn()
+            {
+                Binding = new Binding(bindingName)
+                {
+                    Mode = bindingMode,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                },
+                ElementStyle = elementStyle,
+                EditingElementStyle = editingElementStyle ?? elementStyle,
+                Header = MakeHeaderControl(header),
+                IsThreeState = isThreeState
+            };
+
+            Add(col.SetSelectorName(GetHeaderText(col.Header)));
+            return col;
+        }
+
+        /// <summary>
+        /// Creates a two state <see cref="DataGridCheckBoxColumn"/>, and adds it to the collection.
+        /// </summary>
+        /// <param name="header">The header text</param>
+        /// <param name="bindingName">The binding name</param>
+        /// <param name="bindingMode">The binding mode, default is <see cref="BindingMode.TwoWay"/></param>
+        /// <param name="elementStyle">The element style</param>
+        /// <param name="editingElementStyle">The editing element style</param>
+        /// <returns>The newly created <see cref="DataGridCheckBoxColumn"/></returns>
+        public DataGridCheckBoxColumn CreateCheckBox(
+            object header,
+            string bindingName,
+            BindingMode bindingMode = BindingMode.TwoWay,
+            Style elementStyle = null, 
+            Style editingElementStyle = null)
+        {
+            return CreateCheckBox(header, bindingName, false, bindingMode, elementStyle, editingElementStyle);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="DataGridNullableTextColumn"/>, and adds it to the collection.
+        /// </summary>
+        /// <param name="header">The header</param>
+        /// <param name="bindingName">The binding name</param>
+        /// <returns>The newly created <see cref="DataGridNullableTextColumn"/></returns>
+        public DataGridNullableTextColumn CreateNullableText(object header, string bindingName)
+        {
+            ValidateBinding(bindingName);
+
+            DataGridNullableTextColumn col = new DataGridNullableTextColumn()
+            {
+                Binding = new Binding(bindingName),
+                Header = MakeHeaderControl(header)
+            };
+            Add(col.SetSelectorName(GetHeaderText(col.Header)));
             return col;
         }
         #endregion
@@ -463,12 +573,32 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Private Methods
-        private TextBlock MakeTextBlockHeader(string text)
+
+        private void ValidateBinding(string bindingName)
         {
-            return new TextBlock()
+            if (string.IsNullOrWhiteSpace(bindingName))
             {
-                Text = text
-            };
+                throw new ArgumentNullException(nameof(bindingName));
+            }
+        }
+
+        private FrameworkElement MakeHeaderControl(object header)
+        {
+            if (header != null)
+            {
+                if (header is string text)
+                {
+                    return new TextBlock() { Text = text };
+                }
+                return new ContentControl() { Content = header };
+            }
+
+            return null;
+        }
+
+        private string GetHeaderText(object header)
+        {
+            return (header is TextBlock text) ? text.Text : header?.ToString();
         }
 
         private void ClearColumnSortDirections()
