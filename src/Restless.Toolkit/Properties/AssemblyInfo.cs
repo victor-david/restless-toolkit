@@ -11,4 +11,5 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://schemas.restless.toolkit.com/2021", "Restless.Toolkit.Converters")]
 [assembly: XmlnsDefinition("http://schemas.restless.toolkit.com/2021", "Restless.Toolkit.Core")]
 [assembly: XmlnsDefinition("http://schemas.restless.toolkit.com/2021", "Restless.Toolkit.Mvvm")]
+[assembly: XmlnsDefinition("http://schemas.restless.toolkit.com/2021", "Restless.Toolkit.Resource")]
 [assembly: XmlnsDefinition("http://schemas.restless.toolkit.com/2021", "Restless.Toolkit.Utility")]

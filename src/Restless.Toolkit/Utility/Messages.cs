@@ -1,4 +1,4 @@
-﻿using Restless.Toolkit.Resources;
+﻿using Restless.Toolkit.InternalResources;
 using System.Windows;
 
 namespace Restless.Toolkit.Utility

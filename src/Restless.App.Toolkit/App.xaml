@@ -104,64 +104,9 @@
             <Setter Property="FontSize" Value="16"/>
         </Style>
 
-        <Style x:Key="DefaultCheckBoxStyle" TargetType="CheckBox">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Margin" Value="2,4"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Foreground" Value="#FF0000B0"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Static tk:CheckBox.DefaultStyleKey}}"/>
 
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="CheckBox">
-                        <StackPanel Orientation="Horizontal">
-                            <Border 
-                                x:Name="OuterBorder"
-                                Height="16" Width="16"
-                                BorderBrush="#FFD8D8D8"
-                                BorderThickness="1"
-                                CornerRadius="1"
-                                Background="Transparent">
-
-                                <Border 
-                                    x:Name="InnerBorder"
-                                    Height="8" Width="8"
-                                    CornerRadius="1"
-                                    Background="#FF0080F0"
-                                    Visibility="Collapsed"/>
-                            </Border>
-                            <ContentPresenter
-                                x:Name="Presenter"
-                                Margin="6,0"
-                                VerticalAlignment="Center"/>
-                        </StackPanel>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="HasContent" Value="False">
-                                <Setter TargetName="Presenter" Property="Visibility" Value="Collapsed"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="InnerBorder" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="#FF0080F0"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="#FF0080F0"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="#FFB0B0B0"/>
-                                <Setter TargetName="OuterBorder" Property="Opacity" Value="0.45"/>
-                                <Setter TargetName="InnerBorder" Property="Opacity" Value="0.5"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style TargetType="CheckBox" BasedOn="{StaticResource DefaultCheckBoxStyle}"/>
-
-        <Style x:Key="DisabledCheckBoxStyle" TargetType="CheckBox" BasedOn="{StaticResource DefaultCheckBoxStyle}">
+        <Style x:Key="DisabledCheckBoxStyle" TargetType="CheckBox" BasedOn="{StaticResource {x:Static tk:CheckBox.DefaultStyleKey}}">
             <Setter Property="IsEnabled" Value="False"/>
             <Setter Property="Margin" Value="0"/>
         </Style>
