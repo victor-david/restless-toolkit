@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Restless.Toolkit.Resource;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -47,12 +48,12 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Identifies the default resource key for <see cref="HeaderStyle"/>
         /// </summary>
-        public static readonly ComponentResourceKey HeaderStyleKey = new ComponentResourceKey(typeof(ThreeWay), nameof(HeaderStyleKey));
+        public static readonly ComponentResourceKey HeaderStyleKey = ResourceHelper.CreateKey<ThreeWay>();
 
         /// <summary>
         /// Identifies the default resource key for <see cref="OnOffStyle"/>
         /// </summary>
-        public static readonly ComponentResourceKey OnOffStyleKey = new ComponentResourceKey(typeof(ThreeWay), nameof(OnOffStyleKey));
+        public static readonly ComponentResourceKey OnOffStyleKey = ResourceHelper.CreateKey<ThreeWay>();
         #endregion
 
         /************************************************************************/

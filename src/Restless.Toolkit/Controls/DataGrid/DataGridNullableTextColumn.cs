@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Restless.Toolkit.Resource;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Restless.Toolkit.Controls
@@ -13,12 +14,12 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Identifies the resource key for the default element style
         /// </summary>
-        public static readonly ComponentResourceKey DefaultElementStyleKey = new ComponentResourceKey(typeof(DataGridNullableTextColumn), nameof(DefaultElementStyleKey));
+        public static readonly ComponentResourceKey DefaultElementStyleKey = ResourceHelper.CreateKey<DataGridNullableTextColumn>();
 
         /// <summary>
         /// Identifies the resource key for the default null indicator.
         /// </summary>
-        public static readonly ComponentResourceKey NullIndicatorElementKey = new ComponentResourceKey(typeof(DataGridNullableTextColumn), nameof(NullIndicatorElementKey));
+        public static readonly ComponentResourceKey NullIndicatorElementKey = ResourceHelper.CreateKey<DataGridNullableTextColumn>();
         #endregion
 
         /// <summary>

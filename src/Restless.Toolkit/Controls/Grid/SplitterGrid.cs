@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Restless.Toolkit.Resource;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,12 +21,12 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Identifies the style key used for the splitter grid splitter
         /// </summary>
-        public static readonly ComponentResourceKey SplitterStyleKey = new ComponentResourceKey(typeof(SplitterGrid), nameof(SplitterStyleKey));
+        public static readonly ComponentResourceKey SplitterStyleKey = ResourceHelper.CreateKey<SplitterGrid>(); 
 
         /// <summary>
         /// Identifies the style key used for the splitter grid toggle button
         /// </summary>
-        public static readonly ComponentResourceKey ToggleButtonStyleKey = new ComponentResourceKey(typeof(SplitterGrid), nameof(ToggleButtonStyleKey));
+        public static readonly ComponentResourceKey ToggleButtonStyleKey = ResourceHelper.CreateKey<SplitterGrid>();
 
         /// <summary>
         /// The minimum value for <see cref="MinDetailWidth"/>

@@ -12,27 +12,27 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Identifies the resource key for default border brush.
         /// </summary>
-        public static ResourceKey DefaultBorderBrushKey => Create();
+        public static readonly ComponentResourceKey DefaultBorderBrushKey = Create();
 
         /// <summary>
         /// Identifies the resource key for default rollover border brush.
         /// </summary>
-        public static ResourceKey DefaultRolloverBorderBrushKey => Create();
+        public static readonly ComponentResourceKey DefaultRolloverBorderBrushKey = Create();
 
         /// <summary>
         /// Identifies the resource key for default foreground brush
         /// </summary>
-        public static ResourceKey DefaultForegroundBrushKey => Create();
+        public static readonly ComponentResourceKey DefaultForegroundBrushKey = Create();
 
         /// <summary>
         /// Identifies the resource key for default disabled foreground brush
         /// </summary>
-        public static ResourceKey DefaultDisabledForegroundBrushKey => Create();
+        public static readonly ComponentResourceKey DefaultDisabledForegroundBrushKey = Create();
 
         /// <summary>
         /// Identifies the resource key for default header brush.
         /// </summary>
-        public static ResourceKey DefaultHeaderBrushKey => Create();
+        public static readonly ComponentResourceKey DefaultHeaderBrushKey = Create();
         #endregion
 
         /************************************************************************/
@@ -41,12 +41,12 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Identifies the resource key for button border brush.
         /// </summary>
-        public static ResourceKey ButtonBorderBrushKey => Create();
+        public static readonly ComponentResourceKey ButtonBorderBrushKey = Create();
 
         /// <summary>
         /// Identifies the resource key for Button foreground brush
         /// </summary>
-        public static ResourceKey ButtonForegroundBrushKey => Create();
+        public static readonly ComponentResourceKey ButtonForegroundBrushKey = Create();
         #endregion
 
         /************************************************************************/
@@ -55,17 +55,17 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Identifies the resource key for CheckBox border brush
         /// </summary>
-        public static ResourceKey CheckBoxBorderBrushKey => Create();
+        public static readonly ComponentResourceKey CheckBoxBorderBrushKey = Create();
 
         /// <summary>
         /// Identifies the resource key for CheckBox foreground brush
         /// </summary>
-        public static ResourceKey CheckBoxForegroundBrushKey => Create();
+        public static readonly ComponentResourceKey CheckBoxForegroundBrushKey = Create();
 
         /// <summary>
         /// Identifies the resource key for CheckBox checked brush
         /// </summary>
-        public static ResourceKey CheckBoxCheckedBrushKey => Create();
+        public static readonly ComponentResourceKey CheckBoxCheckedBrushKey = Create();
         #endregion
 
         /************************************************************************/
@@ -74,17 +74,17 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Identifies the resource key for TextBox border brush
         /// </summary>
-        public static ResourceKey TextBoxBorderBrushKey => Create();
+        public static readonly ComponentResourceKey TextBoxBorderBrushKey = Create();
 
         /// <summary>
         /// Identifies the resource key for TextBox foreground brush
         /// </summary>
-        public static ResourceKey TextBoxForegroundBrushKey => Create();
+        public static readonly ComponentResourceKey TextBoxForegroundBrushKey = Create();
 
         /// <summary>
         /// Identifies the resource key for TextBox background brush
         /// </summary>
-        public static ResourceKey TextBoxBackgroundBrushKey => Create();
+        public static readonly ComponentResourceKey TextBoxBackgroundBrushKey = Create();
         #endregion
 
         /************************************************************************/
@@ -93,22 +93,22 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Identifies the resource key for Button default style
         /// </summary>
-        public static ResourceKey DefaultButtonStyleKey => Create();
+        public static readonly ComponentResourceKey DefaultButtonStyleKey = Create();
 
         /// <summary>
         /// Identifies the resource key for Button bordered style
         /// </summary>
-        public static ResourceKey BorderedButtonStyleKey => Create();
+        public static readonly ComponentResourceKey BorderedButtonStyleKey = Create();
 
         /// <summary>
         /// Identifies the resource key for Button compact bordered style
         /// </summary>
-        public static ResourceKey CompactBorderedButtonStyleKey => Create();
+        public static readonly ComponentResourceKey CompactBorderedButtonStyleKey = Create();
 
         /// <summary>
         /// Identifies the resource key for Button status bar style
         /// </summary>
-        public static ResourceKey StatusBarButtonStyleKey => Create();
+        public static readonly ComponentResourceKey StatusBarButtonStyleKey = Create();
         #endregion
 
         /************************************************************************/
@@ -117,7 +117,7 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Identifies the resource key for CheckBox default style
         /// </summary>
-        public static ResourceKey DefaultCheckBoxStyleKey => Create();
+        public static readonly ComponentResourceKey DefaultCheckBoxStyleKey = Create();
         #endregion
 
         /************************************************************************/
@@ -126,7 +126,7 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Identifies the resource key for TextBox default style
         /// </summary>
-        public static ResourceKey DefaultTextBoxStyleKey => Create();
+        public static readonly ComponentResourceKey DefaultTextBoxStyleKey = Create();
         #endregion
 
         /************************************************************************/
@@ -135,7 +135,7 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Identifies the resource key for StatusBar default style
         /// </summary>
-        public static ResourceKey DefaultStatusBarStyleKey => Create();
+        public static readonly ComponentResourceKey DefaultStatusBarStyleKey = Create();
         #endregion
 
         /************************************************************************/
@@ -144,22 +144,22 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Identifies the resource key for minimum header height.
         /// </summary>
-        public static ResourceKey MinHeaderHeightKey => Create();
+        public static readonly ComponentResourceKey MinHeaderHeightKey = Create();
 
         /// <summary>
         /// Identifies the resource key for default header padding.
         /// </summary>
-        public static ResourceKey DefaultHeaderPaddingKey => Create();
+        public static readonly ComponentResourceKey DefaultHeaderPaddingKey = Create();
 
         /// <summary>
         /// Identifies the resource key for minimum textbox height.
         /// </summary>
-        public static ResourceKey MinTextBoxHeightKey => Create();
+        public static readonly ComponentResourceKey MinTextBoxHeightKey = Create();
 
         /// <summary>
         /// Identifies the resource key for textbox border thickness.
         /// </summary>
-        public static ResourceKey TextBoxBorderThicknessKey => Create();
+        public static readonly ComponentResourceKey TextBoxBorderThicknessKey = Create();
         #endregion
 
         /************************************************************************/
