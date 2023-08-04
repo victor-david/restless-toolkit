@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace Restless.Toolkit.Resource
 {
@@ -26,6 +27,11 @@ namespace Restless.Toolkit.Resource
         public static object Get(object resourceId)
         {
             return Application.Current.TryFindResource(resourceId);
+        }
+
+        internal static ComponentResourceKey CreateKey<T>([CallerMemberName] string resourceId = null)
+        {
+            return new ComponentResourceKey(typeof(T), resourceId);
         }
     }
 }

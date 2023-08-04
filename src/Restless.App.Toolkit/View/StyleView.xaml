@@ -8,7 +8,7 @@
     xmlns:toolkit="clr-namespace:Restless.App.Toolkit" d:DataContext="{d:DesignInstance Type=toolkit:StyleViewModel}"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800">
-    <Grid tk:Property.ColumnWidths="*,1.5*">
+    <Grid tk:Property.ColumnWidths="*,*" tk:Property.RowHeights="Auto,Auto,*">
         <Grid.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockExplain}">
                 <Setter Property="Margin" Value="0,4"/>
@@ -17,74 +17,83 @@
                 <Setter Property="Margin" Value="0,12"/>
             </Style>
         </Grid.Resources>
-
         <StackPanel>
             <TextBlock>
                 <Bold>Restless Toolkit</Bold>
-                supplies built in styles for some controls
-            </TextBlock>
-
-            <TextBlock>
+                supplies built in styles for some controls.
                 To use, create a style in your app that extends the built in style.
                 Use:
             </TextBlock>
-            
+
             <TextBlock Foreground="OrangeRed">
                 xmlns:tk=&quot;http://schemas.restless.toolkit.com/2021&quot;
             </TextBlock>
         </StackPanel>
+        
+        <Button 
+            Grid.Column="1"
+            Command="{Binding Commands[ToggleEnabled]}"
+            Content="Toggle Enabled"/>
 
-        <StackPanel Grid.Column="1">
-            <TextBlock>
-                <Bold>CheckBox</Bold>
-                A default style for CheckBox, here applied to all CheckBoxes
+        <Separator Grid.Row="1" Grid.ColumnSpan="2"/>
+
+        <StackPanel Grid.Row="2" Margin="2,0,12,0">
+             <TextBlock>
+                A default style for <Bold>CheckBox</Bold>.
             </TextBlock>
+            <CheckBox 
+                Margin="4"
+                IsChecked="True"
+                IsEnabled="{Binding IsEnabled}"
+                Content="Yes, I want a cookie"/>
             
-            <TextBox Margin="4">
-                &lt;Style TargetType=&quot;CheckBox&quot; BasedOn=&quot;{StaticResource {x:Static tk:CheckBox.DefaultStyleKey}}&quot;/&gt;
-            </TextBox>            
-            
-            <CheckBox Margin="4" IsChecked="True" Content="Yes, I want a cookie"/>
-
-
             <Separator/>
 
             <TextBlock>
-                <Bold>Button</Bold>
-                A default style for Button, here applied to all Buttons
+                A default style for <Bold>Button</Bold>.
             </TextBlock>
+            <Button
+                Margin="4"
+                IsEnabled="{Binding IsEnabled}"
+                Content="Push Me"/>
             
-            <TextBox Margin="4">
-                &lt;Style TargetType=&quot;Button&quot; BasedOn=&quot;{StaticResource {x:Static tk:Button.DefaultStyleKey}}&quot;/&gt;
-            </TextBox>
-            
-            <Button Margin="4" Content="Push Me"/>
-
             <Separator/>
 
             <TextBlock>
-                <Bold>Button</Bold>
-                A bordered style for Button, here applied to a single button.
+                A bordered style for <Bold>Button</Bold>.
             </TextBlock>            
+            <Button 
+                Style="{StaticResource {x:Static tk:ResourceKeys.BorderedButtonStyleKey}}"
+                IsEnabled="{Binding IsEnabled}"
+                Content="Push Me (Bordered)"/>
             
-            <TextBox Margin="4">
-                &lt;Button Style=&quot;{StaticResource {x:Static tk:Button.BorderedStyleKey}}&quot; Content=&quot;Push Me (Bordered)&quot;/&gt;
-            </TextBox>
-
-            <Button Style="{StaticResource {x:Static tk:Button.BorderedStyleKey}}" Content="Push Me (Bordered)"/>
-
             <Separator/>
             
             <TextBlock>
-                <Bold>Button</Bold>
-                A compact bordered style for Button, here applied to a single button.
+                A compact bordered style for <Bold>Button</Bold>.
             </TextBlock>
+            <Button
+                Style="{StaticResource {x:Static tk:ResourceKeys.CompactBorderedButtonStyleKey}}"
+                IsEnabled="{Binding IsEnabled}"
+                Content="Push Me (Bordered)"/>
 
-            <TextBox Margin="4">
-                &lt;Button Style=&quot;{StaticResource {x:Static tk:Button.CompactBorderedStyleKey}}&quot; Content=&quot;Push Me (Bordered)&quot;/&gt;
-            </TextBox>
+            <Separator/>
 
-            <Button Style="{StaticResource {x:Static tk:Button.CompactBorderedStyleKey}}" Content="Push Me (Bordered)"/>
+            <TextBlock>
+                A <Bold>StatusBar</Bold> with a <Bold>Button</Bold>.
+            </TextBlock>
+            <StatusBar IsEnabled="{Binding IsEnabled}">
+                <Button Content="Test Engines"/>
+            </StatusBar>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="12,0,2,0">
+            <TextBlock>
+                A default style for <Bold>TextBox</Bold>.
+            </TextBlock>
+            <TextBox Text="This is a text box" IsEnabled="{Binding IsEnabled}"/>
+
         </StackPanel>
 
     </Grid>

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:tk="http://schemas.restless.toolkit.com/2021"
     xmlns:l="clr-namespace:Restless.App.Toolkit">
+    
     <Application.Resources>
 
         <SolidColorBrush x:Key="DefaultHeaderForegroundBrush" Color="#606060"/>
@@ -88,15 +89,6 @@
             <Setter Property="FontSize" Value="16"/>
         </Style>
 
-        <Style TargetType="TextBox">
-            <Setter Property="MinHeight" Value="32"/>
-            <Setter Property="Background" Value="LightYellow"/>
-            <Setter Property="Foreground" Value="Blue"/>
-            <Setter Property="IsReadOnly" Value="True"/>
-            <Setter Property="IsReadOnlyCaretVisible" Value="True"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-
         <Style TargetType="FlowDocumentScrollViewer">
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         </Style>
@@ -113,14 +105,16 @@
             <Setter Property="Margin" Value="0,8"/>
         </Style>
 
-        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Static tk:CheckBox.DefaultStyleKey}}"/>
+        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultCheckBoxStyleKey}}"/>
 
-        <Style x:Key="DisabledCheckBoxStyle" TargetType="CheckBox" BasedOn="{StaticResource {x:Static tk:CheckBox.DefaultStyleKey}}">
+        <Style x:Key="DisabledCheckBoxStyle" TargetType="CheckBox" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultCheckBoxStyleKey}}">
             <Setter Property="IsEnabled" Value="False"/>
             <Setter Property="Margin" Value="0"/>
         </Style>
 
-        <Style TargetType="Button" BasedOn="{StaticResource {x:Static tk:Button.DefaultStyleKey}}"/>
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultButtonStyleKey}}"/>
+        <Style TargetType="StatusBar" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultStatusBarStyleKey}}"/>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultTextBoxStyleKey}}"/>
 
         <Style TargetType="tk:DataGrid" BasedOn="{StaticResource {x:Static tk:DataGrid.DataGridStyleKey}}">
             <Setter Property="CanUserReorderColumns" Value="True"/>

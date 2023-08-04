@@ -459,7 +459,7 @@
         <Setter Property="Title" Value="Confirmation"/>
         <Setter Property="ButtonYesText" Value="Yes"/>
         <Setter Property="ButtonNoText" Value="No"/>
-        <Setter Property="ButtonStyle" Value="{DynamicResource {x:Static keys:Button.BorderedStyleKey}}"/>
+        <Setter Property="ButtonStyle" Value="{DynamicResource {x:Static keys:ResourceKeys.BorderedButtonStyleKey}}"/>
         <Style.Triggers>
             <Trigger Property="MessageWindowType" Value="ContinueCancel">
                 <Setter Property="ButtonYesText" Value="Continue"/>

@@ -6,16 +6,11 @@
     <!-- Resource dictionary for default styles only -->
     <!-- These do not have a corresponding custom control -->
 
-    <SolidColorBrush x:Key="{x:Static keys:CheckBox.BorderBrushKey}" Color="#d8d8d8"/>
-    <SolidColorBrush x:Key="{x:Static keys:CheckBox.CheckedBrushKey}" Color="#0080f0"/>
-    <SolidColorBrush x:Key="{x:Static keys:CheckBox.ForegroundBrushKey}" Color="#0000b0"/>
-    <SolidColorBrush x:Key="{x:Static keys:CheckBox.DisabledForegroundBrushKey}" Color="#b0b0b0"/>
-    
-    <Style x:Key="{x:Static keys:CheckBox.DefaultStyleKey}" TargetType="CheckBox">
+    <Style x:Key="{x:Static keys:ResourceKeys.DefaultCheckBoxStyleKey}" TargetType="CheckBox">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Margin" Value="2,4"/>
         <Setter Property="Background" Value="White"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static keys:CheckBox.ForegroundBrushKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static keys:ResourceKeys.CheckBoxForegroundBrushKey}}"/>
         <Setter Property="Cursor" Value="Hand"/>
 
         <Setter Property="Template">
@@ -25,7 +20,7 @@
                         <Border 
                             x:Name="OuterBorder"
                             Height="16" Width="16"
-                            BorderBrush="{DynamicResource {x:Static keys:CheckBox.BorderBrushKey}}"
+                            BorderBrush="{DynamicResource {x:Static keys:ResourceKeys.CheckBoxBorderBrushKey}}"
                             BorderThickness="1"
                             CornerRadius="1"
                             Background="Transparent">
@@ -34,7 +29,7 @@
                                 x:Name="InnerBorder"
                                 Height="8" Width="8"
                                 CornerRadius="1"
-                                Background="{DynamicResource {x:Static keys:CheckBox.CheckedBrushKey}}"
+                                Background="{DynamicResource {x:Static keys:ResourceKeys.CheckBoxCheckedBrushKey}}"
                                 Visibility="Collapsed"/>
                         </Border>
                         <ContentPresenter
@@ -49,13 +44,13 @@
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="InnerBorder" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static keys:CheckBox.CheckedBrushKey}}"/>
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static keys:ResourceKeys.CheckBoxCheckedBrushKey}}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static keys:CheckBox.CheckedBrushKey}}"/>
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static keys:ResourceKeys.CheckBoxCheckedBrushKey}}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static keys:CheckBox.DisabledForegroundBrushKey}}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static keys:ResourceKeys.DefaultDisabledForegroundBrushKey}}"/>
                             <Setter TargetName="OuterBorder" Property="Opacity" Value="0.45"/>
                             <Setter TargetName="InnerBorder" Property="Opacity" Value="0.5"/>
                         </Trigger>
