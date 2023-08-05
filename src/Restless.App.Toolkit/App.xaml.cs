@@ -10,6 +10,7 @@ namespace Restless.App.Toolkit
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            Restless.Toolkit.Resource.ResourceHelper.InjectDefaultStyles();
 
             Window main = new MainWindow()
             {

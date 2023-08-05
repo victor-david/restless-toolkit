@@ -2,7 +2,6 @@
 using Restless.Toolkit.Mvvm;
 using System.Collections;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -15,21 +14,22 @@ namespace Restless.App.Toolkit
         private Person selectedItem;
         private IList selectedDataGridItems;
         private string actionMessage;
+        private bool isReadOnly;
 
         public class Person
         {
-            public int Id { get; }
-            public string Name { get; }
-            public string City { get; }
-            public string Country { get; }
-            public bool IsVerified { get; }
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string City { get; set; }
+            public string Country { get; set; }
+            public bool Verified { get; set; }
             public Person(int id, string name, string city, string country, bool verified)
             {
                 Id = id;
                 Name = name;
                 City = city;
                 Country = country;
-                IsVerified = verified;
+                Verified = verified;
             }
         }
 
@@ -37,6 +37,13 @@ namespace Restless.App.Toolkit
         public MenuItemCollection MenuItems { get; }
         public ListCollectionView ListView { get; }
         public ICommand HeaderCommand { get; }
+        
+        public bool IsReadOnly
+        {
+            get => isReadOnly;
+            set => SetProperty(ref isReadOnly, value);
+        }
+
         public string ActionMessage
         {
             get => actionMessage;
@@ -62,15 +69,17 @@ namespace Restless.App.Toolkit
         public DataGridViewModel()
         {
             DisplayName = "Data Grid";
+            IsReadOnly = true;
 
             Columns = new DataGridColumnCollection();
             Columns.Create("Id", nameof(Person.Id))
                 .MakeCentered()
-                .MakeFixedWidth(48);
+                .MakeFixedWidth(52)
+                .IsReadOnly = true;
 
-            Columns.CreateCheckBox("V", nameof(Person.IsVerified), BindingMode.OneWay, Application.Current.TryFindResource("DisabledCheckBoxStyle") as Style)
+            Columns.CreateCheckBox("V", nameof(Person.Verified))
                 .MakeCentered()
-                .MakeFixedWidth(48)
+                .MakeFixedWidth(52)
                 .SetSelectorName("Verified")
                 .CanUserSort = false;
 
@@ -96,7 +105,7 @@ namespace Restless.App.Toolkit
                 new Person(6, "Pearce Bracket", "Ontario", "Canada", true),
                 new Person(7, "Lewis Kalidont", "Tokyo", "Japan", true),
                 new Person(8, "Feather Boss", "Manheim", "Germany", true),
-                new Person(9, "Suzan Kal Balai", "Inquest", "Pakistan", false),
+                new Person(9, "Suzan Kal Balai", "Inquest", "Pakistan", false)
             };
 
             ListView = new ListCollectionView(storage);

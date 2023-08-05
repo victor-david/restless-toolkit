@@ -48,15 +48,17 @@
         <Geometry x:Key="ChevronRightGeometryKey">M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z</Geometry>
         <Geometry x:Key="ChevronUpGeometryKey">M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z</Geometry>
 
+        <!-- Override window settings -->
+        <SolidColorBrush x:Key="{x:Static tk:ResourceKeys.WindowTitleBarBackgroundBrush}" Color="SlateGray"/>
+        <SolidColorBrush x:Key="{x:Static tk:ResourceKeys.WindowTitleBarForegroundBrush}" Color="Ivory"/>
+
         <Style TargetType="tk:MessageWindow">
             <Setter Property="Width" Value="360"/>
             <Setter Property="PathIcon" Value="{StaticResource PathAppIcon}"/>
             <Setter Property="Foreground" Value="Blue"/>
-            <Setter Property="TitleBarBackground" Value="LightBlue"/>
-            <Setter Property="TitleBarForeground" Value="DarkBlue"/>
             <Style.Triggers>
                 <Trigger Property="MessageWindowType" Value="Error">
-                    <Setter Property="Background" Value="LightBlue"/>
+                    <Setter Property="Background" Value="Beige"/>
                     <Setter Property="TitleBarBackground" Value="Red"/>
                     <Setter Property="TitleBarForeground" Value="White"/>
                     <Setter Property="TitleBarButtonBrush" Value="Black"/>
@@ -105,18 +107,7 @@
             <Setter Property="Margin" Value="0,8"/>
         </Style>
 
-        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultCheckBoxStyleKey}}"/>
-
-        <Style x:Key="DisabledCheckBoxStyle" TargetType="CheckBox" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultCheckBoxStyleKey}}">
-            <Setter Property="IsEnabled" Value="False"/>
-            <Setter Property="Margin" Value="0"/>
-        </Style>
-
-        <Style TargetType="Button" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultButtonStyleKey}}"/>
-        <Style TargetType="StatusBar" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultStatusBarStyleKey}}"/>
-        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultTextBoxStyleKey}}"/>
-
-        <Style TargetType="tk:DataGrid" BasedOn="{StaticResource {x:Static tk:DataGrid.DataGridStyleKey}}">
+        <Style TargetType="tk:DataGrid" BasedOn="{StaticResource {x:Static tk:ResourceKeys.DefaultDataGridStyleKey}}">
             <Setter Property="CanUserReorderColumns" Value="True"/>
         </Style>
 

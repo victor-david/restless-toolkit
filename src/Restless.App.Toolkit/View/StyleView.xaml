@@ -21,11 +21,11 @@
             <TextBlock>
                 <Bold>Restless Toolkit</Bold>
                 supplies built in styles for some controls.
-                To use, create a style in your app that extends the built in style.
-                Use:
+                To use, call
+                <Bold>Restless.Toolkit.Resource.ResourceHelper.InjectDefaultStyles();</Bold>
+                in your app startup, or create a style in your app that extends the built in style.
             </TextBlock>
-
-            <TextBlock Foreground="OrangeRed">
+            <TextBlock Foreground="Red">
                 xmlns:tk=&quot;http://schemas.restless.toolkit.com/2021&quot;
             </TextBlock>
         </StackPanel>

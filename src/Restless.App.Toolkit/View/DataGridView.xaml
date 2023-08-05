@@ -10,9 +10,9 @@
     d:DesignHeight="450" d:DesignWidth="800">
     <Grid
         tk:Property.ColumnWidths="*,*"
-        tk:Property.RowHeights="*,Auto">
+        tk:Property.RowHeights="Auto,*,Auto">
 
-        <FlowDocumentScrollViewer Grid.RowSpan="2">
+        <FlowDocumentScrollViewer Grid.RowSpan="3">
             <FlowDocument>
                 <Paragraph>
                     <Bold>DataGrid</Bold> - Derives from
@@ -59,8 +59,12 @@
             </FlowDocument>
         </FlowDocumentScrollViewer>
 
+        <CheckBox Grid.Column="1" Margin="16" Content="Data grid is read only" IsChecked="{Binding IsReadOnly}"/>
+
         <tk:DataGrid
             Grid.Column="1"
+            Grid.Row="1"
+            IsReadOnly="{Binding IsReadOnly}"
             HeaderMode="ColumnSelector"
             SelectionMode="Extended"
             HeaderCommand="{Binding HeaderCommand}"
@@ -75,7 +79,7 @@
         </tk:DataGrid>
 
         <Border
-            Grid.Column="1" Grid.Row="1"
+            Grid.Column="1" Grid.Row="2"
             Margin="0,2"
             Height="42"
             BorderThickness="1"
