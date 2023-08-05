@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Restless.Toolkit.Resource
 {
@@ -89,6 +90,50 @@ namespace Restless.Toolkit.Resource
 
         /************************************************************************/
 
+        #region Brushes (Window)
+        /// <summary>
+        /// Identifies the resource key for window background brush.
+        /// </summary>
+        public static readonly ComponentResourceKey WindowBackgroundBrush = Create();
+
+        /// <summary>
+        /// Identifies the resource key for window border brush.
+        /// </summary>
+        public static readonly ComponentResourceKey WindowBorderBrush = Create();
+
+        /// <summary>
+        /// Identifies the resource key for window title bar border brush.
+        /// </summary>
+        public static readonly ComponentResourceKey WindowTitleBarBorderBrush = Create();
+
+        /// <summary>
+        /// Identifies the resource key for window title bar background brush.
+        /// </summary>
+        public static readonly ComponentResourceKey WindowTitleBarBackgroundBrush = Create();
+
+        /// <summary>
+        /// Identifies the resource key for window title bar foreground brush.
+        /// </summary>
+        public static readonly ComponentResourceKey WindowTitleBarForegroundBrush = Create();
+
+        /// <summary>
+        /// Identifies the resource key for window title bar button brush.
+        /// </summary>
+        public static readonly ComponentResourceKey WindowTitleBarButtonBrush = Create();
+
+        /// <summary>
+        /// Identifies the resource key for window menu border brush.
+        /// </summary>
+        public static readonly ComponentResourceKey WindowMenuBorderBrush = Create();
+
+        /// <summary>
+        /// Identifies the resource key for window menu background brush.
+        /// </summary>
+        public static readonly ComponentResourceKey WindowMenuBackgroundBrush = Create();
+        #endregion
+
+        /************************************************************************/
+
         #region Button
         /// <summary>
         /// Identifies the resource key for Button default style
@@ -118,6 +163,38 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for CheckBox default style
         /// </summary>
         public static readonly ComponentResourceKey DefaultCheckBoxStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for the element style used in <see cref="DataGridCheckBoxColumn"/>
+        /// </summary>
+        public static readonly ComponentResourceKey CheckBoxColumnElementStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for the editing element style used in <see cref="DataGridCheckBoxColumn"/>
+        /// </summary>
+        public static readonly ComponentResourceKey CheckBoxColumnEditingElementStyleKey = Create();
+        #endregion
+
+        /************************************************************************/
+
+        #region DataGrid (Aliases)
+        /// <summary>
+        /// Identifies the resource key for data grid default style.
+        /// This is an alias for <see cref="Controls.DataGrid.DataGridStyleKey"/>.
+        /// </summary>
+        public static readonly ComponentResourceKey DefaultDataGridStyleKey = Controls.DataGrid.DataGridStyleKey;
+
+        /// <summary>
+        /// Identifies the resource key for data grid column header default style.
+        /// This is an alias for <see cref="Controls.DataGrid.ColumnHeaderStyleKey"/>.
+        /// </summary>
+        public static readonly ComponentResourceKey DefaultDataGridColumnHeaderStyleKey = Controls.DataGrid.ColumnHeaderStyleKey;
+
+        /// <summary>
+        /// Identifies the resource key for data grid cell default style.
+        /// This is an alias for <see cref="Controls.DataGrid.DataGridCellStyleKey"/>.
+        /// </summary>
+        public static readonly ComponentResourceKey DefaultDataGridCellStyleKey = Controls.DataGrid.DataGridCellStyleKey;
         #endregion
 
         /************************************************************************/
@@ -165,6 +242,11 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for minimum textbox height.
         /// </summary>
         public static readonly ComponentResourceKey MinTextBoxHeightKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for window border thickness.
+        /// </summary>
+        public static readonly ComponentResourceKey WindowBorderThicknessKey = Create();
 
         /// <summary>
         /// Identifies the resource key for textbox border thickness.

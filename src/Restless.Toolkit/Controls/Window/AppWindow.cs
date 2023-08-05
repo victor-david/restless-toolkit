@@ -1,4 +1,5 @@
 ﻿using Restless.Toolkit.Mvvm;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,6 +39,21 @@ namespace Restless.Toolkit.Controls
         static AppWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(AppWindow), new FrameworkPropertyMetadata(typeof(AppWindow)));
+            BorderThicknessProperty.OverrideMetadata(typeof(AppWindow), new FrameworkPropertyMetadata()
+            {
+                DefaultValue = new Thickness(1),
+                CoerceValueCallback = OnCoerceBorderThickness
+            });
+        }
+
+        private static object OnCoerceBorderThickness(DependencyObject d, object baseValue)
+        {
+            if (baseValue is Thickness value)
+            {
+                double largest = Math.Max(Math.Max(Math.Max(value.Left, value.Right), value.Top), value.Bottom);
+                return new Thickness(Math.Max(Math.Min(largest, 2.0), 1.0));
+            }
+            return new Thickness(1);
         }
         #endregion
 

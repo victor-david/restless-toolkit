@@ -38,6 +38,7 @@
         </Setter>
     </Style>
 
+    <!-- DataGridColumnHeader-->
     <Style x:Key="{x:Static con:DataGrid.ColumnHeaderStyleKey}" TargetType="DataGridColumnHeader">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Height" Value="26"/>
@@ -138,6 +139,7 @@
 
     </Style>
 
+    <!-- DataGridCell -->
     <Style x:Key="{x:Static con:DataGrid.DataGridCellStyleKey}" TargetType="DataGridCell">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -154,6 +156,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEditing" Value="True">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}"/>
+            </Trigger>
+        </Style.Triggers>        
     </Style>
 
     <Style
@@ -174,6 +182,7 @@
 
     </Style>
 
+    <!-- DataGridNullableTextColumn -->
     <Border
         x:Key="{x:Static con: DataGridNullableTextColumn.NullIndicatorElementKey}"
         x:Shared="False"
@@ -219,6 +228,7 @@
         </Setter>
     </Style>
     
+    <!-- DataGrid-->
     <Style x:Key="{x:Static con:DataGrid.DataGridStyleKey}" TargetType="DataGrid">
         <Setter Property="AlternationCount" Value="2"/>
         <Setter Property="AlternatingRowBackground" Value="{StaticResource RolloverHeaderBrush}"/>
@@ -242,6 +252,11 @@
         <Setter Property="SelectionMode" Value="Single"/>
         <Setter Property="SelectionUnit" Value="FullRow"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <!--<Style.Triggers>
+            <Trigger Property="IsReadOnly" Value="False">
+                <Setter Property="CellStyle" Value="{DynamicResource {x:Static con:DataGrid.DataGridEditingCellStyleKey}}"/>
+            </Trigger>
+        </Style.Triggers>-->
     </Style>
 
 </ResourceDictionary>

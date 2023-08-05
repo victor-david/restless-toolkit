@@ -31,4 +31,14 @@
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.TextBoxBackgroundBrushKey}" Color="LightGoldenrodYellow"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.TextBoxForegroundBrushKey}" Color="{StaticResource DefaultForegoundColor}"/>
 
+    <!-- Window -->
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowBackgroundBrush}" Color="White"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowBorderBrush}" Color="#1f3c76"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowTitleBarBorderBrush}" Color="Black"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowTitleBarBackgroundBrush}" Color="#24292e"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowTitleBarForegroundBrush}" Color="White"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowTitleBarButtonBrush}" Color="#a0a0a0"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowMenuBorderBrush}" Color="Gray"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowMenuBackgroundBrush}" Color="#f0f0f0"/>
+
 </ResourceDictionary>

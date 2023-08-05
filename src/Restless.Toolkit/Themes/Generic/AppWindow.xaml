@@ -362,14 +362,16 @@
         UseAeroCaptionButtons="False" />
 
     <Style TargetType="con:AppWindow">
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="BorderBrush" Value="#ff1f3c76"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowBackgroundBrush}}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowBorderBrush}}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowBorderThicknessKey}}"/>
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="TitleBarBackground" Value="#ff24292e"/>
-        <Setter Property="TitleBarForeground" Value="White"/>
-        <Setter Property="TitleBarButtonBrush" Value="#ffa0a0a0"/>
-        <Setter Property="MenuBackgroundBrush" Value="#FFF0F0F0"/>
+        <Setter Property="TitleBarBorderBrush" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowTitleBarBorderBrush}}"/>
+        <Setter Property="TitleBarBackground" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowTitleBarBackgroundBrush}}"/>
+        <Setter Property="TitleBarForeground" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowTitleBarForegroundBrush}}"/>
+        <Setter Property="TitleBarButtonBrush" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowTitleBarButtonBrush}}"/>
+        <Setter Property="MenuBorderBrush" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowMenuBorderBrush}}"/>
+        <Setter Property="MenuBackgroundBrush" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowMenuBackgroundBrush}}"/>
         <Setter Property="WindowChrome.WindowChrome" Value="{StaticResource DefaultWindowChrome}"/>
         <Setter Property="Template" Value="{StaticResource AppWindowTemplate}"/>
     </Style>

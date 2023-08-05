@@ -6,6 +6,7 @@
     <!-- Resource dictionary for default styles only -->
     <!-- These do not have a corresponding custom control -->
 
+    <!-- DefaultCheckBoxStyleKey -->
     <Style x:Key="{x:Static keys:ResourceKeys.DefaultCheckBoxStyleKey}" TargetType="CheckBox">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Margin" Value="2,4"/>
@@ -59,6 +60,26 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- CheckBoxColumnElementStyleKey -->
+    <Style 
+        x:Key="{x:Static keys:ResourceKeys.CheckBoxColumnElementStyleKey}"
+        TargetType="CheckBox" 
+        BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultCheckBoxStyleKey}}">
+        
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+    
+    <!-- CheckBoxColumnEditingElementStyleKey -->
+    <Style 
+        x:Key="{x:Static keys:ResourceKeys.CheckBoxColumnEditingElementStyleKey}"
+        TargetType="CheckBox" 
+        BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultCheckBoxStyleKey}}">
+        
+        <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
 
 </ResourceDictionary>

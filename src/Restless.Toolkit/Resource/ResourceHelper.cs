@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -43,6 +44,39 @@ namespace Restless.Toolkit.Resource
                 result.Setters.Add(new Setter(TextBox.MaxLengthProperty, maxLength));
             }
             return result;
+        }
+
+        /// <summary>
+        /// Injects <see cref="ResourceDictionary"/> into the application
+        /// that contains the default styles
+        /// </summary>
+        public static void InjectDefaultStyles()
+        {
+            ResourceDictionary res = Application.Current.Resources;
+            ResourceDictionary styles = new ResourceDictionary();
+            styles.BeginInit();
+            styles.AddStyle(ResourceKeys.DefaultButtonStyleKey);
+            styles.AddStyle(ResourceKeys.DefaultCheckBoxStyleKey);
+            styles.AddStyle(ResourceKeys.DefaultDataGridStyleKey, typeof(Controls.DataGrid));
+            styles.AddStyle(ResourceKeys.DefaultStatusBarStyleKey);
+            styles.AddStyle(ResourceKeys.DefaultTextBoxStyleKey);
+            styles.EndInit();
+            res.MergedDictionaries.Insert(0, styles);
+        }
+
+        private static void AddStyle(this ResourceDictionary res, ComponentResourceKey key, Type additionalTargetType = null)
+        {
+            if (Get<Style>(key) is Style style)
+            {
+                Style newStyle = new Style(style.TargetType, style);
+                newStyle.Seal();
+                res.Add(style.TargetType, newStyle);
+                if (additionalTargetType != null)
+                {
+                    res.Add(additionalTargetType, newStyle);
+                }
+            }
+
         }
 
         internal static ComponentResourceKey CreateKey<T>([CallerMemberName] string resourceId = null)

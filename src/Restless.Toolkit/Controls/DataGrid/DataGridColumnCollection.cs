@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Restless.Toolkit.Resource;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
@@ -109,7 +110,7 @@ namespace Restless.Toolkit.Controls
         /// <param name="bindingName">The name that the column binds to.</param>
         /// <param name="targetNullValue">The value to use when the bound value is null</param>
         /// <returns>The newly created column.</returns>
-        public DataGridTextColumn Create<T>(object header, string bindingName, string targetNullValue = null) where T: IValueConverter, new()
+        public DataGridTextColumn Create<T>(object header, string bindingName, string targetNullValue = null) where T : IValueConverter, new()
         {
             ValidateBinding(bindingName);
 
@@ -135,7 +136,7 @@ namespace Restless.Toolkit.Controls
         /// <param name="targetNullValue">The value to use when the bound value is null</param>
         /// <param name="bindingNames">The names that the column binds to.</param>
         /// <returns>The newly created column.</returns>
-        public DataGridTextColumn Create<T>(object header, object targetNullValue, params string[] bindingNames) where T: IMultiValueConverter, new()
+        public DataGridTextColumn Create<T>(object header, object targetNullValue, params string[] bindingNames) where T : IMultiValueConverter, new()
         {
             DataGridTextColumn col = new DataGridTextColumn
             {
@@ -251,9 +252,9 @@ namespace Restless.Toolkit.Controls
         /// <param name="editingElementStyle">The editing element style</param>
         /// <returns>The newly created <see cref="DataGridCheckBoxColumn"/></returns>
         public DataGridCheckBoxColumn CreateCheckBox(
-            object header, 
-            string bindingName, 
-            bool isThreeState, 
+            object header,
+            string bindingName,
+            bool isThreeState,
             BindingMode bindingMode = BindingMode.TwoWay,
             Style elementStyle = null,
             Style editingElementStyle = null)
@@ -267,11 +268,20 @@ namespace Restless.Toolkit.Controls
                     Mode = bindingMode,
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                 },
-                ElementStyle = elementStyle,
-                EditingElementStyle = editingElementStyle ?? elementStyle,
                 Header = MakeHeaderControl(header),
-                IsThreeState = isThreeState
+                IsThreeState = isThreeState,
+
             };
+
+            if (elementStyle != null)
+            {
+                col.ElementStyle = elementStyle;
+            }
+
+            if (editingElementStyle != null)
+            {
+                col.EditingElementStyle = editingElementStyle;
+            }
 
             Add(col.SetSelectorName(GetHeaderText(col.Header)));
             return col;
@@ -290,10 +300,25 @@ namespace Restless.Toolkit.Controls
             object header,
             string bindingName,
             BindingMode bindingMode = BindingMode.TwoWay,
-            Style elementStyle = null, 
+            Style elementStyle = null,
             Style editingElementStyle = null)
         {
             return CreateCheckBox(header, bindingName, false, bindingMode, elementStyle, editingElementStyle);
+        }
+
+        /// <summary>
+        /// Creates a two state, two-way bound <see cref="DataGridCheckBoxColumn"/> with default 
+        /// element and editing element styles, and adds it to the collection.
+        /// </summary>
+        /// <param name="header">The header</param>
+        /// <param name="bindingName">The binding name</param>
+        /// <returns>The newly created <see cref="DataGridCheckBoxColumn"/></returns>
+        public DataGridCheckBoxColumn CreateCheckBox(object header, string bindingName)
+        {
+            return CreateCheckBox(
+                header, bindingName, false, BindingMode.TwoWay,
+                ResourceHelper.Get<Style>(ResourceKeys.CheckBoxColumnElementStyleKey),
+                ResourceHelper.Get<Style>(ResourceKeys.CheckBoxColumnEditingElementStyleKey));
         }
 
         /// <summary>
@@ -437,7 +462,7 @@ namespace Restless.Toolkit.Controls
         public string GetColumnState()
         {
             StringBuilder builder = new StringBuilder();
-                
+
             foreach (DataGridColumn column in this)
             {
                 int isVisible = column.Visibility == Visibility.Visible ? 1 : 0;
@@ -508,7 +533,7 @@ namespace Restless.Toolkit.Controls
         #endregion
 
         /************************************************************************/
-        
+
         #region Events
         /// <summary>
         /// Occurs when the state of the columns has changed, display index, visibility
@@ -518,6 +543,7 @@ namespace Restless.Toolkit.Controls
 
         /************************************************************************/
 
+        #region Protected methods
         /// <summary>
         /// Occurs when the column states has changed. Raises the <see cref="ColumnStateChanged"/> event.
         /// </summary>
@@ -526,6 +552,9 @@ namespace Restless.Toolkit.Controls
         {
             ColumnStateChanged?.Invoke(this, e);
         }
+        #endregion
+
+        /************************************************************************/
 
         #region Internal methods
         /// <summary>
@@ -573,7 +602,6 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Private Methods
-
         private void ValidateBinding(string bindingName)
         {
             if (string.IsNullOrWhiteSpace(bindingName))
