@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Restless.Toolkit.Resource
 {
@@ -27,6 +28,21 @@ namespace Restless.Toolkit.Resource
         public static object Get(object resourceId)
         {
             return Application.Current.TryFindResource(resourceId);
+        }
+
+        /// <summary>
+        /// Gets the style with key <see cref="ResourceKeys.DataGridCellEditTextBoxStyleKey"/>
+        /// </summary>
+        /// <param name="maxLength">The max length allowed in the TextBox. Pass zero to not set the max.</param>
+        /// <returns>A Style for a TextBox</returns>
+        public static Style CreateDataGridCellEditTextBoxStyle(int maxLength)
+        {
+            Style result = new Style(typeof(TextBox), Get<Style>(ResourceKeys.DataGridCellEditTextBoxStyleKey));
+            if (maxLength > 0)
+            {
+                result.Setters.Add(new Setter(TextBox.MaxLengthProperty, maxLength));
+            }
+            return result;
         }
 
         internal static ComponentResourceKey CreateKey<T>([CallerMemberName] string resourceId = null)

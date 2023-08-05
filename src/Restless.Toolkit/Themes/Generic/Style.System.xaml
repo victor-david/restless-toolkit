@@ -10,6 +10,7 @@
     <sys:Double x:Key="{x:Static keys:ResourceKeys.MinHeaderHeightKey}">28</sys:Double>
     <Thickness x:Key="{x:Static keys:ResourceKeys.DefaultHeaderPaddingKey}">4</Thickness>
 
+    <sys:Double x:Key="{x:Static keys:ResourceKeys.MinDataGridRowHeightKey}">34</sys:Double>
     <sys:Double x:Key="{x:Static keys:ResourceKeys.MinTextBoxHeightKey}">32</sys:Double>
     <Thickness x:Key="{x:Static keys:ResourceKeys.TextBoxBorderThicknessKey}">1.25</Thickness>
     

@@ -127,6 +127,11 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for TextBox default style
         /// </summary>
         public static readonly ComponentResourceKey DefaultTextBoxStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for data grid cell edit TextBox style.
+        /// </summary>
+        public static readonly ComponentResourceKey DataGridCellEditTextBoxStyleKey = Create();
         #endregion
 
         /************************************************************************/
@@ -150,6 +155,11 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for default header padding.
         /// </summary>
         public static readonly ComponentResourceKey DefaultHeaderPaddingKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for minimum data grid row height.
+        /// </summary>
+        public static readonly ComponentResourceKey MinDataGridRowHeightKey = Create();
 
         /// <summary>
         /// Identifies the resource key for minimum textbox height.
