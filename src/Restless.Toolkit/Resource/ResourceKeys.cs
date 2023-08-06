@@ -199,6 +199,15 @@ namespace Restless.Toolkit.Resource
 
         /************************************************************************/
 
+        #region Element
+        /// <summary>
+        /// Identifies the resource key for an animated framework element style
+        /// </summary>
+        public static readonly ComponentResourceKey FrameworkElementOpacityAnimationStyleKey = Create();
+        #endregion
+
+        /************************************************************************/
+
         #region TextBox
         /// <summary>
         /// Identifies the resource key for TextBox default style

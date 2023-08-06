@@ -57,6 +57,7 @@ namespace Restless.Toolkit.Resource
             styles.BeginInit();
             styles.AddStyle(ResourceKeys.DefaultButtonStyleKey);
             styles.AddStyle(ResourceKeys.DefaultCheckBoxStyleKey);
+            styles.AddStyle(ResourceKeys.DefaultDataGridStyleKey);
             styles.AddStyle(ResourceKeys.DefaultDataGridStyleKey, typeof(Controls.DataGrid));
             styles.AddStyle(ResourceKeys.DefaultStatusBarStyleKey);
             styles.AddStyle(ResourceKeys.DefaultTextBoxStyleKey);
@@ -64,17 +65,14 @@ namespace Restless.Toolkit.Resource
             res.MergedDictionaries.Insert(0, styles);
         }
 
-        private static void AddStyle(this ResourceDictionary res, ComponentResourceKey key, Type additionalTargetType = null)
+        private static void AddStyle(this ResourceDictionary res, ComponentResourceKey key, Type targetTypeOverride = null)
         {
             if (Get<Style>(key) is Style style)
             {
-                Style newStyle = new Style(style.TargetType, style);
+                Type targetType = targetTypeOverride ?? style.TargetType;
+                Style newStyle = new Style(targetType, style);
                 newStyle.Seal();
-                res.Add(style.TargetType, newStyle);
-                if (additionalTargetType != null)
-                {
-                    res.Add(additionalTargetType, newStyle);
-                }
+                res.Add(targetType, newStyle);
             }
 
         }
