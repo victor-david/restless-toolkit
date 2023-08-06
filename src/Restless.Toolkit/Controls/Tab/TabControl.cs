@@ -62,6 +62,21 @@ namespace Restless.Toolkit.Controls
                 PropertyChangedCallback = OnBorderThicknessChanged,
             });
         }
+
+        private static object OnCoerceBorderThickness(DependencyObject d, object baseValue)
+        {
+            if (baseValue is Thickness value)
+            {
+                double largest = Math.Max(Math.Max(Math.Max(value.Left, value.Right), value.Top), value.Bottom);
+                return new Thickness(Math.Max(Math.Min(largest, 2.0), 1.0));
+            }
+            return new Thickness(1);
+        }
+
+        private static void OnBorderThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as TabControl)?.ActivateBorderChange();
+        }
         #endregion
 
         /************************************************************************/
@@ -96,9 +111,13 @@ namespace Restless.Toolkit.Controls
 
         /// <summary>
         /// Gets or sets a command to be executed after a drag / drop operation to perform the reordering.
-        /// If this property is not set, the tabs can be reordered internally if the ItemsSource is bound
-        /// to an ObservableCollection or to an object type that derives directly from ObservableCollection.
         /// </summary>
+        /// <remarks>
+        /// If this property is not set, the tabs can be reordered internally ItemsSource is bound
+        /// to an ObservableCollection or to an object type that derives directly from ObservableCollection.
+        /// If this property is set, the command is executed to perform the reordering. The command receives
+        /// a <see cref="TabItemDragDrop"/> object as its parameter.
+        /// </remarks>
         public ICommand ReorderTabsCommand
         {
             get => (ICommand)GetValue(ReorderTabsCommandProperty);
@@ -136,10 +155,7 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Gets a boolean value that indicates if reordering is available.
         /// </summary>
-        private bool IsReorderAvailable
-        {
-            get => AllowTabReorder && Items.Count > 1;
-        }
+        private bool IsReorderAvailable => AllowTabReorder && Items.Count > 1;
 
         /// <summary>
         /// Gets or sets the height of the tabs.
@@ -498,7 +514,7 @@ namespace Restless.Toolkit.Controls
 
             if (IsReorderAvailable && GetRoutedEventTabItem(e) is TabItem tabTarget)
             {
-                var tabSource = e.Data.GetData(typeof(TabItem)) as TabItem;
+                TabItem tabSource = e.Data.GetData(typeof(TabItem)) as TabItem;
 
                 if (!tabTarget.Equals(tabSource))
                 {
@@ -533,11 +549,7 @@ namespace Restless.Toolkit.Controls
             }
         }
 
-        private TabItem GetTabItem(object item)
-        {
-            if (item is TabItem) return item as TabItem;
-            return ItemContainerGenerator.ContainerFromItem(item) as TabItem;
-        }
+        private TabItem GetTabItem(object item) => item is TabItem ? item as TabItem : ItemContainerGenerator.ContainerFromItem(item) as TabItem;
 
         /// <summary>
         /// Gets a tab item during a routed event
@@ -572,14 +584,7 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         /// <param name="tab">The tab item</param>
         /// <returns><paramref name="tab"/> if it belongs to this instance of the tab control</returns>
-        private TabItem GetValidatedChildTabItem(TabItem tab)
-        {
-            if (CoreHelper.GetVisualParent<TabControl>(tab) == this)
-            {
-                return tab;
-            }
-            return null;
-        }
+        private TabItem GetValidatedChildTabItem(TabItem tab) => CoreHelper.GetVisualParent<TabControl>(tab) == this ? tab : null;
 
         private void MoveByItemsSource(TabItem source, TabItem target)
         {
@@ -593,7 +598,7 @@ namespace Restless.Toolkit.Controls
             // sourceType being null is highly unlikely
             if (sourceType != null && sourceType.IsGenericType)
             {
-                var sourceDef = sourceType.GetGenericTypeDefinition();
+                Type sourceDef = sourceType.GetGenericTypeDefinition();
 
                 if (sourceDef == typeof(ObservableCollection<>))
                 {
@@ -601,7 +606,7 @@ namespace Restless.Toolkit.Controls
                     int targetIdx = ItemContainerGenerator.IndexFromContainer(target);
                     if (sourceIdx >= 0 && targetIdx >= 0)
                     {
-                        var method = sourceType.GetMethod("Move");
+                        System.Reflection.MethodInfo method = sourceType.GetMethod("Move");
                         method.Invoke(ItemsSource, new object[] { sourceIdx, targetIdx });
                     }
                 }
@@ -680,8 +685,16 @@ namespace Restless.Toolkit.Controls
 
         private TabItem GetSelectedTabItem()
         {
-            if (SelectedItem == null) return null;
-            if (SelectedItem is TabItem item) return item;
+            if (SelectedItem == null)
+            {
+                return null;
+            }
+
+            if (SelectedItem is TabItem item)
+            {
+                return item;
+            }
+
             return ItemContainerGenerator.ContainerFromIndex(SelectedIndex) as TabItem;
         }
 
@@ -689,7 +702,7 @@ namespace Restless.Toolkit.Controls
         {
             if (tabPanel != null)
             {
-                foreach (var item in tabPanel.Children.OfType<TabItem>())
+                foreach (TabItem item in tabPanel.Children.OfType<TabItem>())
                 {
                     item.SyncToParentBorder(this);
                 }
@@ -709,25 +722,6 @@ namespace Restless.Toolkit.Controls
         {
             tabListPopup.IsOpen = false;
             SelectedItem = tabListBox.SelectedItem;
-        }
-        #endregion
-
-        /************************************************************************/
-
-        #region Private static methods
-        private static object OnCoerceBorderThickness(DependencyObject d, object baseValue)
-        {
-            if (baseValue is Thickness value)
-            {
-                double largest = Math.Max(Math.Max(Math.Max(value.Left, value.Right), value.Top), value.Bottom);
-                return new Thickness(Math.Max(Math.Min(largest, 2.0), 1.0));
-            }
-            return new Thickness(1);
-        }
-
-        private static void OnBorderThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            (d as TabControl)?.ActivateBorderChange();
         }
         #endregion
     }
