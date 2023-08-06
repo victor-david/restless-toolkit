@@ -1,4 +1,5 @@
 ﻿using Restless.Toolkit.Core;
+using Restless.Toolkit.Mvvm;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -34,6 +35,7 @@ namespace Restless.Toolkit.Controls
         private Button buttonTabList;
         private Popup tabListPopup;
         private System.Windows.Controls.ListBox tabListBox;
+        private readonly ICommand defaultCloseTabCommand;
 
         private Window dragCursor;
         private Point startPoint;
@@ -49,6 +51,8 @@ namespace Restless.Toolkit.Controls
         public TabControl() : base()
         {
             IsSynchronizedWithCurrentItem = true;
+            defaultCloseTabCommand = RelayCommand.Create(RunCloseTabCommand);
+            CloseTabCommand = defaultCloseTabCommand;
             Loaded += TabControlLoaded;
         }
 
@@ -56,7 +60,7 @@ namespace Restless.Toolkit.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TabControl), new FrameworkPropertyMetadata(typeof(TabControl)));
             BorderThicknessProperty.OverrideMetadata(typeof(TabControl), new FrameworkPropertyMetadata()
-            { 
+            {
                 DefaultValue = new Thickness(1),
                 CoerceValueCallback = OnCoerceBorderThickness,
                 PropertyChangedCallback = OnBorderThicknessChanged,
@@ -131,6 +135,60 @@ namespace Restless.Toolkit.Controls
             (
                 nameof(ReorderTabsCommand), typeof(ICommand), typeof(TabControl), new FrameworkPropertyMetadata(null)
             );
+
+        /// <summary>
+        /// Gets or sets a value that determines if tabs are closeable.
+        /// </summary>
+        public bool AreTabsCloseable
+        {
+            get => (bool)GetValue(AreTabsCloseableProperty);
+            set => SetValue(AreTabsCloseableProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="AreTabsCloseable"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty AreTabsCloseableProperty = DependencyProperty.Register
+            (
+                nameof(AreTabsCloseable), typeof(bool), typeof(TabControl), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = false
+                }
+            );
+
+        /// <summary>
+        /// Gets or sets a command to execute to close a tab.
+        /// </summary>
+        /// <remarks>
+        /// By default, this property is set to a command that removes the tab internally.
+        /// For internal tab removal, ItemsSource must be bound to an ObservableCollection,
+        /// or a type that derives from ObservableCollection. 
+        /// If this is not the case, or you require/ additional processing before closing a tab,
+        /// you must assign a command to this property that removes the tab.
+        /// The parameter to the command is the <see cref="TabItem"/> that is being removed.
+        /// </remarks>
+        public ICommand CloseTabCommand
+        {
+            get => (ICommand)GetValue(CloseTabCommandProperty);
+            set => SetValue(CloseTabCommandProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="CloseTabCommand"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty CloseTabCommandProperty = DependencyProperty.Register
+            (
+                nameof(CloseTabCommand), typeof(ICommand), typeof(TabControl), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null,
+                    CoerceValueCallback = OnCoerceCloseTabCommand
+                }
+            );
+
+        private static object OnCoerceCloseTabCommand(DependencyObject d, object baseValue)
+        {
+            return d is TabControl control && baseValue == null ? control.defaultCloseTabCommand : baseValue;
+        }
 
         /// <summary>
         /// Gets or sets a brush that will be used in the tab drag cursor
@@ -540,7 +598,7 @@ namespace Restless.Toolkit.Controls
         /// <param name="excludedTab">The tab to exclude. This is the tab that's being dragged.</param>
         private void SetAllowDrop(TabItem excludedTab)
         {
-            foreach (var item in Items)
+            foreach (object item in Items)
             {
                 if (GetTabItem(item) is TabItem tabItem)
                 {
@@ -586,29 +644,40 @@ namespace Restless.Toolkit.Controls
         /// <returns><paramref name="tab"/> if it belongs to this instance of the tab control</returns>
         private TabItem GetValidatedChildTabItem(TabItem tab) => CoreHelper.GetVisualParent<TabControl>(tab) == this ? tab : null;
 
-        private void MoveByItemsSource(TabItem source, TabItem target)
+        private void RunCloseTabCommand(object parm)
         {
-            Type sourceType = ItemsSource.GetType();
-
-            if (!sourceType.IsGenericType)
+            if (parm is TabItem tabItem)
             {
-                sourceType = sourceType.BaseType;
+                RemoveByItemsSource(tabItem);
             }
 
-            // sourceType being null is highly unlikely
-            if (sourceType != null && sourceType.IsGenericType)
-            {
-                Type sourceDef = sourceType.GetGenericTypeDefinition();
+        }
+        private void RemoveByItemsSource(TabItem tabItem)
+        {
+            Type itemsSourceObservable = GetItemsSourceTypeAsObservable();
 
-                if (sourceDef == typeof(ObservableCollection<>))
+            if (itemsSourceObservable != null)
+            {
+                int sourceIdx = ItemContainerGenerator.IndexFromContainer(tabItem);
+                if (sourceIdx >= 0)
                 {
-                    int sourceIdx = ItemContainerGenerator.IndexFromContainer(source);
-                    int targetIdx = ItemContainerGenerator.IndexFromContainer(target);
-                    if (sourceIdx >= 0 && targetIdx >= 0)
-                    {
-                        System.Reflection.MethodInfo method = sourceType.GetMethod("Move");
-                        method.Invoke(ItemsSource, new object[] { sourceIdx, targetIdx });
-                    }
+                    System.Reflection.MethodInfo method = itemsSourceObservable.GetMethod("RemoveAt");
+                    method.Invoke(ItemsSource, new object[] { sourceIdx });
+                }
+            }
+        }
+
+        private void MoveByItemsSource(TabItem source, TabItem target)
+        {
+            Type itemsSourceObservable = GetItemsSourceTypeAsObservable();
+            if (itemsSourceObservable != null)
+            {
+                int sourceIdx = ItemContainerGenerator.IndexFromContainer(source);
+                int targetIdx = ItemContainerGenerator.IndexFromContainer(target);
+                if (sourceIdx >= 0 && targetIdx >= 0)
+                {
+                    System.Reflection.MethodInfo method = itemsSourceObservable.GetMethod("Move");
+                    method.Invoke(ItemsSource, new object[] { sourceIdx, targetIdx });
                 }
             }
         }
@@ -622,6 +691,35 @@ namespace Restless.Toolkit.Controls
                 Items.Remove(source);
                 Items.Insert(targetIdx, source);
             }
+        }
+
+        /// <summary>
+        /// Gets ItemsSource type as ObservableCollection.
+        /// </summary>
+        /// <returns>
+        /// ObservableCollection type if ItemsSource is not null
+        /// and is (or derives from) ObservableCollection
+        /// </returns>
+        private Type GetItemsSourceTypeAsObservable()
+        {
+            if (ItemsSource != null)
+            {
+                Type sourceType = ItemsSource.GetType();
+                if (!sourceType.IsGenericType)
+                {
+                    sourceType = sourceType.BaseType;
+                }
+
+                if (sourceType.IsGenericType)
+                {
+                    Type sourceDef = sourceType.GetGenericTypeDefinition();
+                    if (sourceDef == typeof(ObservableCollection<>))
+                    {
+                        return sourceType;
+                    }
+                }
+            }
+            return null;
         }
 
         private Window CreateDragCursor(FrameworkElement dragElement)

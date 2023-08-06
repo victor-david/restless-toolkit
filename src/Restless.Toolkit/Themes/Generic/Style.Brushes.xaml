@@ -25,7 +25,10 @@
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.CheckBoxBorderBrushKey}" Color="{StaticResource DefaultBorderColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.CheckBoxForegroundBrushKey}" Color="{StaticResource DefaultForegoundColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.CheckBoxCheckedBrushKey}" Color="#0080f0"/>
-    
+
+    <!-- Path -->
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.PathFillBrushKey}" Color="RoyalBlue"/>
+
     <!-- TextBox -->
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.TextBoxBorderBrushKey}" Color="{StaticResource DefaultBorderColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.TextBoxBackgroundBrushKey}" Color="LightGoldenrodYellow"/>

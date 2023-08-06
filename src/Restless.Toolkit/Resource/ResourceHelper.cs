@@ -59,6 +59,7 @@ namespace Restless.Toolkit.Resource
             styles.AddStyle(ResourceKeys.DefaultCheckBoxStyleKey);
             styles.AddStyle(ResourceKeys.DefaultDataGridStyleKey);
             styles.AddStyle(ResourceKeys.DefaultDataGridStyleKey, typeof(Controls.DataGrid));
+            styles.AddStyle(ResourceKeys.DefaultPathStyleKey);
             styles.AddStyle(ResourceKeys.DefaultStatusBarStyleKey);
             styles.AddStyle(ResourceKeys.DefaultTextBoxStyleKey);
             styles.EndInit();

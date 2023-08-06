@@ -20,7 +20,12 @@
                     Header="Allow tabs to be reordered"
                     IsChecked="{Binding AllowTabReorder}"
                     Command="{Binding Commands[ToggleAllowTabReorder]}"/>
-                
+
+                <MenuItem
+                    Header="Allow tabs to be closed"
+                    IsChecked="{Binding AreTabsCloseable}"
+                    Command="{Binding Commands[ToggleAreTabsCloseable]}"/>
+
                 <MenuItem
                     Header="Keep content on tab switch"
                     IsChecked="{Binding KeepContentOnTabSwitch}"
@@ -41,7 +46,8 @@
     <con:TabControl 
         Margin="10"
         TabHeight="40"
-        MinTabWidth="100"
+        MinTabWidth="120"
+        AreTabsCloseable="{Binding AreTabsCloseable}"
         AllowTabReorder="{Binding AllowTabReorder}"
         BorderBrush="IndianRed"
         BorderThickness="{Binding TabBorderThickness}"

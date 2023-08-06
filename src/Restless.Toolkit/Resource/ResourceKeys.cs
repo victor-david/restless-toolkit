@@ -71,6 +71,15 @@ namespace Restless.Toolkit.Resource
 
         /************************************************************************/
 
+        #region Brushes (Path)
+        /// <summary>
+        /// Identifies the resource key for Path fill brush
+        /// </summary>
+        public static readonly ComponentResourceKey PathFillBrushKey = Create();
+        #endregion
+
+        /************************************************************************/
+
         #region Brushes (TextBox)
         /// <summary>
         /// Identifies the resource key for TextBox border brush
@@ -227,6 +236,44 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for StatusBar default style
         /// </summary>
         public static readonly ComponentResourceKey DefaultStatusBarStyleKey = Create();
+        #endregion
+
+        /************************************************************************/
+
+        #region Path
+        /// <summary>
+        /// Identifies the resource key for Path default style
+        /// </summary>
+        public static readonly ComponentResourceKey DefaultPathStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for Path medium size style
+        /// </summary>
+        public static readonly ComponentResourceKey MediumPathStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for Path small size style
+        /// </summary>
+        public static readonly ComponentResourceKey SmallPathStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for Path used in tab close
+        /// </summary>
+        public static readonly ComponentResourceKey TabClosePathStyleKey = Create();
+        #endregion
+
+        /************************************************************************/
+
+        #region TabItem
+        /// <summary>
+        /// Identifies the resource key for TabItem default style
+        /// </summary>
+        public static readonly ComponentResourceKey DefaultTabItemStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for TabItem default template
+        /// </summary>
+        public static readonly ComponentResourceKey DefaultTabItemTemplateKey = Create();
         #endregion
 
         /************************************************************************/

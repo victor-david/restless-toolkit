@@ -13,6 +13,7 @@ namespace Restless.App.Toolkit
     {
         #region Private
         private bool allowTabReorder;
+        private bool areTabsCloseable;
         private bool keepContentOnTabSwitch;
         private bool isSeattleChecked;
         private bool isNewYorkChecked;
@@ -33,6 +34,7 @@ namespace Restless.App.Toolkit
             Pages = new ObservableCollection<ViewModelBase>();
 
             Commands.Add("ToggleAllowTabReorder", RelayCommand.Create(p => AllowTabReorder = !AllowTabReorder));
+            Commands.Add("ToggleAreTabsCloseable", RelayCommand.Create(p => AreTabsCloseable = !AreTabsCloseable));
             Commands.Add("ToggleKeepContentOnTabSwitch", RelayCommand.Create(p => KeepContentOnTabSwitch = !KeepContentOnTabSwitch));
             Commands.Add("ToggleSeattle", p => IsSeattleChecked = !IsSeattleChecked);
             Commands.Add("ToggleNewYork", p => IsNewYorkChecked = !IsNewYorkChecked);
@@ -53,6 +55,12 @@ namespace Restless.App.Toolkit
         {
             get => allowTabReorder;
             set => SetProperty(ref allowTabReorder, value);
+        }
+
+        public bool AreTabsCloseable
+        {
+            get => areTabsCloseable;
+            set => SetProperty(ref areTabsCloseable, value);
         }
 
         public bool KeepContentOnTabSwitch
