@@ -7,10 +7,7 @@
     <!-- These do not have a corresponding custom control -->
 
     <Style x:Key="{x:Static keys:ResourceKeys.FrameworkElementOpacityAnimationStyleKey}" x:Shared="False" TargetType="FrameworkElement">
-        <Setter Property="Visibility" Value="Collapsed"/>
-        <Setter Property="Opacity" Value="0"/>
         <Style.Triggers>
-
             <Trigger Property="Visibility" Value="Visible">
                 <Trigger.EnterActions>
                     <BeginStoryboard>
@@ -20,11 +17,6 @@
                     </BeginStoryboard>
                 </Trigger.EnterActions>
             </Trigger>
-
-            <Trigger Property="Visibility" Value="Collapsed">
-                <Setter Property="Opacity" Value="0"/>
-            </Trigger>
-
         </Style.Triggers>
     </Style>
 
