@@ -1,0 +1,22 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls"
+    xmlns:keys="clr-namespace:Restless.Toolkit.Resource">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Button.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.CheckBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Path.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Panel.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.TextBox.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="Button" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultButtonStyleKey}}"/>
+    <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultCheckBoxStyleKey}}"/>
+    <Style TargetType="DataGrid" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultDataGridStyleKey}}"/>
+    <Style TargetType="con:DataGrid" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultDataGridStyleKey}}"/>
+    <Style TargetType="Path" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultPathStyleKey}}"/>
+    <Style TargetType="StatusBar" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultStatusBarStyleKey}}"/>
+    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultTextBoxStyleKey}}"/>
+</ResourceDictionary>

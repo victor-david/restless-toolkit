@@ -17,18 +17,13 @@
                 <Setter Property="Margin" Value="0,12"/>
             </Style>
         </Grid.Resources>
-        <StackPanel>
-            <TextBlock>
-                <Bold>Restless Toolkit</Bold>
-                supplies built in styles for some controls.
-                To use, call
-                <Bold>Restless.Toolkit.Resource.ResourceHelper.InjectDefaultStyles();</Bold>
-                in your app startup, or create a style in your app that extends the built in style.
-            </TextBlock>
-            <TextBlock Foreground="Red">
-                xmlns:tk=&quot;http://schemas.restless.toolkit.com/2021&quot;
-            </TextBlock>
-        </StackPanel>
+
+        <TextBlock>
+            <Bold>Restless Toolkit</Bold>  supplies built in styles for some controls.
+            <LineBreak/>
+            They can be inserted programatically or via xaml.
+        </TextBlock>
+
         
         <Button 
             Grid.Column="1"
@@ -93,7 +88,6 @@
                 A default style for <Bold>TextBox</Bold>.
             </TextBlock>
             <TextBox Text="This is a text box" IsEnabled="{Binding IsEnabled}"/>
-
         </StackPanel>
 
     </Grid>

@@ -17,14 +17,14 @@
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ThreeWay.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/SplitterGrid.xaml"/>
         <!-- These supply styles keyed by component resource keys. -->
-        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/Style.System.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/Style.Brushes.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/Style.Button.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/Style.CheckBox.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/Style.Element.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/Style.Path.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/Style.TextBox.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/Style.Panel.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.System.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Brushes.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Button.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.CheckBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Element.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Path.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.TextBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Panel.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>
