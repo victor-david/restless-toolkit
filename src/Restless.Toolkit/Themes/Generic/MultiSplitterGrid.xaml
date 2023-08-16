@@ -4,15 +4,20 @@
     xmlns:con="clr-namespace:Restless.Toolkit.Controls"
     xmlns:keys="clr-namespace:Restless.Toolkit.Resource">
 
-    <ControlTemplate x:Key="MultiSplitterGridVerticalControlTemplate" TargetType="con:MultiSplitterGrid">
+    <!-- Right template (default) -->
+    <ControlTemplate x:Key="MultiSplitterGridRightControlTemplate" TargetType="con:MultiSplitterGrid">
         <Grid>
             <Grid.ColumnDefinitions>
+                <!-- Main -->
                 <ColumnDefinition/>
+                <!-- Splitter -->
                 <ColumnDefinition Width="Auto"/>
+                <!-- Detail -->
                 <ColumnDefinition
                     MinWidth="{TemplateBinding ActualMinDetailSize}"
                     MaxWidth="{TemplateBinding MaxDetailSize}"
                     Width="{Binding ActualDetailSize, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                <!-- Button-->
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -20,32 +25,40 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
+            <!-- Main header -->
             <ContentPresenter
+                Grid.Row="0" Grid.Column="0"
                 Margin="{TemplateBinding MainHeaderMargin}"
                 Content="{TemplateBinding MainHeader}"/>
 
+            <!-- Detail header -->
             <ContentPresenter
-                Grid.Column="2"
+                Grid.Column="2" Grid.Row="0"
                 Margin="{TemplateBinding DetailHeaderMargin}"
                 Content="{TemplateBinding DetailHeader}"/>
 
+            <!-- Splitter -->
             <GridSplitter
                 Grid.Column="1" Grid.Row="1"
                 Visibility="{TemplateBinding SplitterVisibility}"
                 Style="{DynamicResource {x:Static keys:ResourceKeys.VerticalGridSplitterStyleKey}}"/>
 
+            <!-- Main content-->
             <ContentPresenter
-                Grid.Row="1"
+                Grid.Column="0" Grid.Row="1"
                 Margin="{TemplateBinding MainContentMargin}"
                 Content="{TemplateBinding MainContent}"/>
 
+            <!-- Detail content -->
             <ContentPresenter
                 Grid.Column="2" Grid.Row="1"
                 Margin="{TemplateBinding DetailContentMargin}"
                 Content="{TemplateBinding DetailContent}"/>
 
+            <!-- Expand / collapse button-->
             <ToggleButton
                 Grid.Column="3" Grid.Row="1"
+                Tag="{x:Static con:SplitterPosition.Left}"
                 Visibility="{TemplateBinding ExpanderVisibility}"
                 Style="{DynamicResource {x:Static keys:ResourceKeys.SplitterGridToggleButtonStyleKey}}"
                 IsChecked="{Binding IsDetailExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
@@ -53,20 +66,25 @@
         </Grid>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="MultiSplitterGridHorizontalControlTemplate" TargetType="con:MultiSplitterGrid">
+    <!-- Bottom template -->
+    <ControlTemplate x:Key="MultiSplitterGridBottomControlTemplate" TargetType="con:MultiSplitterGrid">
         <Grid>
             <Grid.RowDefinitions>
+                <!-- Main -->
                 <RowDefinition/>
+                <!-- Splitter -->
                 <RowDefinition Height="Auto"/>
+                <!-- Detail -->
                 <RowDefinition
                     MinHeight="{TemplateBinding ActualMinDetailSize}"
                     MaxHeight="{TemplateBinding MaxDetailSize}"
                     Height="{Binding ActualDetailSize, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                <!-- Button -->
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <!-- Main -->
-            <Grid>
+            <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
@@ -80,9 +98,9 @@
                     Grid.Row="1"
                     Margin="{TemplateBinding MainContentMargin}"
                     Content="{TemplateBinding MainContent}"/>
-
             </Grid>
 
+            <!-- Splitter -->
             <GridSplitter
                 Grid.Row="1"
                 Visibility="{TemplateBinding SplitterVisibility}"
@@ -105,6 +123,7 @@
                     Content="{TemplateBinding DetailContent}"/>
             </Grid>
 
+            <!-- Expand / collapse button and button side text -->
             <Grid Grid.Row="3" Visibility="{TemplateBinding ExpanderVisibility}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -112,7 +131,7 @@
                 </Grid.ColumnDefinitions>
 
                 <ToggleButton
-                    Tag="1"
+                    Tag="{x:Static con:SplitterPosition.Bottom}"
                     Style="{DynamicResource {x:Static keys:ResourceKeys.SplitterGridToggleButtonStyleKey}}"
                     IsChecked="{Binding IsDetailExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
 
@@ -126,13 +145,167 @@
         </Grid>
     </ControlTemplate>
 
+    <!-- Left template -->
+    <ControlTemplate x:Key="MultiSplitterGridLeftControlTemplate" TargetType="con:MultiSplitterGrid">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <!-- Button -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Detail -->
+                <ColumnDefinition
+                    MinWidth="{TemplateBinding ActualMinDetailSize}"
+                    MaxWidth="{TemplateBinding MaxDetailSize}"
+                    Width="{Binding ActualDetailSize, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                <!-- Splitter -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Main -->
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!-- Main header-->
+            <ContentPresenter
+                Grid.Column="3" Grid.Row="0"
+                Margin="{TemplateBinding MainHeaderMargin}"
+                Content="{TemplateBinding MainHeader}"/>
+
+            <!-- Detail header -->
+            <ContentPresenter
+                Grid.Column="1" Grid.Row="0"
+                Margin="{TemplateBinding DetailHeaderMargin}"
+                Content="{TemplateBinding DetailHeader}"/>
+
+            <!-- Splitter -->
+            <GridSplitter
+                Grid.Column="2" Grid.Row="1"
+                Visibility="{TemplateBinding SplitterVisibility}"
+                Style="{DynamicResource {x:Static keys:ResourceKeys.VerticalGridSplitterStyleKey}}"/>
+
+            <!-- Main content-->
+            <ContentPresenter
+                Grid.Row="1" Grid.Column="3"
+                Margin="{TemplateBinding MainContentMargin}"
+                Content="{TemplateBinding MainContent}"/>
+
+            <!-- Detail content-->
+            <ContentPresenter
+                Grid.Column="1" Grid.Row="1"
+                Margin="{TemplateBinding DetailContentMargin}"
+                Content="{TemplateBinding DetailContent}"/>
+
+            <!-- Expand / collapse button -->
+            <ToggleButton
+                Grid.Column="0" Grid.Row="1"
+                Tag="{x:Static con:SplitterPosition.Left}"
+                Visibility="{TemplateBinding ExpanderVisibility}"
+                Style="{DynamicResource {x:Static keys:ResourceKeys.SplitterGridToggleButtonStyleKey}}"
+                IsChecked="{Binding IsDetailExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+        </Grid>
+    </ControlTemplate>
+
+    <!-- Top template -->
+    <ControlTemplate x:Key="MultiSplitterGridTopControlTemplate" TargetType="con:MultiSplitterGrid">
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- Button -->
+                <RowDefinition Height="Auto"/>
+                <!-- Detail -->
+                <RowDefinition
+                    MinHeight="{TemplateBinding ActualMinDetailSize}"
+                    MaxHeight="{TemplateBinding MaxDetailSize}"
+                    Height="{Binding ActualDetailSize, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                <!-- Splitter -->
+                <RowDefinition Height="Auto"/>
+                <!-- Main -->
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!-- Main -->
+            <Grid Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <ContentPresenter
+                    Margin="{TemplateBinding MainHeaderMargin}"
+                    Content="{TemplateBinding MainHeader}"/>
+
+                <ContentPresenter
+                    Grid.Row="1"
+                    Margin="{TemplateBinding MainContentMargin}"
+                    Content="{TemplateBinding MainContent}"/>
+            </Grid>
+
+            <!-- Splitter -->
+            <GridSplitter
+                Grid.Row="2"
+                Visibility="{TemplateBinding SplitterVisibility}"
+                Style="{DynamicResource {x:Static keys:ResourceKeys.HorizontalGridSplitterStyleKey}}"/>
+
+            <!-- Detail -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <ContentPresenter
+                    Margin="{TemplateBinding DetailHeaderMargin}"
+                    Content="{TemplateBinding DetailHeader}"/>
+
+                <ContentPresenter
+                    Grid.Row="1"
+                    Margin="{TemplateBinding DetailContentMargin}"
+                    Content="{TemplateBinding DetailContent}"/>
+            </Grid>
+
+            <!-- Expand / collapse button and button side text -->
+            <Grid Grid.Row="0" Visibility="{TemplateBinding ExpanderVisibility}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <ToggleButton
+                    Tag="{x:Static con:SplitterPosition.Top}"
+                    Style="{DynamicResource {x:Static keys:ResourceKeys.SplitterGridToggleButtonStyleKey}}"
+                    IsChecked="{Binding IsDetailExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                <ContentPresenter
+                    Grid.Column="1"
+                    Margin="6,0"
+                    TextElement.Foreground="{TemplateBinding ButtonSideTextBrush}"
+                    Content="{TemplateBinding ButtonSideText}"/>
+            </Grid>
+
+        </Grid>
+    </ControlTemplate>
 
     <Style TargetType="con:MultiSplitterGrid">
-        <Setter Property="Template" Value="{StaticResource MultiSplitterGridVerticalControlTemplate}"/>
+        <!-- Default (right) -->
+        <Setter Property="Template" Value="{StaticResource MultiSplitterGridRightControlTemplate}"/>
         <Style.Triggers>
-            <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Template" Value="{StaticResource MultiSplitterGridHorizontalControlTemplate}"/>
+            <!-- Bottom template -->
+            <Trigger Property="SplitterPosition" Value="Bottom">
+                <Setter Property="Template" Value="{StaticResource MultiSplitterGridBottomControlTemplate}"/>
             </Trigger>
+
+            <!-- Left template -->
+            <Trigger Property="SplitterPosition" Value="Left">
+                <Setter Property="Template" Value="{StaticResource MultiSplitterGridLeftControlTemplate}"/>
+            </Trigger>
+
+            <!-- Top template -->
+            <Trigger Property="SplitterPosition" Value="Top">
+                <Setter Property="Template" Value="{StaticResource MultiSplitterGridTopControlTemplate}"/>
+            </Trigger>
+
             <Trigger Property="IsDetailExpanded" Value="True">
                 <Setter Property="ButtonSideTextBrush" Value="Transparent"/>
             </Trigger>
