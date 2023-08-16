@@ -1,17 +1,18 @@
-﻿using Restless.Toolkit.Mvvm;
+﻿using Restless.Toolkit.Controls;
+using Restless.Toolkit.Mvvm;
 using System.Windows.Controls;
 
 namespace Restless.App.Toolkit
 {
     public class SplitterGridViewModel : ViewModelBase
     {
-        private Orientation orientation;
+        private SplitterPosition splitterPosition;
         private double minDetailSize;
 
-        public Orientation Orientation
+        public SplitterPosition SplitterPosition
         {
-            get => orientation;
-            private set => SetProperty(ref orientation, value);
+            get => splitterPosition;
+            private set => SetProperty(ref splitterPosition, value);
         }
 
         public double MinDetailSize
@@ -23,15 +24,21 @@ namespace Restless.App.Toolkit
         public SplitterGridViewModel()
         {
             DisplayName = "Splitter";
-            Commands.Add("Toggle", RunToggleOrientationCommand);
-            Orientation = Orientation.Horizontal;
+            Commands.Add("ChangePosition", p => SplitterPosition = GetSplitterPosition());
+            SplitterPosition = MultiSplitterGrid.DefaultSplitterPosition;
             MinDetailSize = 120;
         }
 
-        private void RunToggleOrientationCommand(object parm)
+        private SplitterPosition GetSplitterPosition()
         {
-            Orientation = Orientation == Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal;
-            MinDetailSize = Orientation == Orientation.Horizontal ? 120 : 220;
+            return SplitterPosition switch
+            {
+                SplitterPosition.Right => SplitterPosition.Bottom,
+                SplitterPosition.Bottom => SplitterPosition.Left,
+                SplitterPosition.Left => SplitterPosition.Top,
+                SplitterPosition.Top => SplitterPosition.Right,
+                _ => SplitterPosition.Right,
+            };
         }
     }
 }

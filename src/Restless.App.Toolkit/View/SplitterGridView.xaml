@@ -19,13 +19,13 @@
         <Button
             Grid.Column="2"
             Style="{DynamicResource {x:Static tk:ResourceKeys.BorderedButtonStyleKey}}"
-            Command="{Binding Commands[Toggle]}"
-            Content="Toggle orientation"/>
+            Command="{Binding Commands[ChangePosition]}"
+            Content="{Binding SplitterPosition}"/>
 
         <tk:MultiSplitterGrid
             Grid.Row="1"
             Grid.ColumnSpan="3"
-            Orientation="{Binding Orientation}"
+            SplitterPosition="{Binding SplitterPosition}"
             ButtonSideText="Additional information"
             MainHeaderMargin="5"
             DetailHeaderMargin="5"
