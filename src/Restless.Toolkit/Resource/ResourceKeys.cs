@@ -163,6 +163,11 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for Button status bar style
         /// </summary>
         public static readonly ComponentResourceKey StatusBarButtonStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for splitter grid toggle button style.
+        /// </summary>
+        public static readonly ComponentResourceKey SplitterGridToggleButtonStyleKey = Create();
         #endregion
 
         /************************************************************************/
@@ -236,6 +241,16 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for StatusBar default style
         /// </summary>
         public static readonly ComponentResourceKey DefaultStatusBarStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for vertical grid splitter default style
+        /// </summary>
+        public static readonly ComponentResourceKey VerticalGridSplitterStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for horizontal grid splitter default style
+        /// </summary>
+        public static readonly ComponentResourceKey HorizontalGridSplitterStyleKey = Create();
         #endregion
 
         /************************************************************************/
@@ -260,6 +275,26 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for Path used in tab close
         /// </summary>
         public static readonly ComponentResourceKey TabClosePathStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the respource key for chevron down geometry
+        /// </summary>
+        public static readonly ComponentResourceKey ChevronDownGeometryKey = Create();
+
+        /// <summary>
+        /// Identifies the respource key for chevron left geometry
+        /// </summary>
+        public static readonly ComponentResourceKey ChevronLeftGeometryKey = Create();
+
+        /// <summary>
+        /// Identifies the respource key for chevron right geometry
+        /// </summary>
+        public static readonly ComponentResourceKey ChevronRightGeometryKey = Create();
+
+        /// <summary>
+        /// Identifies the respource key for chevron up geometry
+        /// </summary>
+        public static readonly ComponentResourceKey ChevronUpGeometryKey = Create();
         #endregion
 
         /************************************************************************/

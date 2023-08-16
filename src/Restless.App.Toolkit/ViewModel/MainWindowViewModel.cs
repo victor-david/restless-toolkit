@@ -110,6 +110,7 @@ namespace Restless.App.Toolkit
         {
             Create<WelcomeViewModel>();
             Create<DataGridViewModel>();
+            Create<SplitterGridViewModel>();
             Create<ColorPickerViewModel>();
             Create<RadioViewModel>();
             Create<OtherViewModel>();

@@ -1,5 +1,4 @@
-﻿using Restless.Toolkit.Resource;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -19,23 +18,13 @@ namespace Restless.Toolkit.Controls
 
         #region Public fields
         /// <summary>
-        /// Identifies the style key used for the splitter grid splitter
-        /// </summary>
-        public static readonly ComponentResourceKey SplitterStyleKey = ResourceHelper.CreateKey<SplitterGrid>(); 
-
-        /// <summary>
-        /// Identifies the style key used for the splitter grid toggle button
-        /// </summary>
-        public static readonly ComponentResourceKey ToggleButtonStyleKey = ResourceHelper.CreateKey<SplitterGrid>();
-
-        /// <summary>
         /// The minimum value for <see cref="MinDetailWidth"/>
         /// </summary>
         public const double MinMinDetailWidth = 100;
         /// <summary>
         /// The default value for <see cref="MinDetailWidth"/>
         /// </summary>
-        public const double DefaultMinDetailWidth = 220;
+        public const double DefaultMinDetailWidth = 200;
         /// <summary>
         /// The minimum value for <see cref="MaxDetailWidth"/>
         /// </summary>
@@ -43,11 +32,11 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// The default value for <see cref="MaxDetailWidth"/>
         /// </summary>
-        public const double DefaultMaxDetailWidth = 600;
+        public const double DefaultMaxDetailWidth = 520;
         /// <summary>
         /// The default value for <see cref="DetailWidth"/>
         /// </summary>
-        public const double DefaultDetailWidth = 480;
+        public const double DefaultDetailWidth = 460;
         #endregion
 
         /************************************************************************/
@@ -468,6 +457,10 @@ namespace Restless.Toolkit.Controls
         #region Private methods
         private void HandleMinDetailWidthChanged()
         {
+            if (IsDetailExpanded)
+            {
+                ActualMinDetailWidth = MinDetailWidth;
+            }
         }
 
         private void HandleDetailWidthChanged()

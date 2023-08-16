@@ -1,18 +1,17 @@
-﻿<ResourceDictionary 
+﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:keys="clr-namespace:Restless.Toolkit.Resource"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    
-    <!-- Resource dictionary for default styles only -->
-    <!-- These do not have a corresponding custom control -->
-    
+
+    <!-- Resource dictionary for default styles -->
+
     <sys:Double x:Key="MinButtonHeight">32</sys:Double>
     <sys:Double x:Key="MinButtonWidth">94</sys:Double>
-    
+
     <sys:Double x:Key="MinCompactButtonHeight">28</sys:Double>
     <sys:Double x:Key="MinCompactButtonWidth">64</sys:Double>
-    
+
     <Style x:Key="{x:Static keys:ResourceKeys.DefaultButtonStyleKey}" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
         <Setter Property="MinHeight" Value="{StaticResource MinButtonHeight}"/>
         <Setter Property="MinWidth" Value="{StaticResource MinButtonWidth}"/>
@@ -48,6 +47,48 @@
         <Setter Property="BorderThickness" Value="0,2,0,2"/>
         <Setter Property="Padding" Value="3"/>
         <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <!-- Style used by SplitterGrid and MultiSplitterGrid -->
+    <Style x:Key="{x:Static keys:ResourceKeys.SplitterGridToggleButtonStyleKey}" TargetType="ToggleButton">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static keys:ResourceKeys.PathFillBrushKey}}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="Transparent">
+                        <Grid>
+                            <Path
+                                x:Name="C1"
+                                Style="{DynamicResource {x:Static keys:ResourceKeys.DefaultPathStyleKey}}"
+                                Fill="{TemplateBinding Foreground}"
+                                Data="{DynamicResource {x:Static keys:ResourceKeys.ChevronLeftGeometryKey}}"/>
+
+                            <Path
+                                x:Name="C2"
+                                Style="{DynamicResource {x:Static keys:ResourceKeys.DefaultPathStyleKey}}"
+                                Fill="{TemplateBinding Foreground}"
+                                Data="{DynamicResource {x:Static keys:ResourceKeys.ChevronRightGeometryKey}}"
+                                Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Tag" Value="1">
+                            <Setter TargetName="C1" Property="Data" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronUpGeometryKey}}"/>
+                            <Setter TargetName="C2" Property="Data" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronDownGeometryKey}}"/>
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="C1" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="C2" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

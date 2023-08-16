@@ -16,6 +16,7 @@
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/RadioButton.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/ThreeWay.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/SplitterGrid.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Themes/Generic/MultiSplitterGrid.xaml"/>
         <!-- These supply styles keyed by component resource keys. -->
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.System.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Brushes.xaml"/>

@@ -6,6 +6,11 @@
     <!-- Resource dictionary for default styles only -->
     <!-- These do not have a corresponding custom control -->
 
+    <Geometry x:Key="{x:Static keys:ResourceKeys.ChevronDownGeometryKey}">M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z</Geometry>
+    <Geometry x:Key="{x:Static keys:ResourceKeys.ChevronLeftGeometryKey}">M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z</Geometry>
+    <Geometry x:Key="{x:Static keys:ResourceKeys.ChevronRightGeometryKey}">M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z</Geometry>
+    <Geometry x:Key="{x:Static keys:ResourceKeys.ChevronUpGeometryKey}">M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z</Geometry>
+
     <Style x:Key="{x:Static keys:ResourceKeys.DefaultPathStyleKey}" TargetType="Path">
         <Setter Property="Fill" Value="{DynamicResource {x:Static keys:ResourceKeys.PathFillBrushKey}}"/>
         <Setter Property="Stretch" Value="Uniform"/>

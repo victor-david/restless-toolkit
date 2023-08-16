@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="Restless.App.Toolkit.SplitterGridView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:tk="http://schemas.restless.toolkit.com/2021"
+    xmlns:toolkit="clr-namespace:Restless.App.Toolkit"
+    d:DataContext="{d:DesignInstance Type=toolkit:SplitterGridViewModel}"
+    mc:Ignorable="d"
+    d:DesignHeight="450" d:DesignWidth="800">
+    <Grid tk:Property.ColumnWidths="Auto,*,Auto" tk:Property.RowHeights="Auto,*">
+
+        <TextBlock
+            Text="Multi Splitter"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlockExplain}"/>
+
+        <Button
+            Grid.Column="2"
+            Style="{DynamicResource {x:Static tk:ResourceKeys.BorderedButtonStyleKey}}"
+            Command="{Binding Commands[Toggle]}"
+            Content="Toggle orientation"/>
+
+        <tk:MultiSplitterGrid
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            Orientation="{Binding Orientation}"
+            ButtonSideText="Additional information"
+            MainHeaderMargin="5"
+            DetailHeaderMargin="5"
+            MainContentMargin="5"
+            DetailContentMargin="5"
+            MinDetailSize="{Binding MinDetailSize}"
+            MaxDetailSize="400">
+
+            <tk:MultiSplitterGrid.MainHeader>
+                <Border Background="LightBlue" Padding="8">
+                    <TextBlock Text="Main Header"/>
+                </Border>
+            </tk:MultiSplitterGrid.MainHeader>
+
+            <tk:MultiSplitterGrid.MainContent>
+                <TextBlock>
+                    This is the main content.
+                </TextBlock>
+            </tk:MultiSplitterGrid.MainContent>
+
+            <tk:MultiSplitterGrid.DetailHeader>
+                <Border Background="CadetBlue" Padding="8">
+                    <TextBlock Text="Detail Header"/>
+                </Border>
+            </tk:MultiSplitterGrid.DetailHeader>
+
+            <tk:MultiSplitterGrid.DetailContent>
+                <StackPanel>
+                    <TextBlock Text="This is detail content"/>
+
+                    <Path
+                        Margin="0,16"
+                        Data="{StaticResource UserGeometryKey}"
+                        Style="{StaticResource LargePathStyle}"/>
+
+                </StackPanel>
+            </tk:MultiSplitterGrid.DetailContent>
+
+        </tk:MultiSplitterGrid>
+    </Grid>
+</UserControl>
