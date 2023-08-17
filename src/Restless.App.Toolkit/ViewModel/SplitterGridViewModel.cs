@@ -7,7 +7,7 @@ namespace Restless.App.Toolkit
     public class SplitterGridViewModel : ViewModelBase
     {
         private SplitterPosition splitterPosition;
-        private double minDetailSize;
+        private bool canCollapseDetail;
 
         public SplitterPosition SplitterPosition
         {
@@ -15,10 +15,10 @@ namespace Restless.App.Toolkit
             private set => SetProperty(ref splitterPosition, value);
         }
 
-        public double MinDetailSize
+        public bool CanCollapseDetail
         {
-            get => minDetailSize;
-            private set => SetProperty(ref minDetailSize, value);
+            get => canCollapseDetail;
+            set => SetProperty(ref canCollapseDetail, value);
         }
 
         public SplitterGridViewModel()
@@ -26,7 +26,7 @@ namespace Restless.App.Toolkit
             DisplayName = "Splitter";
             Commands.Add("ChangePosition", p => SplitterPosition = GetSplitterPosition());
             SplitterPosition = MultiSplitterGrid.DefaultSplitterPosition;
-            MinDetailSize = 120;
+            CanCollapseDetail = true;
         }
 
         private SplitterPosition GetSplitterPosition()

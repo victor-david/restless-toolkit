@@ -16,6 +16,13 @@
             VerticalAlignment="Center"
             Style="{StaticResource TextBlockExplain}"/>
 
+        <CheckBox
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            IsChecked="{Binding CanCollapseDetail, Mode=TwoWay}"
+            Content="Can collapse"/>
+
         <Button
             Grid.Column="2"
             Style="{DynamicResource {x:Static tk:ResourceKeys.BorderedButtonStyleKey}}"
@@ -25,13 +32,14 @@
         <tk:MultiSplitterGrid
             Grid.Row="1"
             Grid.ColumnSpan="3"
+            CanCollapseDetail="{Binding CanCollapseDetail}"
             SplitterPosition="{Binding SplitterPosition}"
             ButtonSideText="Additional information"
             MainHeaderMargin="5"
             DetailHeaderMargin="5"
             MainContentMargin="5"
             DetailContentMargin="5"
-            MinDetailSize="{Binding MinDetailSize}"
+            MinDetailSize="160"
             MaxDetailSize="400">
 
             <tk:MultiSplitterGrid.MainHeader>
