@@ -84,26 +84,6 @@ namespace Restless.Toolkit.Controls
             );
 
         /// <summary>
-        /// Gets or sets the orientation
-        /// </summary>
-        public Orientation Orientation
-        {
-            get => (Orientation)GetValue(OrientationProperty);
-            set => SetValue(OrientationProperty, value);
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Orientation"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register
-            (
-                nameof(Orientation), typeof(Orientation), typeof(MultiSplitterGrid), new FrameworkPropertyMetadata()
-                {
-                    DefaultValue = Orientation.Vertical
-                }
-            );
-
-        /// <summary>
         /// Gets or sets a boolean value that determines if the detail panel may be collapsed
         /// </summary>
         public bool CanCollapseDetail
