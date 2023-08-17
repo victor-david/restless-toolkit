@@ -1,6 +1,5 @@
 ﻿using Restless.Toolkit.Controls;
 using Restless.Toolkit.Mvvm;
-using System.Windows.Controls;
 
 namespace Restless.App.Toolkit
 {
