@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls"
     xmlns:keys="clr-namespace:Restless.Toolkit.Resource"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
@@ -76,10 +77,21 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Tag" Value="1">
+                        <Trigger Property="Tag" Value="{x:Static con:SplitterPosition.Right}">
+                            <Setter TargetName="C1" Property="Data" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronLeftGeometryKey}}"/>
+                            <Setter TargetName="C2" Property="Data" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronRightGeometryKey}}"/>
+                        </Trigger>
+                        <Trigger Property="Tag" Value="{x:Static con:SplitterPosition.Bottom}">
                             <Setter TargetName="C1" Property="Data" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronUpGeometryKey}}"/>
                             <Setter TargetName="C2" Property="Data" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronDownGeometryKey}}"/>
-                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Trigger>
+                        <Trigger Property="Tag" Value="{x:Static con:SplitterPosition.Left}">
+                            <Setter TargetName="C1" Property="Data" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronRightGeometryKey}}"/>
+                            <Setter TargetName="C2" Property="Data" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronLeftGeometryKey}}"/>
+                        </Trigger>
+                        <Trigger Property="Tag" Value="{x:Static con:SplitterPosition.Top}">
+                            <Setter TargetName="C1" Property="Data" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronDownGeometryKey}}"/>
+                            <Setter TargetName="C2" Property="Data" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronUpGeometryKey}}"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="C1" Property="Visibility" Value="Collapsed"/>
