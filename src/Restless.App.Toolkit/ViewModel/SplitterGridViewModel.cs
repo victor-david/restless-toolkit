@@ -1,37 +1,43 @@
-﻿using Restless.Toolkit.Mvvm;
-using System.Windows.Controls;
+﻿using Restless.Toolkit.Controls;
+using Restless.Toolkit.Mvvm;
 
 namespace Restless.App.Toolkit
 {
     public class SplitterGridViewModel : ViewModelBase
     {
-        private Orientation orientation;
-        private double minDetailSize;
+        private SplitterPosition splitterPosition;
+        private bool canCollapseDetail;
 
-        public Orientation Orientation
+        public SplitterPosition SplitterPosition
         {
-            get => orientation;
-            private set => SetProperty(ref orientation, value);
+            get => splitterPosition;
+            private set => SetProperty(ref splitterPosition, value);
         }
 
-        public double MinDetailSize
+        public bool CanCollapseDetail
         {
-            get => minDetailSize;
-            private set => SetProperty(ref minDetailSize, value);
+            get => canCollapseDetail;
+            set => SetProperty(ref canCollapseDetail, value);
         }
 
         public SplitterGridViewModel()
         {
             DisplayName = "Splitter";
-            Commands.Add("Toggle", RunToggleOrientationCommand);
-            Orientation = Orientation.Horizontal;
-            MinDetailSize = 120;
+            Commands.Add("ChangePosition", p => SplitterPosition = GetSplitterPosition());
+            SplitterPosition = MultiSplitterGrid.DefaultSplitterPosition;
+            CanCollapseDetail = true;
         }
 
-        private void RunToggleOrientationCommand(object parm)
+        private SplitterPosition GetSplitterPosition()
         {
-            Orientation = Orientation == Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal;
-            MinDetailSize = Orientation == Orientation.Horizontal ? 120 : 220;
+            return SplitterPosition switch
+            {
+                SplitterPosition.Right => SplitterPosition.Bottom,
+                SplitterPosition.Bottom => SplitterPosition.Left,
+                SplitterPosition.Left => SplitterPosition.Top,
+                SplitterPosition.Top => SplitterPosition.Right,
+                _ => SplitterPosition.Right,
+            };
         }
     }
 }

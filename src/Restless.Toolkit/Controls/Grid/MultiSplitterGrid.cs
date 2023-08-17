@@ -19,6 +19,10 @@ namespace Restless.Toolkit.Controls
 
         #region Public fields
         /// <summary>
+        /// The default splitter position.
+        /// </summary>
+        public const SplitterPosition DefaultSplitterPosition = SplitterPosition.Right;
+        /// <summary>
         /// The minimum value for <see cref="MinDetailSize"/>
         /// </summary>
         public const double MinMinDetailSize = 60;
@@ -60,22 +64,22 @@ namespace Restless.Toolkit.Controls
 
         #region State
         /// <summary>
-        /// Gets or sets the orientation
+        /// Gets or sets the splitter position.
         /// </summary>
-        public Orientation Orientation
+        public SplitterPosition SplitterPosition
         {
-            get => (Orientation)GetValue(OrientationProperty);
-            set => SetValue(OrientationProperty, value);
+            get => (SplitterPosition)GetValue(SplitterPositionProperty);
+            set => SetValue(SplitterPositionProperty, value);
         }
 
         /// <summary>
-        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// Identifies the <see cref="SplitterPosition"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register
+        public static readonly DependencyProperty SplitterPositionProperty = DependencyProperty.Register
             (
-                nameof(Orientation), typeof(Orientation), typeof(MultiSplitterGrid), new FrameworkPropertyMetadata()
+                nameof(SplitterPosition), typeof(SplitterPosition), typeof(MultiSplitterGrid), new FrameworkPropertyMetadata()
                 {
-                    DefaultValue = Orientation.Vertical
+                    DefaultValue = DefaultSplitterPosition
                 }
             );
 
