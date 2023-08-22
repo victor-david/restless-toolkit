@@ -284,9 +284,9 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Gets or sets an icon defined by a path
         /// </summary>
-        public Path PathIcon
+        public FrameworkElement PathIcon
         {
-            get => (Path)GetValue(PathIconProperty);
+            get => (FrameworkElement)GetValue(PathIconProperty);
             set => SetValue(PathIconProperty, value);
         }
 
@@ -295,7 +295,7 @@ namespace Restless.Toolkit.Controls
         /// </summary>
         public static readonly DependencyProperty PathIconProperty = DependencyProperty.Register
             (
-                nameof(PathIcon), typeof(Path), typeof(AppWindow), new PropertyMetadata(null)
+                nameof(PathIcon), typeof(FrameworkElement), typeof(AppWindow), new PropertyMetadata(null)
             );
         #endregion
 
