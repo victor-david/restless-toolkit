@@ -58,7 +58,7 @@
             <!-- Expand / collapse button-->
             <ToggleButton
                 Grid.Column="3" Grid.Row="1"
-                Tag="{x:Static con:SplitterPosition.Left}"
+                Tag="{x:Static con:SplitterPosition.Right}"
                 Visibility="{TemplateBinding ExpanderVisibility}"
                 Style="{DynamicResource {x:Static keys:ResourceKeys.SplitterGridToggleButtonStyleKey}}"
                 IsChecked="{Binding IsDetailExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
