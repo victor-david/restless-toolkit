@@ -1,30 +1,37 @@
-﻿<ResourceDictionary 
+﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:keys="clr-namespace:Restless.Toolkit.Resource">
-    
+
     <!-- Resource dictionary for default styles only -->
     <!-- These do not have a corresponding custom control -->
 
     <Color x:Key="DefaultBorderColor">#a0a0a0</Color>
+    <Color x:Key="DefaultBackgroundColor">White</Color>
     <Color x:Key="DefaultForegoundColor">MediumBlue</Color>
-   
+
     <!-- Defaults -->
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.DefaultBackgroundBrushKey}" Color="{StaticResource DefaultBackgroundColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.DefaultBorderBrushKey}" Color="{StaticResource DefaultBorderColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.DefaultRolloverBorderBrushKey}" Color="#ff7eb4ea"/>
-    
+
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.DefaultForegroundBrushKey}" Color="{StaticResource DefaultForegoundColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.DefaultDisabledForegroundBrushKey}" Color="#b0b0b0"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.DefaultHeaderBrushKey}" Color="Gainsboro"/>
-    
+
     <!-- Button -->
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.ButtonBorderBrushKey}" Color="{StaticResource DefaultBorderColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.ButtonForegroundBrushKey}" Color="{StaticResource DefaultForegoundColor}"/>
-    
+
     <!-- CheckBox -->
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.CheckBoxBorderBrushKey}" Color="{StaticResource DefaultBorderColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.CheckBoxForegroundBrushKey}" Color="{StaticResource DefaultForegoundColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.CheckBoxCheckedBrushKey}" Color="#0080f0"/>
+
+    <!-- ComboBox -->
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.ComboBoxBackgroundBrushKey}" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.ComboBoxBorderBrushKey}" Color="{StaticResource DefaultBorderColor}"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.ComboBoxItemBorderBrushKey}" Color="Transparent"/>
 
     <!-- Path -->
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.PathFillBrushKey}" Color="RoyalBlue"/>
@@ -35,7 +42,7 @@
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.TextBoxForegroundBrushKey}" Color="{StaticResource DefaultForegoundColor}"/>
 
     <!-- Window -->
-    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowBackgroundBrush}" Color="White"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowBackgroundBrush}" Color="{StaticResource DefaultBackgroundColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowBorderBrush}" Color="#1f3c76"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowTitleBarBorderBrush}" Color="Black"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowTitleBarBackgroundBrush}" Color="#24292e"/>

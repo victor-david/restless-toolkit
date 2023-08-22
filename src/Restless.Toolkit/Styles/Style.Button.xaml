@@ -103,4 +103,41 @@
         </Setter>
     </Style>
 
+    <!-- Style used by ComboBox -->
+    <Style x:Key="{x:Static keys:ResourceKeys.ComboBoxToggleButtonStyleKey}" TargetType="ToggleButton">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <!--<Setter Property="Background" Value="Blue"/>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border
+                        Padding="6,0"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}">
+
+                        <Path
+                            x:Name="Glyph"
+                            Stretch="Uniform"
+                            Height="12" Width="12"
+                            HorizontalAlignment="Right"
+                            Data="{DynamicResource {x:Static keys:ResourceKeys.ChevronDownGeometryKey}}"
+                            Fill="{DynamicResource {x:Static keys:ResourceKeys.PathFillBrushKey}}"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Fill" TargetName="Glyph" Value="{DynamicResource {x:Static keys:ResourceKeys.DefaultForegroundBrushKey}}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Data" TargetName="Glyph" Value="{DynamicResource {x:Static keys:ResourceKeys.ChevronUpGeometryKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

@@ -13,6 +13,11 @@ namespace Restless.Toolkit.Resource
         /// <summary>
         /// Identifies the resource key for default border brush.
         /// </summary>
+        public static readonly ComponentResourceKey DefaultBackgroundBrushKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for default border brush.
+        /// </summary>
         public static readonly ComponentResourceKey DefaultBorderBrushKey = Create();
 
         /// <summary>
@@ -67,6 +72,25 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for CheckBox checked brush
         /// </summary>
         public static readonly ComponentResourceKey CheckBoxCheckedBrushKey = Create();
+        #endregion
+
+        /************************************************************************/
+
+        #region Brushes (ComboBox)
+        /// <summary>
+        /// Identifies the resource key for ComboBox background brush
+        /// </summary>
+        public static readonly ComponentResourceKey ComboBoxBackgroundBrushKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for ComboBox border brush
+        /// </summary>
+        public static readonly ComponentResourceKey ComboBoxBorderBrushKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for ComboBox border brush
+        /// </summary>
+        public static readonly ComponentResourceKey ComboBoxItemBorderBrushKey = Create();
         #endregion
 
         /************************************************************************/
@@ -187,6 +211,20 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for the editing element style used in <see cref="DataGridCheckBoxColumn"/>
         /// </summary>
         public static readonly ComponentResourceKey CheckBoxColumnEditingElementStyleKey = Create();
+        #endregion
+
+        /************************************************************************/
+
+        #region ComboBox
+        /// <summary>
+        /// Identifies the resource key for ComboBox default style
+        /// </summary>
+        public static readonly ComponentResourceKey DefaultComboBoxStyleKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for ComboBox toggle button default style
+        /// </summary>
+        public static readonly ComponentResourceKey ComboBoxToggleButtonStyleKey = Create();
         #endregion
 
         /************************************************************************/
