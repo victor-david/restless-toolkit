@@ -12,7 +12,7 @@
     <Authors>Restless Animal Development</Authors>
     <Company>Restless Animal Development</Company>
     <LangVersion>8</LangVersion>
-    <Version>2.5.17</Version>
+    <Version>2.5.18</Version>
     <Product>Restless Toolkit</Product>
     <Title>Restless.Toolkit</Title>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
@@ -38,5 +38,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Styles\Style.ComboBox.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 </Project>
