@@ -162,7 +162,7 @@ namespace Restless.Toolkit.Controls
         /// <remarks>
         /// By default, this property is set to a command that removes the tab internally.
         /// For internal tab removal, ItemsSource must be bound to an ObservableCollection,
-        /// or a type that derives from ObservableCollection. 
+        /// or a type that derives from ObservableCollection.
         /// If this is not the case, or you require/ additional processing before closing a tab,
         /// you must assign a command to this property that removes the tab.
         /// The parameter to the command is the <see cref="TabItem"/> that is being removed.
@@ -194,7 +194,7 @@ namespace Restless.Toolkit.Controls
         /// Gets or sets a brush that will be used in the tab drag cursor
         /// </summary>
         public Brush DragCursorBrush
-        { 
+        {
             get => (Brush)GetValue(DragCursorBrushProperty);
             set => SetValue(DragCursorBrushProperty, value);
         }
