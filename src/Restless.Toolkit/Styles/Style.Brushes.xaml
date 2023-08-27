@@ -36,6 +36,11 @@
     <!-- Path -->
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.PathFillBrushKey}" Color="RoyalBlue"/>
 
+    <!-- Slider -->
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.SliderTrackBrushKey}" Color="{StaticResource DefaultBorderColor}"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.SliderThumbBrushKey}" Color="RoyalBlue"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.SliderThumbInnerBrushKey}" Color="RoyalBlue"/>
+
     <!-- TextBox -->
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.TextBoxBorderBrushKey}" Color="{StaticResource DefaultBorderColor}"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.TextBoxBackgroundBrushKey}" Color="LightGoldenrodYellow"/>

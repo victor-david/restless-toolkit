@@ -93,6 +93,11 @@
                 A default style for <Bold>ComboBox</Bold>.
             </TextBlock>
             <ComboBox ItemsSource="{Binding Names}" SelectedItem="{Binding SelectedName}"/>
+
+            <TextBlock>
+                A default style for <Bold>Slider</Bold>.
+            </TextBlock>
+            <Slider/>
         </StackPanel>
 
     </Grid>

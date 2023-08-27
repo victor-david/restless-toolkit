@@ -104,6 +104,25 @@ namespace Restless.Toolkit.Resource
 
         /************************************************************************/
 
+        #region Brushes (Slider)
+        /// <summary>
+        /// Identifies the resource key for Slider track brush
+        /// </summary>
+        public static readonly ComponentResourceKey SliderTrackBrushKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for Slider thumb brush
+        /// </summary>
+        public static readonly ComponentResourceKey SliderThumbBrushKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for Slider inner thumb brush
+        /// </summary>
+        public static readonly ComponentResourceKey SliderThumbInnerBrushKey = Create();
+        #endregion
+
+        /************************************************************************/
+
         #region Brushes (TextBox)
         /// <summary>
         /// Identifies the resource key for TextBox border brush
@@ -256,6 +275,15 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for an animated framework element style
         /// </summary>
         public static readonly ComponentResourceKey FrameworkElementOpacityAnimationStyleKey = Create();
+        #endregion
+
+        /************************************************************************/
+
+        #region Slider
+        /// <summary>
+        /// Identifies the resource key for Slider default style
+        /// </summary>
+        public static readonly ComponentResourceKey DefaultSliderStyleKey = Create();
         #endregion
 
         /************************************************************************/

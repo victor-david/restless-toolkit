@@ -10,6 +10,7 @@
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.ComboBox.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Path.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Panel.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Slider.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.TextBox.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
@@ -20,5 +21,6 @@
     <Style TargetType="con:DataGrid" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultDataGridStyleKey}}"/>
     <Style TargetType="Path" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultPathStyleKey}}"/>
     <Style TargetType="StatusBar" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultStatusBarStyleKey}}"/>
+    <Style TargetType="Slider" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultSliderStyleKey}}"/>
     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultTextBoxStyleKey}}"/>
 </ResourceDictionary>

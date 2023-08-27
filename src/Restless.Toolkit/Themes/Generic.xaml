@@ -25,6 +25,7 @@
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.ComboBox.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Element.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Path.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Slider.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.TextBox.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Restless.Toolkit;component/Styles/Style.Panel.xaml"/>
     </ResourceDictionary.MergedDictionaries>

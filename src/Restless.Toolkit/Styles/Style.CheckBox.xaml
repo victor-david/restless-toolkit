@@ -1,8 +1,8 @@
-﻿<ResourceDictionary 
+﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:keys="clr-namespace:Restless.Toolkit.Resource">
-    
+
     <!-- Resource dictionary for default styles only -->
     <!-- These do not have a corresponding custom control -->
 
@@ -18,7 +18,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
                     <StackPanel Orientation="Horizontal">
-                        <Border 
+                        <Border
                             x:Name="OuterBorder"
                             Height="16" Width="16"
                             BorderBrush="{DynamicResource {x:Static keys:ResourceKeys.CheckBoxBorderBrushKey}}"
@@ -26,7 +26,7 @@
                             CornerRadius="1"
                             Background="Transparent">
 
-                            <Border 
+                            <Border
                                 x:Name="InnerBorder"
                                 Height="8" Width="8"
                                 CornerRadius="1"
@@ -63,22 +63,22 @@
     </Style>
 
     <!-- CheckBoxColumnElementStyleKey -->
-    <Style 
+    <Style
         x:Key="{x:Static keys:ResourceKeys.CheckBoxColumnElementStyleKey}"
-        TargetType="CheckBox" 
+        TargetType="CheckBox"
         BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultCheckBoxStyleKey}}">
-        
+
         <Setter Property="IsHitTestVisible" Value="False"/>
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
-    
+
     <!-- CheckBoxColumnEditingElementStyleKey -->
-    <Style 
+    <Style
         x:Key="{x:Static keys:ResourceKeys.CheckBoxColumnEditingElementStyleKey}"
-        TargetType="CheckBox" 
+        TargetType="CheckBox"
         BasedOn="{StaticResource {x:Static keys:ResourceKeys.DefaultCheckBoxStyleKey}}">
-        
+
         <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
 

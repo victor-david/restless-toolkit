@@ -1,0 +1,65 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:keys="clr-namespace:Restless.Toolkit.Resource"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:Double x:Key="SliderTrackSize">4</sys:Double>
+    <sys:Double x:Key="SliderThumbHeight">18</sys:Double>
+    <sys:Double x:Key="SliderThumbWidth">12</sys:Double>
+
+    <!-- Thumb Template  -->
+    <ControlTemplate x:Key="DefaultSliderThumbTemplate" TargetType="Thumb">
+        <Border
+            Name="MainBorder"
+            Background="{DynamicResource {x:Static keys:ResourceKeys.SliderThumbBrushKey}}"
+            Height="{TemplateBinding Height}"
+            Width="{TemplateBinding Width}"
+            CornerRadius="1">
+
+            <Border
+                Height="{StaticResource SliderTrackSize}"
+                Width="{StaticResource SliderTrackSize}"
+                Background="{DynamicResource {x:Static keys:ResourceKeys.SliderThumbInnerBrushKey}}"/>
+        </Border>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="MainBorder" Property="Background" Value="{DynamicResource {x:Static keys:ResourceKeys.DefaultRolloverBorderBrushKey}}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="DefaultSliderTemplate" TargetType="Slider">
+        <Grid>
+            <Border
+                x:Name="TrackBorder"
+                Height="{StaticResource SliderTrackSize}"
+                Background="{DynamicResource {x:Static keys:ResourceKeys.SliderTrackBrushKey}}"/>
+
+            <Track x:Name="PART_Track" Orientation="{TemplateBinding Orientation}">
+                <Track.Thumb>
+                    <Thumb
+                        x:Name="TrackThumb"
+                        Height="{StaticResource SliderThumbHeight}"
+                        Width="{StaticResource SliderThumbWidth}"
+                        Template="{StaticResource DefaultSliderThumbTemplate}"/>
+                </Track.Thumb>
+            </Track>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter TargetName="TrackThumb" Property="Height" Value="{StaticResource SliderThumbWidth}"/>
+                <Setter TargetName="TrackThumb" Property="Width" Value="{StaticResource SliderThumbHeight}"/>
+                <Setter TargetName="TrackBorder" Property="Width" Value="{StaticResource SliderTrackSize}"/>
+                <Setter TargetName="TrackBorder" Property="Height" Value="Auto"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="{x:Static keys:ResourceKeys.DefaultSliderStyleKey}" TargetType="Slider">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template" Value="{StaticResource DefaultSliderTemplate}"/>
+    </Style>
+
+</ResourceDictionary>

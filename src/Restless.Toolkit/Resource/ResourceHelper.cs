@@ -62,6 +62,7 @@ namespace Restless.Toolkit.Resource
             styles.AddStyle(ResourceKeys.DefaultDataGridStyleKey, typeof(Controls.DataGrid));
             styles.AddStyle(ResourceKeys.DefaultPathStyleKey);
             styles.AddStyle(ResourceKeys.DefaultStatusBarStyleKey);
+            styles.AddStyle(ResourceKeys.DefaultSliderStyleKey);
             styles.AddStyle(ResourceKeys.DefaultTextBoxStyleKey);
             styles.EndInit();
             res.MergedDictionaries.Insert(0, styles);
