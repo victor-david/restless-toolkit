@@ -4,6 +4,7 @@
 obj/
 bin/
 help/
+desktop.ini
 *.csproj.user
 # Documentation files. Get generated on build and are in the packages.
 src/Restless.Toolkit/Restless.Toolkit.xml
