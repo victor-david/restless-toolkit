@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 
@@ -16,22 +17,31 @@ namespace Restless.Toolkit.Mvvm
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Checks if a property already matches a desired value.  Sets the property and
-        /// notifies listeners only when necessary.
+        /// Checks if a property already matches a desired value.
+        /// Sets the property and notifies listeners only when necessary.
         /// </summary>
         /// <typeparam name="T">Type of the property.</typeparam>
         /// <param name="storage">Reference to a property with both getter and setter.</param>
         /// <param name="value">Desired value for the property.</param>
-        /// <param name="propertyName">Name of the property used to notify listeners.  This
-        /// value is optional and can be provided automatically when invoked from compilers that
-        /// support CallerMemberName.</param>
+        /// <param name="changedCallback">
+        /// An option callback method that is only invoked if the property changes.
+        /// </param>
+        /// <param name="propertyName">
+        /// Name of the property used to notify listeners. This value is optional
+        /// and is provided automatically when invoked from compilers that support CallerMemberName.
+        /// </param>
         /// <returns>True if the value was changed, false if the existing value matched the
         /// desired value.</returns>
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        protected bool SetProperty<T>(ref T storage, T value, Action changedCallback = null, [CallerMemberName] string propertyName = null)
         {
-            if (Equals(storage, value)) return false;
+            if (Equals(storage, value))
+            {
+                return false;
+            }
+
             storage = value;
             OnPropertyChanged(propertyName);
+            changedCallback?.Invoke();
             return true;
         }
 
