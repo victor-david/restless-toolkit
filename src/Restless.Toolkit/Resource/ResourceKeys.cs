@@ -279,6 +279,15 @@ namespace Restless.Toolkit.Resource
 
         /************************************************************************/
 
+        #region ListBoxItem
+        /// <summary>
+        /// Identifies the resource key for ListBoxItemr default style
+        /// </summary>
+        public static readonly ComponentResourceKey DefaultListBoxItemStyleKey = Create();
+        #endregion
+
+        /************************************************************************/
+
         #region Slider
         /// <summary>
         /// Identifies the resource key for Slider default style
@@ -409,6 +418,11 @@ namespace Restless.Toolkit.Resource
         /// Identifies the resource key for textbox border thickness.
         /// </summary>
         public static readonly ComponentResourceKey TextBoxBorderThicknessKey = Create();
+
+        /// <summary>
+        /// Identifies the resource key for list box item padding.
+        /// </summary>
+        public static readonly ComponentResourceKey ListBoxItemPaddingKey = Create();
         #endregion
 
         /************************************************************************/

@@ -14,5 +14,8 @@
     <sys:Double x:Key="{x:Static keys:ResourceKeys.MinTextBoxHeightKey}">32</sys:Double>
 
     <Thickness x:Key="{x:Static keys:ResourceKeys.WindowBorderThicknessKey}">1</Thickness>
+
     <Thickness x:Key="{x:Static keys:ResourceKeys.TextBoxBorderThicknessKey}">1.25</Thickness>
+
+    <Thickness x:Key="{x:Static keys:ResourceKeys.ListBoxItemPaddingKey}">4,8</Thickness>
 </ResourceDictionary>

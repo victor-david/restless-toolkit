@@ -60,6 +60,7 @@ namespace Restless.Toolkit.Resource
             styles.AddStyle(ResourceKeys.DefaultComboBoxStyleKey);
             styles.AddStyle(ResourceKeys.DefaultDataGridStyleKey);
             styles.AddStyle(ResourceKeys.DefaultDataGridStyleKey, typeof(Controls.DataGrid));
+            styles.AddStyle(ResourceKeys.DefaultListBoxItemStyleKey);
             styles.AddStyle(ResourceKeys.DefaultPathStyleKey);
             styles.AddStyle(ResourceKeys.DefaultStatusBarStyleKey);
             styles.AddStyle(ResourceKeys.DefaultSliderStyleKey);

@@ -98,6 +98,11 @@
                 A default style for <Bold>Slider</Bold>.
             </TextBlock>
             <Slider/>
+
+            <TextBlock>
+                A default style for <Bold>ListBoxItem</Bold>
+            </TextBlock>
+            <ListBox ItemsSource="{Binding Names}" SelectedItem="{Binding SelectedName}"/>
         </StackPanel>
 
     </Grid>
