@@ -174,6 +174,11 @@ namespace Restless.Toolkit.Resource
         public static readonly ComponentResourceKey WindowTitleBarButtonBrush = Create();
 
         /// <summary>
+        /// Identifies the resource key for window title bar icon brush.
+        /// </summary>
+        public static readonly ComponentResourceKey WindowTitleBarIconBrush = Create();
+
+        /// <summary>
         /// Identifies the resource key for window menu border brush.
         /// </summary>
         public static readonly ComponentResourceKey WindowMenuBorderBrush = Create();

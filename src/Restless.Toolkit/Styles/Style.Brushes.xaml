@@ -53,6 +53,7 @@
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowTitleBarBackgroundBrush}" Color="#24292e"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowTitleBarForegroundBrush}" Color="White"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowTitleBarButtonBrush}" Color="#a0a0a0"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowTitleBarIconBrush}" Color="White"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowMenuBorderBrush}" Color="Gray"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.WindowMenuBackgroundBrush}" Color="#f0f0f0"/>
 
