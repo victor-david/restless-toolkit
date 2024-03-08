@@ -8,7 +8,7 @@ namespace Restless.Toolkit.Core.Database.SQLite
     /// Represents an object that encapsulate a single row. This class must be inherited.
     /// </summary>
     /// <typeparam name="T">The table type to which the row belongs</typeparam>
-    public abstract class RowObjectBase<T>  where T : TableBase 
+    public abstract class RowObjectBase<T>  where T : TableBase
     {
         #region Public properties
         /// <summary>
@@ -52,8 +52,8 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <param name="row">The data row</param>
         protected RowObjectBase(DataRow row)
         {
-            if (row == null) throw new ArgumentNullException(nameof(row));
-            
+            _ = row ?? throw new ArgumentNullException(nameof(row));
+
             if (row.Table.GetType() != typeof(T))
             {
                 throw new InvalidOperationException(Strings.InvalidOperationDataRowTableMismatch);
@@ -170,7 +170,17 @@ namespace Restless.Toolkit.Core.Database.SQLite
         /// <returns>The Boolean value.</returns>
         protected bool GetBoolean(string colName)
         {
-            return Row[colName] != DBNull.Value ? (bool)Row[colName] : false;
+            return Row[colName] != DBNull.Value && (bool)Row[colName];
+        }
+
+        /// <summary>
+        /// Gets a byte array from the specified column
+        /// </summary>
+        /// <param name="colName">The column name</param>
+        /// <returns></returns>
+        protected byte[] GetByteArray(string colName)
+        {
+            return (byte[])Row[colName];
         }
 
         /// <summary>

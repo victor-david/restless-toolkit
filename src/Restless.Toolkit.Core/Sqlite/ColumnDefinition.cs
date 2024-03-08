@@ -70,21 +70,16 @@
 
         private string ColumnTypeToString()
         {
-            switch (Type)
+            return Type switch
             {
-                case ColumnType.Integer:
-                    return "INTEGER";
-                case ColumnType.Text:
-                    return "TEXT";
-                case ColumnType.Boolean:
-                    return "BOOLEAN";
-                case ColumnType.Timestamp:
-                    return "TIMESTAMP";
-                case ColumnType.Numeric:
-                    return "NUMERIC";
-                default:
-                    return "TEXT";
-            }
+                ColumnType.Integer => "INTEGER",
+                ColumnType.Text => "TEXT",
+                ColumnType.Boolean => "BOOLEAN",
+                ColumnType.Timestamp => "TIMESTAMP",
+                ColumnType.Numeric => "NUMERIC",
+                ColumnType.Blob => "BLOB",
+                _ => "TEXT",
+            };
         }
 
         private string IsPrimaryKeyToString()

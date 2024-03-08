@@ -1,34 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <OutputType>Library</OutputType>
-    <PackageId>Restless.Toolkit.Core</PackageId>
     <AssemblyName>Restless.Toolkit.Core</AssemblyName>
-    <RootNamespace>Restless.Toolkit.Core</RootNamespace>
-    <Description>Provides core services for use in a WPF application such as base classes for sqlite database, and various utilities.</Description>
-    <PackageProjectUrl>https://github.com/victor-david/restless-toolkit</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/victor-david/restless-toolkit</RepositoryUrl>
     <Authors>Restless Animal Development</Authors>
     <Company>Restless Animal Development</Company>
-    <Version>2.5.9</Version>
-    <Product>Restless Toolkit (Core)</Product>
-    <Title>Restless Toolkit (Core)</Title>
-    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
     <Copyright>Copyright © 2022 Restless Animal Development</Copyright>
-    <PackageTags>wpf sqlite utility</PackageTags>
+    <Description>Provides core services for use in a WPF application such as base classes for sqlite database, and various utilities.</Description>
+    <LangVersion>8.0</LangVersion>
+    <OutputType>Library</OutputType>
+    <PackageId>Restless.Toolkit.Core</PackageId>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/victor-david/restless-toolkit</PackageProjectUrl>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageTags>wpf sqlite utility</PackageTags>
+    <Product>Restless Toolkit (Core)</Product>
+    <RepositoryUrl>https://github.com/victor-david/restless-toolkit</RepositoryUrl>
+    <RootNamespace>Restless.Toolkit.Core</RootNamespace>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <Title>Restless Toolkit (Core)</Title>
+    <Version>2.5.10</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>Restless.Toolkit.Core.xml</DocumentationFile>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.15.0" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Compile Update="Resources\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -36,7 +37,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-  
+
   <ItemGroup>
     <EmbeddedResource Update="Resources\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>

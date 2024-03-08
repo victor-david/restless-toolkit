@@ -25,5 +25,9 @@
         /// Numeric
         /// </summary>
         Numeric,
+        /// <summary>
+        /// Binary blob
+        /// </summary>
+        Blob
     }
 }
