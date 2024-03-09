@@ -50,6 +50,11 @@ namespace Restless.Toolkit.Resource
         public static readonly ComponentResourceKey ButtonBorderBrushKey = Create();
 
         /// <summary>
+        /// Identifies the resource key for Button background brush
+        /// </summary>
+        public static readonly ComponentResourceKey ButtonBackgroundBrushKey = Create();
+
+        /// <summary>
         /// Identifies the resource key for Button foreground brush
         /// </summary>
         public static readonly ComponentResourceKey ButtonForegroundBrushKey = Create();

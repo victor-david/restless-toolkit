@@ -16,6 +16,7 @@
     <Style x:Key="{x:Static keys:ResourceKeys.DefaultButtonStyleKey}" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
         <Setter Property="MinHeight" Value="{StaticResource MinButtonHeight}"/>
         <Setter Property="MinWidth" Value="{StaticResource MinButtonWidth}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static keys:ResourceKeys.ButtonBackgroundBrushKey}}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static keys:ResourceKeys.ButtonForegroundBrushKey}}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>

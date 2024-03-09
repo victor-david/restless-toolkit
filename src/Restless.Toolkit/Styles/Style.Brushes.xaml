@@ -21,6 +21,7 @@
 
     <!-- Button -->
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.ButtonBorderBrushKey}" Color="{StaticResource DefaultBorderColor}"/>
+    <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.ButtonBackgroundBrushKey}" Color="Transparent"/>
     <SolidColorBrush x:Key="{x:Static keys:ResourceKeys.ButtonForegroundBrushKey}" Color="{StaticResource DefaultForegoundColor}"/>
 
     <!-- CheckBox -->
