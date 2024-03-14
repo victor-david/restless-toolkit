@@ -1,13 +1,13 @@
-﻿<con:AppWindow 
+﻿<con:AppWindow
     x:Class="Restless.App.Toolkit.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:con="clr-namespace:Restless.Toolkit.Controls;assembly=Restless.Toolkit" 
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls;assembly=Restless.Toolkit"
     xmlns:toolkit="clr-namespace:Restless.App.Toolkit" d:DataContext="{d:DesignInstance Type=toolkit:MainWindowViewModel}"
     mc:Ignorable="d"
-    Title="{Binding DisplayName}" 
+    Title="{Binding DisplayName}"
     PathIcon="{StaticResource PathAppIcon}"
     Topmost="True"
     MinWidth="154" MinHeight="260"
@@ -43,7 +43,7 @@
         </Menu>
     </con:AppWindow.Menu>
 
-    <con:TabControl 
+    <con:TabControl
         Margin="10"
         TabHeight="40"
         MinTabWidth="120"
