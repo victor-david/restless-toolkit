@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shell;
 
 namespace Restless.Toolkit.Controls
 {
@@ -14,13 +15,26 @@ namespace Restless.Toolkit.Controls
     public class AppWindow : Window
     {
         #region Private
-        private const double MinTitleBarHeight = 26.0;
-        private const double MaxTitleBarHeight = 56.0;
-        private const double DefTitleBarHeight = 34.0;
-
         private const double MinMenuItemHeight = 26.0;
         private const double MaxMenuItemHeight = 34.0;
         private const double DefMenuItemHeight = 32.0;
+        #endregion
+
+        /************************************************************************/
+
+        #region Public consts
+        /// <summary>
+        /// Gets the minimum value for title bar height
+        /// </summary>
+        public const double MinTitleBarHeight = 26.0;
+        /// <summary>
+        /// Gets the maximum value for title bar height
+        /// </summary>
+        public const double MaxTitleBarHeight = 56.0;
+        /// <summary>
+        /// Gets the default value for title bar height
+        /// </summary>
+        public const double DefaultTitleBarHeight = 34.0;
         #endregion
 
         /************************************************************************/
@@ -181,8 +195,9 @@ namespace Restless.Toolkit.Controls
             (
                 nameof(TitleBarHeight), typeof(double), typeof(AppWindow), new FrameworkPropertyMetadata()
                 {
-                    DefaultValue = DefTitleBarHeight,
-                    CoerceValueCallback = (d, b) => Math.Max(Math.Min((double)b, MaxTitleBarHeight), MinTitleBarHeight)
+                    DefaultValue = DefaultTitleBarHeight,
+                    CoerceValueCallback = (d, b) => Math.Max(Math.Min((double)b, MaxTitleBarHeight), MinTitleBarHeight),
+                    PropertyChangedCallback = (d, e) => (d as AppWindow)?.HandleTitleBarHeightChanged()
                 }
             );
 
@@ -406,12 +421,13 @@ namespace Restless.Toolkit.Controls
 
         #region Protected methods
         /// <summary>
-        /// Called when the window is loaded. Override if needed. The base implementation does nothing.
+        /// Called when the window is loaded. Override if needed. Always call the base method.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event args</param>
         protected virtual void OnLoaded(object sender, RoutedEventArgs e)
         {
+            HandleTitleBarHeightChanged();
         }
         #endregion
 
@@ -440,6 +456,14 @@ namespace Restless.Toolkit.Controls
              * Why -2? Otherwise, the window is still two pixels under the task bar. Don't know why.
              */
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 2;
+        }
+
+        private void HandleTitleBarHeightChanged()
+        {
+            if (WindowChrome.GetWindowChrome(this) is WindowChrome chrome)
+            {
+                chrome.CaptionHeight = TitleBarHeight - 4;
+            }
         }
         #endregion
     }
