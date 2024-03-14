@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace Restless.Toolkit.Controls
 {
@@ -14,6 +13,18 @@ namespace Restless.Toolkit.Controls
     /// </summary>
     public class AppWindow : Window
     {
+        #region Private
+        private const double MinTitleBarHeight = 26.0;
+        private const double MaxTitleBarHeight = 56.0;
+        private const double DefTitleBarHeight = 34.0;
+
+        private const double MinMenuItemHeight = 26.0;
+        private const double MaxMenuItemHeight = 34.0;
+        private const double DefMenuItemHeight = 32.0;
+        #endregion
+
+        /************************************************************************/
+
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="AppWindow"/> class.
@@ -39,27 +50,12 @@ namespace Restless.Toolkit.Controls
         static AppWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(AppWindow), new FrameworkPropertyMetadata(typeof(AppWindow)));
-            BorderThicknessProperty.OverrideMetadata(typeof(AppWindow), new FrameworkPropertyMetadata()
-            {
-                DefaultValue = new Thickness(1),
-                CoerceValueCallback = OnCoerceBorderThickness
-            });
-        }
-
-        private static object OnCoerceBorderThickness(DependencyObject d, object baseValue)
-        {
-            if (baseValue is Thickness value)
-            {
-                double largest = Math.Max(Math.Max(Math.Max(value.Left, value.Right), value.Top), value.Bottom);
-                return new Thickness(Math.Max(Math.Min(largest, 2.0), 1.0));
-            }
-            return new Thickness(1);
         }
         #endregion
 
         /************************************************************************/
 
-        #region Window properties
+        #region Window menu properties
         /// <summary>
         /// Gets or sets the title bar menu.
         /// </summary>
@@ -142,6 +138,52 @@ namespace Restless.Toolkit.Controls
         public static readonly DependencyProperty MenuOpacityProperty = DependencyProperty.Register
             (
                 nameof(MenuOpacity), typeof(double), typeof(AppWindow), new PropertyMetadata(1.0)
+            );
+
+        /// <summary>
+        /// Gets or sets the height of menu items
+        /// </summary>
+        public double MenuItemHeight
+        {
+            get => (double)GetValue(MenuItemHeightProperty);
+            set => SetValue(MenuItemHeightProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MenuItemHeight"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MenuItemHeightProperty = DependencyProperty.Register
+            (
+                nameof(MenuItemHeight), typeof(double), typeof(AppWindow), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DefMenuItemHeight,
+                    CoerceValueCallback = (d, b) => Math.Max(Math.Min((double)b, MaxMenuItemHeight), MinMenuItemHeight)
+                }
+            );
+        #endregion
+
+        /************************************************************************/
+
+        #region Window properties
+        /// <summary>
+        /// Gets or sets the tile bar height
+        /// </summary>
+        public double TitleBarHeight
+        {
+            get => (double)GetValue(TitleBarHeightProperty);
+            set => SetValue(TitleBarHeightProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="TitleBarHeight"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TitleBarHeightProperty = DependencyProperty.Register
+            (
+                nameof(TitleBarHeight), typeof(double), typeof(AppWindow), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = DefTitleBarHeight,
+                    CoerceValueCallback = (d, b) => Math.Max(Math.Min((double)b, MaxTitleBarHeight), MinTitleBarHeight)
+                }
             );
 
         /// <summary>

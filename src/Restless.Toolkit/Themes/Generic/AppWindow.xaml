@@ -3,16 +3,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:core="clr-namespace:Restless.Toolkit.Core"
     xmlns:keys="clr-namespace:Restless.Toolkit.Resource"
-    xmlns:con="clr-namespace:Restless.Toolkit.Controls"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    xmlns:con="clr-namespace:Restless.Toolkit.Controls">
 
-    <sys:Double x:Key="DefaultTitleBarHeight">30</sys:Double>
+    <Thickness x:Key="WindowIconMargin">6,0,10,0</Thickness>
+    <Thickness x:Key="WindowBackButtonMargin">0,0,0,0</Thickness>
 
     <Style x:Key="TitleBarButtonStyle" TargetType="Button">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Width" Value="44"/>
-        <Setter Property="Height" Value="{StaticResource DefaultTitleBarHeight}"/>
+        <Setter Property="Height" Value="{Binding TitleBarHeight, RelativeSource={RelativeSource AncestorType=con:AppWindow}}"/>
         <Setter Property="Foreground" Value="{Binding TitleBarButtonBrush, RelativeSource={RelativeSource AncestorType=con:AppWindow}}"/>
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -173,7 +173,7 @@
 
                 <Style.Resources>
                     <Style TargetType="MenuItem">
-                        <Setter Property="Height" Value="{StaticResource DefaultTitleBarHeight}"/>
+                        <Setter Property="Height" Value="{Binding TitleBarHeight, RelativeSource={RelativeSource AncestorType=con:AppWindow}}"/>
                         <Setter Property="Padding" Value="6,2"/>
                         <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="BorderThickness" Value="0"/>
@@ -182,6 +182,7 @@
                         <Style.Triggers>
                             <Trigger Property="Role" Value="SubmenuItem">
                                 <Setter Property="Foreground" Value="#F0000000"/>
+                                <Setter Property="Height" Value="{Binding MenuItemHeight, RelativeSource={RelativeSource AncestorType=con:AppWindow}}"/>
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
@@ -243,14 +244,14 @@
         <Border
             Name="MainBorder"
             BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}"
+            BorderThickness="1"
             Background="{TemplateBinding Background}"
             SnapsToDevicePixels="True">
 
             <Grid core:Property.RowHeights="Auto,*">
                 <!-- Title bar -->
                 <Border
-                    Height="{StaticResource DefaultTitleBarHeight}"
+                    Height="{TemplateBinding TitleBarHeight}"
                     Background="{TemplateBinding TitleBarBackground}"
                     BorderBrush="{TemplateBinding TitleBarBorderBrush}"
                     BorderThickness="0,0,0,1">
@@ -259,6 +260,7 @@
 
                         <Button
                             Name="ButtonBack"
+                            Margin="{StaticResource WindowBackButtonMargin}"
                             Style="{StaticResource TitleBarButtonStyle}"
                             IsEnabled="{TemplateBinding IsBackButtonEnabled}"
                             Command="{TemplateBinding BackButtonCommand}"
@@ -272,7 +274,7 @@
                                 Data="M20,9V15H12V19.84L4.16,12L12,4.16V9H20Z"/>
                         </Button>
 
-                        <ContentPresenter Grid.Column="1" Content="{TemplateBinding PathIcon}" Margin="5,0"/>
+                        <ContentPresenter Grid.Column="1" Content="{TemplateBinding PathIcon}" Margin="{StaticResource WindowIconMargin}"/>
 
                         <Border Grid.Column="2" Style="{StaticResource MenuBorderStyle}">
                             <ContentPresenter Content="{TemplateBinding Menu}"/>
@@ -324,7 +326,7 @@
 
         <ControlTemplate.Triggers>
             <Trigger Property="WindowState" Value="Maximized">
-                <Setter Property="BorderThickness" Value="7"/>
+                <Setter TargetName="MainBorder" Property="BorderThickness" Value="7"/>
                 <Setter TargetName="ButtonMaximize" Property="Visibility" Value="Collapsed"/>
             </Trigger>
             <Trigger Property="WindowState" Value="Normal">
@@ -356,9 +358,9 @@
     <WindowChrome
         x:Key="DefaultWindowChrome"
         x:Shared="False"
-        CaptionHeight="{StaticResource DefaultTitleBarHeight}"
+        CaptionHeight="{Binding TitleBarHeight, RelativeSource={RelativeSource AncestorType=con:AppWindow}}"
         CornerRadius="0"
-        GlassFrameThickness="0,1,0,0"
+        GlassFrameThickness="-1"
         UseAeroCaptionButtons="False" />
 
     <Style TargetType="con:AppWindow">
@@ -374,7 +376,9 @@
         <Setter Property="MenuBorderBrush" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowMenuBorderBrush}}"/>
         <Setter Property="MenuBackgroundBrush" Value="{DynamicResource {x:Static keys:ResourceKeys.WindowMenuBackgroundBrush}}"/>
         <Setter Property="WindowChrome.WindowChrome" Value="{StaticResource DefaultWindowChrome}"/>
+        <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="Template" Value="{StaticResource AppWindowTemplate}"/>
+
     </Style>
 
     <ControlTemplate x:Key="MessageWindowTemplate" TargetType="con:MessageWindow">
@@ -386,14 +390,14 @@
             <Grid core:Property.RowHeights="Auto,*">
                 <!-- Title bar -->
                 <Border
-                    Height="{StaticResource DefaultTitleBarHeight}"
+                    Height="{TemplateBinding TitleBarHeight}"
                     Background="{TemplateBinding TitleBarBackground}"
                     BorderBrush="{TemplateBinding TitleBarBorderBrush}"
                     BorderThickness="0,0,0,1">
 
                     <Grid core:Property.ColumnWidths="Auto,*,Auto">
 
-                        <ContentPresenter Content="{TemplateBinding PathIcon}" Margin="5,0"/>
+                        <ContentPresenter Content="{TemplateBinding PathIcon}" Margin="{StaticResource WindowIconMargin}"/>
 
                         <TextBlock
                             Grid.Column="1"
