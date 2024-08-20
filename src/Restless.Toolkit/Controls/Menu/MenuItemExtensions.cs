@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Restless.Toolkit.Core;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Restless.Toolkit.Controls
@@ -39,6 +40,18 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
+        /// Sets the icon to the specified object
+        /// </summary>
+        /// <param name="item">The item</param>
+        /// <param name="icon">The icon object</param>
+        /// <returns>The item</returns>
+        public static MenuItem SetIcon(this MenuItem item, object icon)
+        {
+            item.Icon = icon;
+            return item;
+        }
+
+        /// <summary>
         /// Adds a command parameter to the menu item
         /// </summary>
         /// <param name="item"></param>
@@ -59,6 +72,19 @@ namespace Restless.Toolkit.Controls
         public static MenuItem AddTag(this MenuItem item, object tag)
         {
             item.Tag = tag;
+            return item;
+        }
+
+        /// <summary>
+        /// Sets an extended property on the menu item
+        /// </summary>
+        /// <param name="item">The menu item</param>
+        /// <param name="key">The extended property key</param>
+        /// <param name="value">The object value to set</param>
+        /// <returns>The column</returns>
+        public static MenuItem SetExtendedProperty(this MenuItem item, string key, object value)
+        {
+            Property.SetExtended(item, key, value);
             return item;
         }
     }

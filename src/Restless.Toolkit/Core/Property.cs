@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -579,6 +580,68 @@ namespace Restless.Toolkit.Core
                         command.Execute(selector.SelectedItem);
                     }
                 }
+            }
+        }
+        #endregion
+
+        /************************************************************************/
+
+        #region Extended
+        private const string ExtendedPropertyName = "Extended";
+
+        /// <summary>
+        /// Gets the Extended attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object from which to retreive the property.</param>
+        /// <returns>The property value.</returns>
+        public static ExtendedPropertyCollection GetExtended(DependencyObject obj)
+        {
+            return (ExtendedPropertyCollection)obj.GetValue(ExtendedProperty);
+        }
+
+        /// <summary>
+        /// Sets the Extended attached dependency property.
+        /// </summary>
+        /// <param name="obj">The dependency object on which to set the property.</param>
+        /// <param name="value">The value to set.</param>
+        public static void SetExtended(DependencyObject obj, ExtendedPropertyCollection value)
+        {
+            obj.SetValue(ExtendedProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the Extended attached dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ExtendedProperty = DependencyProperty.RegisterAttached
+            (
+                ExtendedPropertyName, typeof(ExtendedPropertyCollection), typeof(Property), new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = null,
+                }
+            );
+
+        internal static void SetExtended(DependencyObject obj, string key, object value)
+        {
+            _ = obj ?? throw new ArgumentNullException(nameof(obj));
+
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new ArgumentException("Invalid key");
+            }
+
+            ExtendedPropertyCollection extended = GetExtended(obj);
+            if (extended == null)
+            {
+                extended = new ExtendedPropertyCollection();
+                SetExtended(obj, extended);
+            }
+            if (extended.ContainsKey(key))
+            {
+                extended[key] = value;
+            }
+            else
+            {
+                extended.Add(key, value);
             }
         }
         #endregion

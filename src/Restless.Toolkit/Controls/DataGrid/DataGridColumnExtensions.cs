@@ -231,7 +231,7 @@ namespace Restless.Toolkit.Controls
         /// <returns>The column.</returns>
         public static DataGridColumn MakeCentered(this DataGridColumn col, object headerStyleKey = null, object cellStyleKey = null)
         {
-            Style headerStyle = (Style)Application.Current.TryFindResource(headerStyleKey ?? DataGrid.ColumnHeaderCenteredStyleKey); 
+            Style headerStyle = (Style)Application.Current.TryFindResource(headerStyleKey ?? DataGrid.ColumnHeaderCenteredStyleKey);
             Style cellStyle = (Style)Application.Current.TryFindResource(cellStyleKey ?? DataGrid.DataGridCellCenteredStyleKey);
             return col.AddHeaderStyle(headerStyle).AddCellStyle(cellStyle);
         }
@@ -461,7 +461,7 @@ namespace Restless.Toolkit.Controls
         /// <param name="column1">The name of the column to act as primary sort, or null to use the <paramref name="col"/></param>
         /// <param name="column2">The name of the column to act as a secondary sort.</param>
         /// <param name="behavior">The behavior of the secondary column when sorting.</param>
-        /// <returns>The column</returns> 
+        /// <returns>The column</returns>
         public static DataGridColumn AddCustomSort(this DataGridColumn col, string column1, string column2, DataGridColumnSortBehavior behavior)
         {
             return col.AddSort(column1, column2, behavior);
@@ -509,6 +509,19 @@ namespace Restless.Toolkit.Controls
         public static DataGridColumn SetSelectorName(this DataGridColumn column, string value)
         {
             column.SetValue(DataGridColumns.SelectorNameProperty, value);
+            return column;
+        }
+
+        /// <summary>
+        /// Sets an extended property on the column
+        /// </summary>
+        /// <param name="column">The column</param>
+        /// <param name="key">The extended property key</param>
+        /// <param name="value">The object value to set</param>
+        /// <returns>The column</returns>
+        public static DataGridColumn SetExtendedProperty(this DataGridColumn column, string key, object value)
+        {
+            Property.SetExtended(column, key, value);
             return column;
         }
     }
