@@ -36,7 +36,7 @@ namespace Restless.Toolkit.Mvvm
         /// Gets a boolean value that indicates if this VM is active.
         /// </summary>
         /// <remarks>
-        /// The activation status of a view model is changed with 
+        /// The activation status of a view model is changed with
         /// the <see cref="Activate"/> and <see cref="Deactivate"/> methods.
         /// When this property is set to true, the <see cref="OnActivated"/> method
         /// is called. When false, the <see cref="OnDeactivated"/> method is called.
@@ -61,7 +61,7 @@ namespace Restless.Toolkit.Mvvm
         }
 
         /// <summary>
-        /// Gets a dictionary of commands. 
+        /// Gets a dictionary of commands.
         /// </summary>
         public CommandDictionary Commands
         {
@@ -147,6 +147,16 @@ namespace Restless.Toolkit.Mvvm
         }
 
         /// <summary>
+        /// Signals the view model that the language has changed.
+        /// A derived class can override <see cref="OnLanguageChanged"/>
+        /// to perform any needed updates.
+        /// </summary>
+        public void SignalLanguageChange()
+        {
+            OnLanguageChanged();
+        }
+
+        /// <summary>
         /// Signal the view model to save any state it requires.
         /// </summary>
         public void SignalSave()
@@ -211,6 +221,15 @@ namespace Restless.Toolkit.Mvvm
         protected T GetOwner<T>() where T : ViewModelBase
         {
             return Owner as T;
+        }
+
+        /// <summary>
+        /// Called when <see cref="SignalLanguageChange"/> is called.
+        /// Override in a derived class to perform any needed operations.
+        /// The base implementation does nothing.
+        /// </summary>
+        protected virtual void OnLanguageChanged()
+        {
         }
 
         /// <summary>
