@@ -106,17 +106,26 @@ namespace Restless.Toolkit.Controls
         /// <param name="groupIdx">The navigation group this item belongs to.</param>
         /// <param name="title">The title of the item.</param>
         /// <param name="allowMultiple">Whether multiple instance with the same target type may be included.</param>
-        /// <param name="iconGeometry">The item's icon geometry.</param>
+        /// <param name="icon">The item's icon.</param>
         /// <param name="id">The id associated with the navigator item.</param>
-        public void Add<T>(int groupIdx, string title, bool allowMultiple = false, Geometry iconGeometry = null, long id = 0) where T: INavigator
+        public void Add<T>(int groupIdx, string title, bool allowMultiple = false, object icon = null, long id = 0) where T : INavigator
         {
             if (allowMultiple || !Contains<T>())
             {
                 NavigatorItem item = new NavigatorItem(groupIdx, typeof(T), id)
                 {
                     Title = title,
-                    IconGeometry = iconGeometry,
                 };
+
+                if (icon is Geometry iconGeometry)
+                {
+                    item.IconGeometry = iconGeometry;
+                }
+                else
+                {
+                    item.Icon = icon;
+                }
+
                 storage.Add(item);
                 backingGroups[groupIdx].Add(item);
             }

@@ -116,6 +116,23 @@ namespace Restless.Toolkit.Controls
             );
 
         /// <summary>
+        /// Gets or sets a raw icon
+        /// </summary>
+        public object Icon
+        {
+            get => GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Icon"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register
+            (
+                nameof(Icon), typeof(object), typeof(NavigatorItem), new FrameworkPropertyMetadata()
+            );
+
+        /// <summary>
         /// Gets or sets a boolean value that determines if the item is visible.
         /// </summary>
         public bool IsItemVisible
