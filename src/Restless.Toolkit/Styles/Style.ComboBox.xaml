@@ -91,7 +91,6 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-
     <Style x:Key="{x:Static keys:ResourceKeys.DefaultComboBoxStyleKey}" TargetType="ComboBox">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static keys:ResourceKeys.ComboBoxBackgroundBrushKey}}"/>
@@ -121,20 +120,11 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <!--<Style.Triggers>
-            <Trigger Property="IsEditable" Value="True">
-                <Setter Property="IsTabStop" Value="False"/>
-                <Setter Property="Padding" Value="2"/>
-                <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5"/>
             </Trigger>
-        </Style.Triggers>-->
+        </Style.Triggers>
     </Style>
-
-
-
-
-
-
-
 
 </ResourceDictionary>
