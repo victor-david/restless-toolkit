@@ -298,6 +298,15 @@ namespace Restless.Toolkit.Resource
 
         /************************************************************************/
 
+        #region NavigatorExpander
+        /// <summary>
+        /// Identifies the resource key for NavigatorExpander default style
+        /// </summary>
+        public static readonly ComponentResourceKey DefaultNavigatorExpanderStyleKey = Create();
+        #endregion
+
+        /************************************************************************/
+
         #region Slider
         /// <summary>
         /// Identifies the resource key for Slider default style
