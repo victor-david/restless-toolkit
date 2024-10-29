@@ -16,8 +16,15 @@ namespace Restless.Toolkit.Core
             private static string date = "MMM dd, yyyy";
 
             /// <summary>
+            /// Gets or sets the default value for date conversion to use with the
+            /// <see cref="DataGridColumnExtensions.MakeDate(DataGridBoundColumn, string, int, bool?)"/>
+            /// extension. The default value is true.
+            /// </summary>
+            public static bool ConvertToLocal = true;
+
+            /// <summary>
             /// Gets or sets the date format to use for both
-            /// the <see cref="DataGridColumnExtensions.MakeDate(DataGridBoundColumn, string, int, bool)"/> extension
+            /// the <see cref="DataGridColumnExtensions.MakeDate(DataGridBoundColumn, string, int, bool?)"/> extension
             /// and the popup calendar control.
             /// </summary>
             public static string Date
@@ -32,7 +39,9 @@ namespace Restless.Toolkit.Core
             }
 
             /// <summary>
-            /// Gets or sets the default date format to use with the <see cref="DataGridColumnExtensions.MakeDate(DataGridBoundColumn, string, int, bool)"/> extension.
+            /// Gets or sets the default date format to use with the
+            /// <see cref="DataGridColumnExtensions.MakeDate(DataGridBoundColumn, string, int, bool?)"/>
+            /// extension.
             /// </summary>
             public static string DataGridDate = "MMM dd, yyyy";
 

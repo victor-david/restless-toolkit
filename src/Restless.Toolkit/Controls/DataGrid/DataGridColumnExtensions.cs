@@ -74,9 +74,13 @@ namespace Restless.Toolkit.Controls
         /// <param name="width">The desired width. Default is <see cref="DefaultColumnWidth"/>.</param>
         /// <param name="toLocal">If true (the default), adds a converter to display the bound date as local date/time</param>
         /// <returns>The column</returns>
-        public static DataGridBoundColumn MakeDate(this DataGridBoundColumn col, string dateFormat = null, int width = DefaultColumnWidth, bool toLocal = true)
+        public static DataGridBoundColumn MakeDate(this DataGridBoundColumn col, string dateFormat = null, int width = DefaultColumnWidth, bool? toLocal = null)
         {
-            if (toLocal)
+            if (!toLocal.HasValue)
+            {
+                toLocal = Default.Format.ConvertToLocal;
+            }
+            if (toLocal.Value)
             {
                 ((DataBinding)col.Binding).Converter = new DateUtcToLocalConverter();
             }
