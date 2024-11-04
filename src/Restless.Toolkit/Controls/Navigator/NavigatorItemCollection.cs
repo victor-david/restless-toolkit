@@ -42,10 +42,7 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Gets the total count of <see cref="NavigatorItem"/> objects in the collection.
         /// </summary>
-        public int Count
-        {
-            get => storage.Count;
-        }
+        public int Count => storage.Count;
 
         /// <summary>
         /// Gets the <see cref="NavigatorItem"/> at the specified index.
@@ -53,10 +50,7 @@ namespace Restless.Toolkit.Controls
         /// <param name="index">The index</param>
         /// <returns>The item at the specified index.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is out of range.</exception>
-        public NavigatorItem this[int index]
-        {
-            get => storage[index];
-        }
+        public NavigatorItem this[int index] => storage[index];
         #endregion
 
         /************************************************************************/
@@ -251,6 +245,13 @@ namespace Restless.Toolkit.Controls
             }
             storage.Clear();
         }
+
+        /// <summary>
+        /// Gets a boolean value that indicates if the specified group has any visible items
+        /// </summary>
+        /// <param name="groupIdx">The group index</param>
+        /// <returns>true if the goup has any visible items; otherwise, false</returns>
+        public bool HaveVisibleItems(int groupIdx) => backingGroups[groupIdx].OfType<NavigatorItem>().Any((item) => item.IsItemVisible);
         #endregion
 
         /************************************************************************/
