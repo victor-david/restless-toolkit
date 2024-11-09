@@ -1,24 +1,24 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
-    <UseWpf>true</UseWpf>
-    <OutputType>Library</OutputType>
-    <PackageId>Restless.Toolkit</PackageId>
     <AssemblyName>Restless.Toolkit</AssemblyName>
-    <RootNamespace>Restless.Toolkit</RootNamespace>
-    <Description>Provides simple mvm base classes and various custom controls for use in WPF applications.</Description>
-    <PackageProjectUrl>https://github.com/victor-david/restless-toolkit</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/victor-david/restless-toolkit</RepositoryUrl>
     <Authors>Restless Animal Development</Authors>
     <Company>Restless Animal Development</Company>
-    <LangVersion>8</LangVersion>
-    <Version>2.5.24</Version>
-    <Product>Restless Toolkit</Product>
-    <Title>Restless.Toolkit</Title>
-    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
     <Copyright>Copyright © 2022 Restless Animal Development</Copyright>
-    <PackageTags>wpf controls wpf-controls mvvm</PackageTags>
+    <Description>Provides simple mvm base classes and various custom controls for use in WPF applications.</Description>
+    <LangVersion>10</LangVersion>
+    <OutputType>Library</OutputType>
+    <PackageId>Restless.Toolkit</PackageId>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/victor-david/restless-toolkit</PackageProjectUrl>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageTags>wpf controls wpf-controls mvvm</PackageTags>
+    <Product>Restless Toolkit</Product>
+    <RepositoryUrl>https://github.com/victor-david/restless-toolkit</RepositoryUrl>
+    <RootNamespace>Restless.Toolkit</RootNamespace>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Title>Restless.Toolkit</Title>
+    <UseWpf>true</UseWpf>
+    <Version>2.5.25</Version>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>Restless.Toolkit.xml</DocumentationFile>
