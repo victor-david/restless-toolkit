@@ -35,7 +35,7 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Identifies the resource key for column header style
         /// </summary>
-        public static readonly ComponentResourceKey ColumnHeaderStyleKey = ResourceHelper.CreateKey<DataGrid>(); 
+        public static readonly ComponentResourceKey ColumnHeaderStyleKey = ResourceHelper.CreateKey<DataGrid>();
 
         /// <summary>
         /// Identifies the resource key for column header (centered) style
@@ -137,14 +137,14 @@ namespace Restless.Toolkit.Controls
         #region DoubleClick (attached property)
         private const string DoubleClickCommand = nameof(DoubleClickCommand);
         /// <summary>
-        /// Defines an attached dependency property that enables binding the mouse double-click 
+        /// Defines an attached dependency property that enables binding the mouse double-click
         /// on a data grid row to a command.
         /// </summary>
         /// <remarks>
         /// See:
         /// http://stackoverflow.com/questions/17419570/bind-doubleclick-command-from-datagrid-row-to-vm
         /// </remarks>
-        public static DependencyProperty DoubleClickCommandProperty = DependencyProperty.RegisterAttached
+        public static readonly DependencyProperty DoubleClickCommandProperty = DependencyProperty.RegisterAttached
            (
                 DoubleClickCommand, typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
                 {
@@ -406,7 +406,7 @@ namespace Restless.Toolkit.Controls
                     PropertyChangedCallback = OnColumnSelectorMinimumChanged
                 }
             );
-        
+
         private static object OnCoerceColumnSelectorMinimum(DependencyObject d, object baseValue)
         {
             return Math.Max((int)baseValue, 1);
@@ -466,7 +466,7 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Identifies the <see cref="ContextMenuOpeningCommand"/> dependency property.
         /// </summary>
-        public static DependencyProperty ContextMenuOpeningCommandProperty = DependencyProperty.Register
+        public static readonly DependencyProperty ContextMenuOpeningCommandProperty = DependencyProperty.Register
              (
                 nameof(ContextMenuOpeningCommand), typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
                 {
@@ -490,7 +490,7 @@ namespace Restless.Toolkit.Controls
         /// <summary>
         /// Defines a dependency property that allows the consumer to run a command when the DataGrid is sorting.
         /// </summary>
-        public static DependencyProperty SortingCommandProperty = DependencyProperty.Register
+        public static readonly DependencyProperty SortingCommandProperty = DependencyProperty.Register
              (
                 nameof(SortingCommand), typeof(ICommand), typeof(DataGrid), new FrameworkPropertyMetadata()
                 {
@@ -672,7 +672,7 @@ namespace Restless.Toolkit.Controls
             );
 
         #endregion
-        
+
         /************************************************************************/
 
         #region OnCellEditEndingCommand
@@ -775,7 +775,7 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
-        /// Occurs when column display index changes. 
+        /// Occurs when column display index changes.
         /// Raises the  ColumnDisplayIndexChanged and <see cref="ColumnStateChanged"/> events.
         /// </summary>
         /// <param name="e">The event arguments</param>
@@ -871,8 +871,8 @@ namespace Restless.Toolkit.Controls
             {
                 col.SortDirection = null;
             }
-            
-            column.SortDirection = 
+
+            column.SortDirection =
                 (direction.HasValue && direction.Value == ListSortDirection.Ascending) ?
                 ListSortDirection.Descending :
                 ListSortDirection.Ascending;
@@ -1012,7 +1012,7 @@ namespace Restless.Toolkit.Controls
             object temp = SelectedItem;
             var b = RestoreStateBehavior;
 
-            //  no item selected previously. 
+            //  no item selected previously.
             if (temp == null)
             {
                 if (b.HasFlag(RestoreDataGridState.SelectFirst))
@@ -1059,10 +1059,7 @@ namespace Restless.Toolkit.Controls
         /// <returns>The scroll viewer, or null if none.</returns>
         private ScrollViewer GetOuterScrollViewer()
         {
-            if (outerScrollViewer == null)
-            {
-                outerScrollViewer = CoreHelper.GetVisualParent<ScrollViewer>(this);
-            }
+            outerScrollViewer ??= CoreHelper.GetVisualParent<ScrollViewer>(this);
             return outerScrollViewer;
         }
         #endregion
