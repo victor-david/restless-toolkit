@@ -65,9 +65,9 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly created column.</returns>
         public DataGridTextColumn Create(object header, string bindingName, string targetNullValue = DefaultTargetNullValue)
         {
-            ValidateBinding(bindingName);
+            ArgumentException.ThrowIfNullOrEmpty(bindingName);
 
-            DataGridTextColumn col = new DataGridTextColumn
+            DataGridTextColumn col = new()
             {
                 Header = MakeHeaderControl(header),
                 Binding = new Binding(bindingName)
@@ -88,7 +88,7 @@ namespace Restless.Toolkit.Controls
         /// <param name="bindingName">The name that the column binds to.</param>
         /// <param name="isNullable">true to create a <see cref="DataGridNullableTextColumn"/></param>
         /// <param name="targetNullValue">
-        /// The value to use when the bound value is null. 
+        /// The value to use when the bound value is null.
         /// Ignored if <paramref name="isNullable"/> is true.
         /// </param>
         /// <returns>The newly created column.</returns>
@@ -112,9 +112,9 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly created column.</returns>
         public DataGridTextColumn Create<T>(object header, string bindingName, string targetNullValue = null) where T : IValueConverter, new()
         {
-            ValidateBinding(bindingName);
+            ArgumentException.ThrowIfNullOrEmpty(bindingName);
 
-            DataGridTextColumn col = new DataGridTextColumn
+            DataGridTextColumn col = new()
             {
                 Header = MakeHeaderControl(header),
                 Binding = new Binding(bindingName)
@@ -138,12 +138,12 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly created column.</returns>
         public DataGridTextColumn Create<T>(object header, object targetNullValue, params string[] bindingNames) where T : IMultiValueConverter, new()
         {
-            DataGridTextColumn col = new DataGridTextColumn
+            DataGridTextColumn col = new()
             {
                 Header = MakeHeaderControl(header)
             };
 
-            MultiBinding multiBinding = new MultiBinding
+            MultiBinding multiBinding = new()
             {
                 Converter = new T()
             };
@@ -182,15 +182,15 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly created column.</returns>
         public DataGridTemplateColumn CreateImage<T>(object header, string bindingName, object parameter = null, double imageXY = 12.0) where T : IValueConverter, new()
         {
-            DataGridTemplateColumn col = new DataGridTemplateColumn
+            DataGridTemplateColumn col = new()
             {
                 Header = MakeHeaderControl(header),
                 CanUserResize = false,
                 Width = new DataGridLength(imageXY * 1.55, DataGridLengthUnitType.Pixel)
             };
 
-            FrameworkElementFactory factory = new FrameworkElementFactory(typeof(Image));
-            Binding binding = new Binding(bindingName)
+            FrameworkElementFactory factory = new(typeof(Image));
+            Binding binding = new(bindingName)
             {
                 Mode = BindingMode.OneWay,
                 Converter = new T(),
@@ -218,15 +218,15 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly created column.</returns>
         public DataGridTemplateColumn CreateResource<T>(object header, string bindingName, object parameter) where T : IValueConverter, new()
         {
-            ValidateBinding(bindingName);
+            ArgumentException.ThrowIfNullOrEmpty(bindingName);
 
-            DataGridTemplateColumn col = new DataGridTemplateColumn
+            DataGridTemplateColumn col = new()
             {
                 Header = MakeHeaderControl(header),
             };
 
-            FrameworkElementFactory factory = new FrameworkElementFactory(typeof(ContentControl));
-            Binding binding = new Binding(bindingName)
+            FrameworkElementFactory factory = new(typeof(ContentControl));
+            Binding binding = new(bindingName)
             {
                 Mode = BindingMode.OneWay,
                 Converter = new T(),
@@ -259,9 +259,9 @@ namespace Restless.Toolkit.Controls
             Style elementStyle = null,
             Style editingElementStyle = null)
         {
-            ValidateBinding(bindingName);
+            ArgumentException.ThrowIfNullOrEmpty(bindingName);
 
-            DataGridCheckBoxColumn col = new DataGridCheckBoxColumn()
+            DataGridCheckBoxColumn col = new()
             {
                 Binding = new Binding(bindingName)
                 {
@@ -307,7 +307,7 @@ namespace Restless.Toolkit.Controls
         }
 
         /// <summary>
-        /// Creates a two state, two-way bound <see cref="DataGridCheckBoxColumn"/> with default 
+        /// Creates a two state, two-way bound <see cref="DataGridCheckBoxColumn"/> with default
         /// element and editing element styles, and adds it to the collection.
         /// </summary>
         /// <param name="header">The header</param>
@@ -329,9 +329,9 @@ namespace Restless.Toolkit.Controls
         /// <returns>The newly created <see cref="DataGridNullableTextColumn"/></returns>
         public DataGridNullableTextColumn CreateNullableText(object header, string bindingName)
         {
-            ValidateBinding(bindingName);
+            ArgumentException.ThrowIfNullOrEmpty(bindingName);
 
-            DataGridNullableTextColumn col = new DataGridNullableTextColumn()
+            DataGridNullableTextColumn col = new()
             {
                 Binding = new Binding(bindingName),
                 Header = MakeHeaderControl(header)
@@ -461,7 +461,7 @@ namespace Restless.Toolkit.Controls
         /// </returns>
         public string GetColumnState()
         {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
 
             foreach (DataGridColumn column in this)
             {
@@ -602,15 +602,7 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region Private Methods
-        private void ValidateBinding(string bindingName)
-        {
-            if (string.IsNullOrWhiteSpace(bindingName))
-            {
-                throw new ArgumentNullException(nameof(bindingName));
-            }
-        }
-
-        private FrameworkElement MakeHeaderControl(object header)
+        private static FrameworkElement MakeHeaderControl(object header)
         {
             if (header != null)
             {
@@ -624,7 +616,7 @@ namespace Restless.Toolkit.Controls
             return null;
         }
 
-        private string GetHeaderText(object header)
+        private static string GetHeaderText(object header)
         {
             return (header is TextBlock text) ? text.Text : header?.ToString();
         }
