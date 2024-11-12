@@ -67,13 +67,13 @@ namespace Restless.Toolkit.Controls
 
                 /* DisplayIndex. If the user cannot reorder the columns in the datagrid,
                  * no special action is required to handle the column.DisplayIndex property.
-                 * 
+                 *
                  * However, if the user reorders the columns, leaves the view model that is
                  * attaching columns, and then returns, the columns will be reattached.
-                 * 
+                 *
                  * In this scenario, DisplayIndex must be sequenced or WPF will encounter
                  * a DisplayIndex that is incorrect and throw.
-                 * 
+                 *
                  * To keep the same column order that the user sets, first we save the display
                  * index of each column in its corresponding attached property, sequence,
                  * add all the columns, and then use the attached property to restore.
@@ -141,16 +141,6 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region SortDirection (internal)
-        private const string SortDirection = nameof(SortDirection);
-
-        internal static readonly DependencyProperty SortDirectionProperty = DependencyProperty.RegisterAttached
-            (
-                SortDirection, typeof(ListSortDirection?), typeof(DataGridColumns), new FrameworkPropertyMetadata()
-                {
-                    DefaultValue = null,
-                }
-            );
-
         internal static ListSortDirection? GetSortDirection(DependencyObject obj)
         {
             return (ListSortDirection?)obj.GetValue(SortDirectionProperty);
@@ -160,6 +150,11 @@ namespace Restless.Toolkit.Controls
         {
             obj.SetValue(SortDirectionProperty, value);
         }
+
+        internal static readonly DependencyProperty SortDirectionProperty = DependencyProperty.RegisterAttached
+            (
+                "SortDirection", typeof(ListSortDirection?), typeof(DataGridColumns), new FrameworkPropertyMetadata()
+            );
         #endregion
 
         /************************************************************************/
