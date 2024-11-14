@@ -353,10 +353,7 @@ namespace Restless.Toolkit.Controls
         /// <exception cref="ArgumentNullException"><paramref name="column"/> is null</exception>
         public void SetInitialSort(DataGridColumn column, ListSortDirection direction)
         {
-            if (column == null)
-            {
-                throw new ArgumentNullException(nameof(column));
-            }
+            ArgumentNullException.ThrowIfNull(column, nameof(column));
 
             ClearColumnSortDirections();
             column.SetValue(DataGridColumns.SortDirectionProperty, direction);
@@ -417,36 +414,6 @@ namespace Restless.Toolkit.Controls
         public void SetInitialSortDescending(int columnIndex)
         {
             SetInitialSort(this[columnIndex], ListSortDirection.Descending);
-        }
-
-        /// <summary>
-        /// Sets the default sort column
-        /// </summary>
-        /// <param name="col">The column</param>
-        /// <param name="sortDirection">The sort direction</param>
-        [Obsolete("Use DataGridColumnExtensions.MakeInitialSort() or SetInitialSort() instead")]
-        public void SetDefaultSort(DataGridColumn col, ListSortDirection? sortDirection)
-        {
-            defaultSortColumn = col;
-            defaultSortDirection = sortDirection ?? ListSortDirection.Ascending;
-            if (defaultSortColumn != null)
-            {
-                ClearColumnSortDirections();
-                defaultSortColumn.SortDirection = defaultSortDirection;
-            }
-        }
-
-        /// <summary>
-        /// Restores the default sort established by <see cref="SetDefaultSort(DataGridColumn, ListSortDirection?)"/>
-        /// </summary>
-        [Obsolete("Use DataGridColumnExtensions.MakeInitialSort() or SetInitialSort() instead")]
-        public void RestoreDefaultSort()
-        {
-            if (defaultSortColumn != null)
-            {
-                ClearColumnSortDirections();
-                defaultSortColumn.SortDirection = defaultSortDirection;
-            }
         }
         #endregion
 
