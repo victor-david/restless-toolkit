@@ -16,8 +16,6 @@ namespace Restless.Toolkit.Controls
     public class DataGridColumnCollection : ObservableCollection<DataGridColumn>
     {
         #region Private
-        private DataGridColumn defaultSortColumn;
-        private ListSortDirection defaultSortDirection;
         private SysDataGrid dataGridOwner;
         #endregion
 
