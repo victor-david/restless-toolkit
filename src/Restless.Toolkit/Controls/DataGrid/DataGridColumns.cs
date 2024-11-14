@@ -89,6 +89,16 @@ namespace Restless.Toolkit.Controls
                     col.SetValue(AttachedOwnerProperty, dataGrid);
                     dataGrid.Columns.Add(col);
 
+                    /*
+                     * If the consumer called MakeInitialSort(..), the attached
+                     * property is set. This becomes the sort column.
+                     *
+                     * Must reverse the direction because both the native sort
+                     * of the DataGrid and the custom sort as implemented by
+                     * IDataGridColumnComparer reverse the sort before the sort operation.
+                     *
+                     * Both the native sort and the custom sort are implemented in DataGrid.OnSorting override
+                     */
                     if (GetSortDirection(col) is ListSortDirection direction)
                     {
                         sortColumn = col;
@@ -141,6 +151,10 @@ namespace Restless.Toolkit.Controls
         /************************************************************************/
 
         #region SortDirection (internal)
+        /*
+         * The attached sort direction property is used to restore the sort
+         * that was present the last time the data grid had its columns attached
+         */
         internal static ListSortDirection? GetSortDirection(DependencyObject obj)
         {
             return (ListSortDirection?)obj.GetValue(SortDirectionProperty);
